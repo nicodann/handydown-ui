@@ -1,4 +1,4 @@
-require('dotenv').config(); // load `.env` file variables into `process.env`
+require('dotenv').config(); 
 
 const express = require('express');
 const cookieSession = require('cookie-session');
@@ -11,7 +11,7 @@ const logger = require('morgan');
 
 const app = express();
 
-app.use(logger('dev')); // log HTTP requests and errors
+app.use(logger('dev')); // log HTTP requests and errors to console
 app.use(express.urlencoded({ extended: false })); // allow HTML form data on POST or PUT/UPDATE 
 app.use(cookieSession({ name: 'session', keys: ['key1'] }));
 

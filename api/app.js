@@ -12,7 +12,7 @@ const logger = require('morgan');
 const app = express();
 
 app.use(logger('dev')); // log HTTP requests and errors to console
-app.use(express.urlencoded({ extended: false })); // allow HTML form data on POST or PUT/UPDATE 
+app.use(express.urlencoded({ extended: false })); // parse requests of content-type - application/x-www-form-urlencoded
 app.use(cookieSession({ name: 'session', keys: ['key1'] }));
 
 // app.use("/api/v1/users", usersRouter);

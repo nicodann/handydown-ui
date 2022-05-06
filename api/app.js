@@ -30,7 +30,7 @@ const db = require("./models")
 // });
 
 app.get('/', (req, res) => {
-  res.json({"message": 'Welcome to the HanDown'});
+  res.json({"message": 'Welcome to the HandyDown API'});
  
 });
 
@@ -39,7 +39,7 @@ const startApp = async () => {
     await db.sequelize.authenticate();
     console.log('Connection has been established successfully.');
     await db.sequelize.sync({ force: true })
-    console.log('All models have been (re) created!')
+    console.log('All models have been (re)created!')
     app.listen(process.env.PORT, () => {
       console.log(`HandyDown API listening on port ${process.env.PORT}`);
     });

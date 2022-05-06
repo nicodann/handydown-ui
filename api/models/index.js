@@ -22,10 +22,10 @@ db.items.belongsTo(db.users);
 db.items.hasMany(db.conversations);
 
 db.messages.belongsTo(db.users);
-db.messages.hasMany(db.conversations);
+db.messages.belongsTo(db.conversations);
 
 db.conversations.belongsToMany(db.users, { through: 'usersconversations' });
 db.conversations.belongsTo(db.items);
-db.conversations.belongsTo(db.messages);
+db.conversations.hasMany(db.messages);
 
 module.exports = db;

@@ -21,7 +21,7 @@ app.use(cookieSession({ name: 'session', keys: ['key1'] }));
 // app.use("/api/v1/messages", messagesRouter);
 
 app.get('/', (req, res) => {
-  res.send('Welcome to the HandyDown API!');
+  res.json({"message": 'Welcome to the HandyDown'});
 });
 
 app.listen(process.env.PORT, () => {

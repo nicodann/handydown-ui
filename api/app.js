@@ -25,13 +25,14 @@ app.use(cookieSession({ name: 'session', keys: ['key1'] }));
 // app.use("/api/v1/conversations", conversationsRouter);
 // app.use("/api/v1/messages", messagesRouter);
 
-const db = require("./models")
+const db = require("./models");
 // db.sequelize.sync({ force: true }).then(() => {
   //   console.log("Drop and re-sync db.");
   // });
 
 //require routes here after app is defined?
-require("./routes/items.routes")(app)
+require("./routes/items.routes")(app);
+require("./routes/users.routes")(app);
 
 app.get('/', (req, res) => {
   res.json({"message": 'Welcome to the HandyDown API'});
@@ -42,7 +43,8 @@ const startApp = async () => {
   try {
     await db.sequelize.authenticate();
     console.log('Connection has been established successfully.');
-    await db.sequelize.sync({ force: true })
+    // await db.sequelize.sync({ force: true })
+    await db.sequelize.sync()
     console.log('All models have been (re)created!')
     app.listen(process.env.PORT, () => {
       console.log(`HandyDown API listening on port ${process.env.PORT}`);

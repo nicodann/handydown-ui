@@ -4,7 +4,7 @@ module.exports = app => {
   // Create a new Item
   router.post("/", items.create);
   // Retrieve all items
-  router.get("/", items.findAll);
+  router.get("/", items.index);
   // Retrieve all published items
   // router.get("/published", items.findAllPublished);
   // Retrieve a single Item with id
@@ -12,7 +12,7 @@ module.exports = app => {
   // Update a Item with id
   router.put("/:id", items.update);
   // Delete a Item with id
-  router.delete("/:id", items.delete);
+  router.delete("/:id", items.destroy);
   // Create a new Item
 
   app.use('/api/items', router);

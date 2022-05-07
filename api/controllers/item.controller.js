@@ -1,6 +1,22 @@
 const db = require("../models");
 const Item = db.items;
 const Op = db.Sequelize.Op;
+
+//Retrieve all Items from the db or search by name
+exports.index = (req, res) => {
+  const name = req.query.name;
+  var condition = name ? { name: { [Op.iLike]: `%${name}%`} } : null;
+  Item.findAll({ where: condition })
+    .then(data => {
+      res.send(data);
+    })
+    .catch(err => {
+      res.status(499).send({
+        message: err.message || "An error occured while retrieving items."
+      });
+    });
+};
+
 // Create and save a new Item
 exports.create = (req, res) => {
   //validate
@@ -15,7 +31,8 @@ exports.create = (req, res) => {
     name: req.body.name,
     description: req.body.description,
     image: req.body.image,
-    //offered: req.body.offered ? req.body.offered : false
+    userId: req.body.userId,
+    offered: req.body.offered ? true : false
   };
   //save
   Item.create(item)
@@ -28,28 +45,18 @@ exports.create = (req, res) => {
       });
     });
 };
-//Retrieve all Items from the db or search by name
-exports.findAll = (req, res) => {
-  const name = req.query.name;
-  var condition = name ? { name: { [Op.iLike]: `%${name}%`} } : null;
-  Item.findAll({ where: condition })
-    .then(data => {
-      res.send(data);
-    })
-    .catch(err => {
-      res.status(500).send({
-        message: err.message || "An error occured while retrieving items."
-      });
-    });
-};
+
 //Find a single Item with an id ?????
 // exports.findOne = (req,res) => {
 
 // };
+
 //Update an Item by the id in the request
 exports.update = (req,res) => {
   const id = req.params.id;
-  Item.update(req.body, {
+  Item.update({
+    ...req.body
+  }, {
     where: { id: id }
   })
     .then(num => {
@@ -69,8 +76,9 @@ exports.update = (req,res) => {
       });
     });
 };
+
 // Delete an Item with the specified id in the request
-exports.delete = (req, res) => {
+exports.destroy = (req, res) => {
   const id = req.params.id;
   Item.destroy({
     where: { id: id }

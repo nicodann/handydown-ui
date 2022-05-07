@@ -1,4 +1,4 @@
-require('dotenv').config(); 
+require('dotenv').config();
 
 const express = require('express');
 const cookieSession = require('cookie-session');
@@ -13,6 +13,9 @@ const logger = require('morgan');
 // const messagesRouter = require('./routes/messages');
 
 const app = express();
+
+//require routes here after app is defined?
+require("./routes/items.routes")(app)
 
 app.use(logger('dev')); // log HTTP requests and errors to console
 app.use(express.urlencoded({ extended: false })); // parse requests of content-type - application/x-www-form-urlencoded

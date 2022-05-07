@@ -1,6 +1,6 @@
 module.exports = app => {
   const items = require("../controllers/item.controller.js");
-  var router = require("express").Router();
+  const router = require("express").Router();
   // Create a new Item
   router.post("/", items.create);
   // Retrieve all items

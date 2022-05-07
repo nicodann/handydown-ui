@@ -14,8 +14,6 @@ const logger = require('morgan');
 
 const app = express();
 
-//require routes here after app is defined?
-require("./routes/items.routes")(app)
 
 app.use(logger('dev')); // log HTTP requests and errors to console
 app.use(express.urlencoded({ extended: false })); // parse requests of content-type - application/x-www-form-urlencoded
@@ -29,8 +27,11 @@ app.use(cookieSession({ name: 'session', keys: ['key1'] }));
 
 const db = require("./models")
 // db.sequelize.sync({ force: true }).then(() => {
-//   console.log("Drop and re-sync db.");
-// });
+  //   console.log("Drop and re-sync db.");
+  // });
+
+//require routes here after app is defined?
+require("./routes/items.routes")(app)
 
 app.get('/', (req, res) => {
   res.json({"message": 'Welcome to the HandyDown API'});

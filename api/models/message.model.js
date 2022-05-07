@@ -1,6 +1,4 @@
-const { Sequelize, DataTypes } = require('sequelize');
-
-module.exports = (sequelize) => {
+module.exports = (sequelize, DataTypes) => {
   const Message = sequelize.define('message', {
     body: {
       type: DataTypes.STRING,

@@ -1,6 +1,6 @@
-const { DataTypes } = require('sequelize');
+// const { DataTypes } = require('sequelize');
 
-module.exports = (sequelize) => {
+module.exports = (sequelize, DataTypes) => {
   // return {empty: "empty"}
   const User = sequelize.define('user', {
     username: {

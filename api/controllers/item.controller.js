@@ -15,7 +15,8 @@ exports.create = (req, res) => {
     name: req.body.name,
     description: req.body.description,
     image: req.body.image,
-    //offered: req.body.offered ? req.body.offered : false
+    userId: req.body.userId,
+    offered: req.body.offered ? true : false
   };
   //save
   Item.create(item)
@@ -29,7 +30,7 @@ exports.create = (req, res) => {
     });
 };
 //Retrieve all Items from the db or search by name
-exports.findAll = (req, res) => {
+exports.index = (req, res) => {
   const name = req.query.name;
   var condition = name ? { name: { [Op.iLike]: `%${name}%`} } : null;
   Item.findAll({ where: condition })
@@ -70,7 +71,7 @@ exports.update = (req,res) => {
     });
 };
 // Delete an Item with the specified id in the request
-exports.delete = (req, res) => {
+exports.destroy = (req, res) => {
   const id = req.params.id;
   Item.destroy({
     where: { id: id }

@@ -41,3 +41,30 @@ exports.show = (req,res) => {
       });
     });
 };
+
+exports.login = (req,res) => {
+  const email = req.body.email;
+  const password = req.body.password;
+  console.log
+  User.findOne({
+    where: {
+      email: email
+    }
+  })
+    .then(user => {
+      if (!user) {
+        res.status(403).send("Error: this email is not registered.");
+      } else if (password !== user.password) {
+      // } else if (!bcrypt.compareSync(req.body.password, currentUser.password)) {
+        res.status(403).send("Error: the password is incorrect.");
+      } else {
+        req.session.userID = user.id;
+        res.redirect("/");
+      }
+    })
+    .catch(err => {
+      res.status(500).send({
+        message: err.message || "This email is not registered"
+      })
+    })
+}

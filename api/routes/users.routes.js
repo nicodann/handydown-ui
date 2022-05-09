@@ -3,6 +3,10 @@ module.exports = app => {
   const router = require("express").Router();
 
   router.post("/", users.create)
+
+  router.post('/login', users.login)
+
+  // router.post('/logout', users.logout)
   
   router.get("/:id", users.show);
 

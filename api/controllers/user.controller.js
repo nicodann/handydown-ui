@@ -9,7 +9,7 @@ exports.create = (req,res) => {
       message: "User needs a username!"
     });
     return;
-  }
+  };
   const { username, email, password, location } = req.body;
   //create
   const user = {
@@ -66,5 +66,11 @@ exports.login = (req,res) => {
       res.status(500).send({
         message: err.message || "This email is not registered"
       })
-    })
-}
+    });
+  
+};
+
+exports.logout = (req, res) => {
+  req.session = null;
+  res.redirect("/");
+};

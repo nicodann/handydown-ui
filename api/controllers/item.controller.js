@@ -20,9 +20,6 @@ exports.index = async (req, res) => {
 
 exports.create = async (req, res) => {
 
-  console.log(req.header('Content-Type'))
-  console.log(req.body)
-
   const { name, description, image, userId, offered } = req.body
 
   //validate

@@ -5,3 +5,6 @@
 4. Add logout and login routes and controller
 5. Fix ERD - add usersconversations table
 6. link frontend to API
+
+## Stretch
+- make email login case insensitive and ignore spaces before/after

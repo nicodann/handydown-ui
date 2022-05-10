@@ -1,7 +1,7 @@
 const bcrypt = require('bcrypt');
 const db = require("../models");
 const User = db.users;
-// const Op = db.Sequelize.Op; //maybe use if more routes
+const Op = db.Sequelize.Op; //maybe use if more routes
 
 exports.create = (req,res) => {
   //validate
@@ -49,8 +49,7 @@ exports.login = (req,res) => {
   const email = req.body.email;
   const password = req.body.password;
   console.log
-  User.findOne({
-    where: {
+  User.findOne({where: {
       email: email
     }
   })

@@ -5,7 +5,8 @@ const Op = db.Sequelize.Op;
 //Retrieve all Items from the db or search by name
 
 exports.index = async (req, res) => {
-  const name = req.query.name;
+  console.log(req.body)
+  const name = req.body.name;
   const condition = name ? { name: { [Op.iLike]: `%${name}%`} } : null;
   try {
     const data = await Item.findAll({ where: condition })

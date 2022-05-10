@@ -9,7 +9,7 @@ const getConversationsByUserId = async (req, res) => {
 }
 
 // Create a new Conversation and its first message
-const createConversation = async (req, res) => {
+const create = async (req, res) => {
   try {
     const { userId, itemId, body } = req.body;
     const item = await Item.findByPk(itemId);
@@ -37,4 +37,4 @@ const createMessage = async (req, res) => {
   return 0;
 };
 
-module.exports = { createConversation };
+module.exports = { create };

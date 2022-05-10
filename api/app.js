@@ -20,6 +20,7 @@ const db = require("./models");
 require("./routes/items.routes")(app);
 require("./routes/users.routes")(app);
 require("./routes/conversations.routes")(app)
+require("./routes/messages.routes")(app)
 
 app.get('/', (req, res) => {
   res.json({"message": 'Welcome to the HandyDown API'});

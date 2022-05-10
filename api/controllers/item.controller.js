@@ -33,9 +33,13 @@ exports.index = async (req, res) => {
 
 
 // Create and save a new Item
-exports.create = (req, res) => {
+
+exports.create = async (req, res) => {
+
+  const { name, description, image, userId, offered } = req.body
+
   //validate
-  if (!req.body.name) {
+  if (!name) {
     res.status(400).send({
       message: "Item needs a name!"
     });
@@ -43,23 +47,49 @@ exports.create = (req, res) => {
   }
   //create
   const item = {
-    name: req.body.name,
-    description: req.body.description,
-    image: req.body.image,
-    userId: req.body.userId,
-    offered: req.body.offered ? true : false
+    name,
+    description,
+    image,
+    userId,
+    offered
   };
   //save
-  Item.create(item)
-    .then(data => {
-      res.send(data);
-    })
-    .catch(err => {
+  try {
+    data = await Item.create(item);
+    res.send(data);
+  } catch (err) {
       res.status(500).send({
         message: err.message || "An error occured while creating the Item."
       });
-    });
+  };
 };
+// exports.create = (req, res) => {
+//   //validate
+//   if (!req.body.name) {
+//     res.status(400).send({
+//       message: "Item needs a name!"
+//     });
+//     return;
+//   }
+//   //create
+//   const item = {
+//     name: req.body.name,
+//     description: req.body.description,
+//     image: req.body.image,
+//     userId: req.body.userId,
+//     offered: req.body.offered ? true : false
+//   };
+//   //save
+//   Item.create(item)
+//     .then(data => {
+//       res.send(data);
+//     })
+//     .catch(err => {
+//       res.status(500).send({
+//         message: err.message || "An error occured while creating the Item."
+//       });
+//     });
+// };
 
 //Find a single Item with an id ?????
 // exports.findOne = (req,res) => {

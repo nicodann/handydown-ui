@@ -18,7 +18,7 @@ exports.create = (req,res) => {
   const user = {
     username,
     email,
-    hashedPass,
+    password: hashedPass,
     location
   }
   User.create(user)

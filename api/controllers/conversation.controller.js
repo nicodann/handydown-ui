@@ -1,12 +1,26 @@
+const { Op } = require("sequelize");
 const db = require('../models');
 const Conversation = db.conversations;
 const Item = db.items;
 const Message = db.messages;
 
 // Retrieve all conversations belonging to a User
-const getConversationsByUserId = async (req, res) => {
-  return 0;
-}
+const getByUserId = async (req, res) => {
+  try {
+    const userId = req.params.userId;
+    console.log("USER ID", userId)
+    const conversations = await Conversation.findAll({
+      where: {
+        [Op.or]: [ { creatorId: userId }, { receiverId: userId }],
+      },
+      include: Message, 
+    });
+    return res.json(conversations);
+  } catch (err) {
+    console.log(err);
+    res.status(500).send(err); 
+  }
+};
 
 // Create a new Conversation and its first message
 const create = async (req, res) => {
@@ -18,7 +32,7 @@ const create = async (req, res) => {
       creatorId: userId,
       receiverId: item.userId,
       itemId: itemId
-    });
+    }); 
 
     const message = await Message.create({
       body: body,
@@ -32,9 +46,5 @@ const create = async (req, res) => {
     return res.status(500).send(err);
   }
 };
-// Create a new message belonging to conversation with conversationId
-const createMessage = async (req, res) => {
-  return 0;
-};
 
-module.exports = { create };
+module.exports = { getByUserId, create };

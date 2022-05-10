@@ -12,7 +12,7 @@ db.sequelize = sequelize;
 db.users = require("./user.model.js")(sequelize, DataTypes);
 db.items = require("./item.model.js")(sequelize, DataTypes);
 db.messages = require("./message.model.js")(sequelize, DataTypes);
-db.conversations = require("./conversation.model.js")(sequelize, DataTypes);
+db.conversations = require("./conversation.model.js")(sequelize);
 
 // USER - ITEMS (1:n)
 db.users.hasMany(db.items); // FK `userId` defined in items table

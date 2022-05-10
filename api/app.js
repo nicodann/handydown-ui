@@ -14,7 +14,7 @@ const app = express();
 
 
 app.use(logger('dev')); // log HTTP requests and errors to console
-app.use(express.urlencoded({ extended: false })); // parse requests of content-type - application/x-www-form-urlencoded
+app.use(express.json({ extended: false })); // parse requests of content-type - application/x-www-form-urlencoded
 app.use(cookieSession({ name: 'session', keys: ['key1'] }));
 
 

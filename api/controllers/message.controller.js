@@ -3,9 +3,9 @@ const Conversation = db.conversations;
 const Message = db.messages;
 
 // Create a new message belonging to a conversation with conversationId
-const create = async (req, res) => {
+exports.create = async (req, res) => {
+  const { body, conversationId, userId } = req.body;
   try {
-    const { body, conversationId, userId } = req.body;
     const message = await Message.create({
       body,
       conversationId,
@@ -18,5 +18,3 @@ const create = async (req, res) => {
     return res.status(500).send(err);
   }
 };
-
-module.exports = { create };

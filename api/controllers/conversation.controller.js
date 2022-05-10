@@ -5,10 +5,9 @@ const Item = db.items;
 const Message = db.messages;
 
 // Retrieve all conversations belonging to a User
-const getByUserId = async (req, res) => {
+exports.getByUserId = async (req, res) => {
+  const userId = req.params.userId;
   try {
-    const userId = req.params.userId;
-    console.log("USER ID", userId)
     const conversations = await Conversation.findAll({
       where: {
         [Op.or]: [ { creatorId: userId }, { receiverId: userId }],
@@ -23,9 +22,9 @@ const getByUserId = async (req, res) => {
 };
 
 // Create a new Conversation and its first message
-const create = async (req, res) => {
+exports.create = async (req, res) => {
+  const { userId, itemId, body } = req.body;
   try {
-    const { userId, itemId, body } = req.body;
     const item = await Item.findByPk(itemId);
     
     const conversation = await Conversation.create({
@@ -46,5 +45,3 @@ const create = async (req, res) => {
     return res.status(500).send(err);
   }
 };
-
-module.exports = { getByUserId, create };

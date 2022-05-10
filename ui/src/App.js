@@ -6,7 +6,7 @@ import { useEffect } from 'react';
 function App() {
   useEffect(() => {
     axios.get("/").then((data) => {
-        console.log("data:", data)
+        console.log("Here is data from the api:", data)
     })
   }) 
   return (

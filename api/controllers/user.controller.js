@@ -23,7 +23,7 @@ exports.create = async (req,res) => {
   }
   try {
     const data =  await User.create(user);
-    res.send(data);
+    res.json(data);
   } catch (err) {
       res.status(500).send({
         message: err.message || "An error occured while creating the User."
@@ -35,7 +35,7 @@ exports.show = async (req,res) => {
   const id = req.params.id;
   try {
     const data = await User.findByPk(id)
-    res.send(data);
+    res.json(data);
   } catch (err) {
       res.status(500).send({
         message: err.message || "An error occured while retrieving user."

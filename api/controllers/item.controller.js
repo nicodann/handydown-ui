@@ -3,19 +3,34 @@ const Item = db.items;
 const Op = db.Sequelize.Op;
 
 //Retrieve all Items from the db or search by name
-exports.index = (req, res) => {
+
+exports.index = async (req, res) => {
   const name = req.query.name;
-  var condition = name ? { name: { [Op.iLike]: `%${name}%`} } : null;
-  Item.findAll({ where: condition })
-    .then(data => {
-      res.send(data);
-    })
-    .catch(err => {
-      res.status(499).send({
-        message: err.message || "An error occured while retrieving items."
-      });
+  const condition = name ? { name: { [Op.iLike]: `%${name}%`} } : null;
+  try {
+    const data = await Item.findAll({ where: condition })
+    res.send(data);
+  } catch (err) {
+    res.status(499).send({
+      message: err.message || "An error occured while retrieving items."
     });
+  };
 };
+
+// exports.index = (req, res) => {
+//   const name = req.query.name;
+//   var condition = name ? { name: { [Op.iLike]: `%${name}%`} } : null;
+//   Item.findAll({ where: condition })
+//     .then(data => {
+//       res.send(data);
+//     })
+//     .catch(err => {
+//       res.status(499).send({
+//         message: err.message || "An error occured while retrieving items."
+//       });
+//     });
+// };
+
 
 // Create and save a new Item
 exports.create = (req, res) => {

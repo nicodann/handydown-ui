@@ -7,7 +7,11 @@ const logger = require('morgan');
 const app = express();
 
 app.use(logger('dev')); // log HTTP requests and errors to console
+<<<<<<< HEAD
 app.use(express.json({ extended: false }));
+=======
+app.use(express.json({ extended: false })); // parse requests of content-type - application/x-www-form-urlencoded
+>>>>>>> main
 app.use(cookieSession({ name: 'session', keys: ['key1'] }));
 
 const db = require("./models");

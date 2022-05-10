@@ -148,25 +148,47 @@ exports.update = async (req,res) => {
 // };
 
 // Delete an Item with the specified id in the request
-exports.destroy = (req, res) => {
+
+exports.destroy = async (req, res) => {
   const id = req.params.id;
-  Item.destroy({
-    where: { id: id }
-  })
-    .then(num => {
-      if (num == 1) {
-        res.send({
-          message: "Item was deleted successfully!"
-        });
-      } else {
-        res.send({
-          message: `Cannot delete item with id=${id}. Maybe item was not found.`
-        });
-      }
-    })
-    .catch(err => {
-      res.status(500).send({
-        message: `Could not delete Item with id=${id}.`
+  try {
+    const num =  await Item.destroy({
+        where: { id: id }
+      })
+    if (num == 1) {
+      res.send({
+        message: "Item was deleted successfully!"
       });
-    });
+    } else {
+      res.send({
+        message: `Cannot delete item with id=${id}. Maybe item was not found.`
+      });
+    }
+  } catch (err) {
+        res.status(500).send({
+          message: `Could not delete Item with id=${id}.`
+        });
+  };
 };
+// exports.destroy = (req, res) => {
+//   const id = req.params.id;
+//   Item.destroy({
+//     where: { id: id }
+//   })
+//     .then(num => {
+//       if (num == 1) {
+//         res.send({
+//           message: "Item was deleted successfully!"
+//         });
+//       } else {
+//         res.send({
+//           message: `Cannot delete item with id=${id}. Maybe item was not found.`
+//         });
+//       }
+//     })
+//     .catch(err => {
+//       res.status(500).send({
+//         message: `Could not delete Item with id=${id}.`
+//       });
+//     });
+// };

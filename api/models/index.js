@@ -12,20 +12,28 @@ db.sequelize = sequelize;
 db.users = require("./user.model.js")(sequelize, DataTypes);
 db.items = require("./item.model.js")(sequelize, DataTypes);
 db.messages = require("./message.model.js")(sequelize, DataTypes);
-db.conversations = require("./conversation.model.js")(sequelize, DataTypes);
+db.conversations = require("./conversation.model.js")(sequelize);
 
-db.users.hasMany(db.items);
-db.users.hasMany(db.messages);
-db.users.belongsToMany(db.conversations, { through: 'usersconversations' });
+// USER - ITEMS (1:n)
+db.users.hasMany(db.items); // FK `userId` defined in items table
+db.items.belongsTo(db.users, { allowNull: false });
 
-db.items.belongsTo(db.users);
-db.items.hasMany(db.conversations);
+// USER - MESSAGES (1:n)
+db.users.hasMany(db.messages); // FK `userId` defined in messages table
+db.messages.belongsTo(db.users, { allowNull: false });
 
-db.messages.belongsTo(db.users);
-db.messages.belongsTo(db.conversations);
+// USER - CONVERSATIONS (2:n)
+db.users.hasMany(db.conversations, { foreignKey: 'creatorId' });
+db.users.hasMany(db.conversations, { foreignKey: 'receiverId' });
+db.conversations.belongsTo(db.users, { as: 'creator', foreignKey: 'creatorId', allowNull: false });
+db.conversations.belongsTo(db.users, { as: 'receiver', foreignKey: 'receiverId', allowNull: false });
 
-db.conversations.belongsToMany(db.users, { through: 'usersconversations' });
-db.conversations.belongsTo(db.items);
-db.conversations.hasMany(db.messages);
+// ITEM - CONVERSATIONS (1:n)
+db.items.hasMany(db.conversations); // FK `itemId` defined in conversations
+db.conversations.belongsTo(db.items, { allowNull: false });
+
+// CONVERSATION - MESSAGES (1:n)
+db.conversations.hasMany(db.messages); // FK `conversationId` defined in messages table
+db.messages.belongsTo(db.conversations, { allowNull: false });
 
 module.exports = db;

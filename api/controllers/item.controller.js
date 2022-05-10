@@ -97,30 +97,55 @@ exports.create = async (req, res) => {
 // };
 
 //Update an Item by the id in the request
-exports.update = (req,res) => {
+
+exports.update = async (req,res) => {
   const id = req.params.id;
-  Item.update({
-    ...req.body
-  }, {
-    where: { id: id }
-  })
-    .then(num => {
-      if (num == 1) {
-        res.send({
-          message: "Item was update successfully."
-        });
-      } else {
-        res.send({
-          message: `Cannot update Item with id=${id}. Maybe Item was not found or req.body is empty!`
-        });
-      }
-    })
-    .catch(err => {
+  try {
+    const num = await Item.update({
+        ...req.body
+      }, {
+        where: { id: id }
+      })
+    if (num == 1) {
+      res.send({
+        message: "Item was update successfully."
+      });
+    } else {
+      res.send({
+        message: `Cannot update Item with id=${id}. Maybe Item was not found or req.body is empty!`
+      });
+    }
+  } catch (err) {
       res.status(500).send({
       message: `Error updating Item with id=${id}.`
       });
-    });
+  }
 };
+
+// exports.update = (req,res) => {
+//   const id = req.params.id;
+//   Item.update({
+//     ...req.body
+//   }, {
+//     where: { id: id }
+//   })
+//     .then(num => {
+//       if (num == 1) {
+//         res.send({
+//           message: "Item was update successfully."
+//         });
+//       } else {
+//         res.send({
+//           message: `Cannot update Item with id=${id}. Maybe Item was not found or req.body is empty!`
+//         });
+//       }
+//     })
+//     .catch(err => {
+//       res.status(500).send({
+//       message: `Error updating Item with id=${id}.`
+//       });
+//     });
+// };
 
 // Delete an Item with the specified id in the request
 exports.destroy = (req, res) => {

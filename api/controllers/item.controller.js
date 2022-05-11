@@ -21,7 +21,7 @@ exports.show = async (req, res) => {
   console.log(req.params)
   const id = req.params.user_id;
   try {
-    const data = await Item.findAll({where:{id: id} })
+    const data = await Item.findAll({where:{userId: id} })
     res.json(data);
   } catch (err) {
     res.status(499).send({

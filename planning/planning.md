@@ -137,11 +137,23 @@ As parents know, signing your kids up for a new activity often means spending a 
   * users#show
   * Grab a specific user
 
+* POST /api/users
+  * users#create
+
+* POST /api/users/login
+  * users#login
+
+* POST /api/users/logout
+  * users#logout
+
 ### Items
 
 * GET /api/items
   * items#index
   * Grab all items from database
+
+* GET /api/items/:userId
+  * items#show
 
 * POST /api/items
   * items#create
@@ -157,7 +169,7 @@ As parents know, signing your kids up for a new activity often means spending a 
 
 ### Conversations
 
-* GET /api/conversations/by/user/{userId}
+* GET /api/conversations/by/user/:userId
   * conversations#getByUserId
   * Grab all conversations for a particular user
 

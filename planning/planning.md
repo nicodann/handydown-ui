@@ -34,62 +34,41 @@ As parents know, signing your kids up for a new activity often means spending a 
 * Wanted
 * My Items - A logged-in user can click and visit their my_items_page
 * My Messages
-* STRETCH My Profile - A logged in user can click and visit their profile_page
 
-### Offered_items_page
+### 1. Offered_items_page
 * User is shown all items offered
 * A user can click on an item card to go to its single_item_modal
 * A user can type in a search bar to search for an item
 
-### Wanted_items_page
-* same as offered_items_page
-* A user can click on an item card to go to its single_item_modal
-* A user can type in a search bar to search for an item
+### 2. Wanted_items_page
+* same as offered_items_page except only showing items that are in 'wanted' category
 
-### My_items_page
-* User is shown the items that they have posted
+### 3. My_items_page
+* same as offered_items_page except only showing items that were posted by user
 * User can click on a single item to open my_single_item_modal
-* A user can type in a search bar to search for an item
 
-### My_messages_page
-* 
-
-### Single_item_modal
+### 4. Single_item_modal
 * A user can view the item details (below)
-* A user can click the “reply” button.  
-  * Logged-in user taken to message form.  
+* Message form at bottom of modal. If hit 'reply/submit' button,  
+  * Logged-in user - stays on single_item_modal, says "message successfully sent"
   * Not-logged-in user taken to Login Page
-* STRETCH - share/like buttons
-* STRETCH - offer similar item?
 
-### My_single_item_modal
-* User is presented with Item details 
-* Edit/Delete buttons?
-* STRETCH - modal includes an inbox-style list of conversations about the item.
+### 5. My_single_item_modal
+* Same as single_item_modal except,
+  * there is no reply form at bottom
+  * includes a delete button - deleting item takes user to my_items_page
 
-### New_item_modal
+### 6. New_item_form_modal
 * User is presented with a form with which to post a new item (see details below)
-* Submitting From takes user to ....My items page?  Or just back to all items with an alert saying post successful?  Or the option of both?
+* Submitting takes user to ....My items page?  Or just back to all items with an alert saying post successful?  Or the option of both?
 
-### Reply_form_modal
-* 
+### 7. My_messages_page
+* User can click on a conversation and is taken to single_conversation_modal 
 
-### Single_conversation_modal
-* 
-
-### Register_page
-* User can create an account
-* Successful submission of form redirects to All_items_page but user logged in
-
-### Login_page
-* User is presented with form to enter username? email and password to login
-* Submit button - takes user to all_items page but logged_in
-* Register button - takes user to register page
-* STRETCH - Reset password button - takes user to reset password form
-
-### STRETCH - Landing_page
-* A user can visit the landing_page and learn about the app.
-* a user can click on a button and view the all_items_page
+### 8. Single_conversation_modal
+* Shows history of conversation
+* reply form at bottom
+* hitting submit on reply button turns the reply into a message and a new blank form is shown at the bottom.
 
 ## IV. Resources and Associations
 
@@ -191,22 +170,58 @@ As parents know, signing your kids up for a new activity often means spending a 
   * messages#create
   * Save a new message to the database
 
-## Components
+## VII. React Components
 
-* ItemList
-* ItemListCard
-* Modal
-* Button
-* Tab
-* Link
+* offered_items_page, wanted_items_page, and my_items_page:
+  * ItemList
+  * ItemListCard
+* my_messages page:
+  * ConversationList
+  * ConversationListRow
+* all modals:
+  * Modal
+* Single_conversation_modal:
+  * MessageList
+  * MessageListMessage
+* Single_item_modal and Single_conversation_modal:
+  * ReplyForm
+* Miscellaneous:
+  * Application
+  * Button
+  * Tab
+  * Link
 
-## VII. Stretch Goals
-* Create new user
-* Update/Delete messages
+## VIII. Stretch Goals
+* Register_page
+  * User can create an account
+  * Successful submission of form redirects to All_items_page but user logged in
+
+* Login_page
+  * User is presented with form to enter username? email and password to login
+  * Submit button - takes user to all_items page but logged_in
+  * Register button - takes user to register page
+  * STRETCH - Reset password button - takes user to reset password form
+
+* Landing_page
+  * A user can visit the landing_page and learn about the app.
+  * a user can click on a button and view the all_items_page
+  * https://www.freepik.com/vectors/sports-landing-page
+
+* Edit_item_modal 
+  * same as new_item_modal except button says "Update" instaed of "Submit"
+
+* button to declare item delivered; show items as 'delivered' (banner across card?)
+* websockets
 * User avatar upload
-* User authentication
-* Landing page https://www.freepik.com/vectors/sports-landing-page
-
+* Tabs 
+  * My Profile tab - A logged in user can click and visit their profile_page
+* My_messages
+  * update/delete messages
+* Single_item_modal 
+  * share/like buttons
+  * offer similar item?
+* My_single_item_modal 
+  * includes an inbox-style list of conversations about the item.
 
 ## APPENDIX A
 ### Detailed User Stories

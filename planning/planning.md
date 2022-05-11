@@ -219,6 +219,9 @@ As parents know, signing your kids up for a new activity often means spending a 
   * a user can click on a button and view the all_items_page
   * https://www.freepik.com/vectors/sports-landing-page
 
+* All_items_page
+  * make search organize by user's location?
+
 * Edit_item_modal 
   * same as new_item_modal except button says "Update" instaed of "Submit"
 

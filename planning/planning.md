@@ -96,6 +96,7 @@ As parents know, signing your kids up for a new activity often means spending a 
 ### User 
 * Has many items
 * Has many messages
+* Has many conversations
 
 ### Item
 * Has many conversations

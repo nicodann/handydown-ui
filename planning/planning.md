@@ -191,6 +191,15 @@ As parents know, signing your kids up for a new activity often means spending a 
   * messages#create
   * Save a new message to the database
 
+## Components
+
+* ItemList
+* ItemListCard
+* Modal
+* Button
+* Tab
+* Link
+
 ## VII. Stretch Goals
 * Create new user
 * Update/Delete messages

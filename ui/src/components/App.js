@@ -1,12 +1,11 @@
 import * as React from 'react';
 // import ReactDOM from 'react-dom';
 import axios from 'axios';
-import './App.css';
 import { useEffect } from 'react';
 
 // import Button from '@mui/material/Button';
-import Header from 'components/Header';
-import Body from 'components/Body';
+import Header from './Header';
+import Body from './Body';
 
 function App() {
   useEffect(() => {

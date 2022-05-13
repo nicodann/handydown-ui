@@ -5,6 +5,7 @@ import CardMedia from '@mui/material/CardMedia';
 import Typography from '@mui/material/Typography';
 import { CardActionArea } from '@mui/material';
 // import glove from '../public/images/baseball-glove.jpg';
+import Box from '@mui/material/Box';
 
 export default function Item() {
   return (
@@ -24,14 +25,22 @@ export default function Item() {
             Lizards are a widespread group of squamate reptiles, with over 6,000
             species, ranging across all continents except Antarctica
           </Typography>
-          <div className="cardFooter">
+        <Box display="flex" justifyContent="space-between" alignItems="center" sx={{ pt: 3 }}>
             <Typography variant="button" display="block" gutterBottom>
               Location 
             </Typography>
             <Typography variant="button" display="block" gutterBottom>
               Created At
             </Typography>
-          </div>
+        </Box>
+          {/* <div className="cardFooter">
+            <Typography variant="button" display="block" gutterBottom>
+              Location 
+            </Typography>
+            <Typography variant="button" display="block" gutterBottom>
+              Created At
+            </Typography>
+          </div> */}
         </CardContent>
       </CardActionArea>
     </Card>

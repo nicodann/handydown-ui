@@ -6,7 +6,7 @@ function Body() {
   return (
     <>
       <CssBaseline />
-      <Container maxWidth="lg">
+      <Container maxWidth="lg" sx={{ py: 6}}>
         <ItemList/>
       </Container>
     </>

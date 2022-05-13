@@ -46,22 +46,22 @@ export default function TabBar() {
   };
 
   return (
-    <Box sx={{ width: '100%' }}>
-      <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
+    <Box sx={{ width: '100%', pt: 2 }}>
+      <Box display="flex" justifyContent="center" alignItems="center" sx={{ borderBottom: 1, borderColor: 'divider' }}>
         <Tabs value={value} onChange={handleChange} aria-label="basic tabs example">
-          <Tab label="Item One" {...a11yProps(0)} />
-          <Tab label="Item Two" {...a11yProps(1)} />
-          <Tab label="Item Three" {...a11yProps(2)} />
+          <Tab label="Offers" {...a11yProps(0)} />
+          <Tab label="Wanted" {...a11yProps(1)} />
+          <Tab label="My Items" {...a11yProps(2)} />
         </Tabs>
       </Box>
       <TabPanel value={value} index={0}>
-        Item One
+       Offers 
       </TabPanel>
       <TabPanel value={value} index={1}>
-        Item Two
+       Wanted 
       </TabPanel>
       <TabPanel value={value} index={2}>
-        Item Three
+       My Items 
       </TabPanel>
     </Box>
   );

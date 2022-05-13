@@ -52,6 +52,7 @@ export default function TabBar() {
           <Tab label="Offers" {...a11yProps(0)} />
           <Tab label="Wanted" {...a11yProps(1)} />
           <Tab label="My Items" {...a11yProps(2)} />
+          <Tab label="My Messages" {...a11yProps(3)} />
         </Tabs>
       </Box>
       <TabPanel value={value} index={0}>
@@ -62,6 +63,9 @@ export default function TabBar() {
       </TabPanel>
       <TabPanel value={value} index={2}>
        My Items 
+      </TabPanel>
+      <TabPanel value={value} index={3}>
+       My Messages
       </TabPanel>
     </Box>
   );

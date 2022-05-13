@@ -4,7 +4,6 @@ import CardContent from '@mui/material/CardContent';
 import CardMedia from '@mui/material/CardMedia';
 import Typography from '@mui/material/Typography';
 import { CardActionArea } from '@mui/material';
-// import glove from '../public/images/baseball-glove.jpg';
 import Box from '@mui/material/Box';
 
 export default function Item() {
@@ -33,14 +32,6 @@ export default function Item() {
               Created At
             </Typography>
         </Box>
-          {/* <div className="cardFooter">
-            <Typography variant="button" display="block" gutterBottom>
-              Location 
-            </Typography>
-            <Typography variant="button" display="block" gutterBottom>
-              Created At
-            </Typography>
-          </div> */}
         </CardContent>
       </CardActionArea>
     </Card>

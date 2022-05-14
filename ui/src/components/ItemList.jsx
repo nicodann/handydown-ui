@@ -13,8 +13,16 @@ import Item from './Item';
 //   color: theme.palette.text.secondary,
 // }));
 
-export default function ItemList() {
+function ItemList(props) {
+  const { tabValue, tabIndex } = props;
+
   return (
+    <div 
+      role="tabpanel"
+      hidden={tabValue !== tabIndex}
+      id={`simple-tabpanel-${tabIndex}`}
+    >
+    {tabValue === tabIndex && (
     <Box sx={{ flexGrow: 1 }}>
       <Grid container spacing={6}>
         <Grid item xs={4}>
@@ -31,5 +39,9 @@ export default function ItemList() {
         </Grid>
       </Grid>
     </Box>
+    )}
+    </div>
   );
 }
+
+export default ItemList;

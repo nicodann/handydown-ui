@@ -6,7 +6,9 @@ import Typography from '@mui/material/Typography';
 import { CardActionArea } from '@mui/material';
 import Box from '@mui/material/Box';
 
-export default function Item() {
+export default function Item(props) {
+  const { name, description, image, offered, createdAt } = props;
+
   return (
     <Card sx={{ maxWidth: 345 }}>
       <CardActionArea>
@@ -14,23 +16,14 @@ export default function Item() {
           component="img"
           height="200"
           src={require('../images/baseball-glove.jpg')}
-          alt="baseball glove"
+          alt={description}
         />
         <CardContent>
-          <Typography gutterBottom variant="h5" component="div">
-            Baseball Glove
-          </Typography>
-          <Typography variant="body2" color="text.secondary">
-            Lizards are a widespread group of squamate reptiles, with over 6,000
-            species, ranging across all continents except Antarctica
-          </Typography>
+          <Typography gutterBottom variant="h5" component="div">{name}</Typography>
+          <Typography variant="body2" color="text.secondary">{description}</Typography>
           <Box display="flex" justifyContent="space-between" alignItems="center" sx={{ pt: 3 }}>
-              <Typography variant="button" display="block" gutterBottom>
-                Location 
-              </Typography>
-              <Typography variant="button" display="block" gutterBottom>
-                Created At
-              </Typography>
+              <Typography variant="button" display="block" gutterBottom>Location</Typography>
+              <Typography variant="button" display="block" gutterBottom>{createdAt}</Typography>
           </Box>
         </CardContent>
       </CardActionArea>

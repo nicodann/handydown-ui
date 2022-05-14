@@ -1,15 +1,11 @@
-// import Box from '@mui/material/Box';
-// import Button from '@mui/material/Button';
-// import Typography from '@mui/material/Typography';
-// import Modal from '@mui/material/Modal';
 import React from 'react';
-import Form from './Form';
 import {
   Box,
   Button,
   Typography,
-  Modal
-} from '@mui/material'
+  Modal,
+} from '@mui/material';
+import DeleteIcon from '@mui/icons-material/Delete';
 
 const style = {
   position: 'absolute',
@@ -23,14 +19,14 @@ const style = {
   p: 4,
 };
 
-export default function SingleItemModal() {
+export default function MySingleItemModal() {
   const [open, setOpen] = React.useState(false);
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
 
   return (
     <div>
-      <Button onClick={handleOpen}>Single Item Modal</Button>
+      <Button onClick={handleOpen}>My Single Item Modal</Button>
       <Modal
         open={open}
         onClose={handleClose}
@@ -66,7 +62,7 @@ export default function SingleItemModal() {
               Created At
             </Typography>
           </Box>
-          <Form />
+          <Button variant="contained" sx={{ ml: 1 }} startIcon={<DeleteIcon />}>Delete</Button>
         </Box>
       </Modal>
     </div>

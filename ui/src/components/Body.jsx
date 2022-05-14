@@ -8,6 +8,7 @@ import ItemList from './ItemList'
 import MessageList from './MessageList';
 import SingleMessage from './SingleMessage';
 import SingleItemModal from './SingleItemModal';
+import MySingleItemModal from './MySingleItemModal';
   
 function Body() {
   return (
@@ -19,6 +20,7 @@ function Body() {
       </Container>
       <SingleMessage />
       <SingleItemModal />
+      <MySingleItemModal />
     </>
   )
 }

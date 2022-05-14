@@ -24,14 +24,14 @@ export default function Item() {
             Lizards are a widespread group of squamate reptiles, with over 6,000
             species, ranging across all continents except Antarctica
           </Typography>
-        <Box display="flex" justifyContent="space-between" alignItems="center" sx={{ pt: 3 }}>
-            <Typography variant="button" display="block" gutterBottom>
-              Location 
-            </Typography>
-            <Typography variant="button" display="block" gutterBottom>
-              Created At
-            </Typography>
-        </Box>
+          <Box display="flex" justifyContent="space-between" alignItems="center" sx={{ pt: 3 }}>
+              <Typography variant="button" display="block" gutterBottom>
+                Location 
+              </Typography>
+              <Typography variant="button" display="block" gutterBottom>
+                Created At
+              </Typography>
+          </Box>
         </CardContent>
       </CardActionArea>
     </Card>

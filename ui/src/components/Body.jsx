@@ -7,8 +7,8 @@ import {
 import ItemList from './ItemList'
 import MessageList from './MessageList';
 import SingleMessage from './SingleMessage';
-import SingleItemModal from './SingleItemModal';
-import MySingleItemModal from './MySingleItemModal';
+import SingleItemModal from './Modals/SingleItemModal';
+import MySingleItemModal from './Modals/MySingleItemModal';
   
 function Body() {
   return (

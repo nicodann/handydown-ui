@@ -43,7 +43,7 @@ export default function MySingleItemModal() {
               maxWidth: { xs: 350, md: 250 },
             }}
             alt="Baseball Glove"
-            src={require('../images/baseball-glove.jpg')}
+            src={require('../../images/baseball-glove.jpg')}
           />
           <Typography id="modal-modal-title" variant="h6" component="h2">
             Baseball Glove

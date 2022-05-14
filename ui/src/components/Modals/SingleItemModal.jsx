@@ -3,7 +3,7 @@
 // import Typography from '@mui/material/Typography';
 // import Modal from '@mui/material/Modal';
 import React from 'react';
-import Form from './Form';
+import Form from '../Form';
 import {
   Box,
   Button,
@@ -47,7 +47,7 @@ export default function SingleItemModal() {
               maxWidth: { xs: 350, md: 250 },
             }}
             alt="Baseball Glove"
-            src={require('../images/baseball-glove.jpg')}
+            src={require('../../images/baseball-glove.jpg')}
           />
           <Typography id="modal-modal-title" variant="h6" component="h2">
             Baseball Glove

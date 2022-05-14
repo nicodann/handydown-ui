@@ -22,6 +22,8 @@ function App() {
   
   const [items, setItems] = useState([]);
 
+  const [conversations, setConversations] = useState([]);
+
   const [tabValue, setTabValue ] = useState(0);
 
   const handleTabChange = (_event, newTabValue) => {
@@ -32,10 +34,19 @@ function App() {
     axios.get("/api/items")
     .then((items) => {
       setItems(items.data);
-      console.log("HERE ARE THE ITEMS", items);
+      console.log("HERE ARE THE ITEMS", items.data);
     })
-    .catch()
+    .catch();
   }, []);
+
+  // useEffect(() => {
+  //   axios.get("/api/conversations/by/user/1")
+  //     .then((conversations) => {
+  //       setConversations(conversations.data);
+  //       console.log("HERE ARE THE CONVERSATIONS", conversations.data)
+  //     })
+  //     .catch();
+  //   }, []);
 
   // useEffect(() => {
   //   axios.get("/").then((data) => {
@@ -82,7 +93,7 @@ function App() {
         <ItemList items={items} tabValue={tabValue} tabIndex={0} />
         <ItemList items={items} tabValue={tabValue} tabIndex={1} />
         <ItemList items={items} tabValue={tabValue} tabIndex={2} />
-        <MessageList tabValue={tabValue} tabIndex={3} />
+        <MessageList conversations={conversations} tabValue={tabValue} tabIndex={3} />
       </Container>
       <SingleMessage />
       <SingleItemModal />

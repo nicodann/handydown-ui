@@ -14,29 +14,34 @@ import {
 import { VolunteerActivism } from '@mui/icons-material';
 import ItemList from './ItemList';
 import MessageList from './MessageList';
+import SingleMessage from './SingleMessage';
+import SingleItemModal from './Modals/SingleItemModal';
+import MySingleItemModal from './Modals/MySingleItemModal';
 
 function App() {
   
+  const [items, setItems] = useState([]);
+
+  const [tabValue, setTabValue ] = useState(0);
+
+  const handleTabChange = (_event, newTabValue) => {
+    setTabValue(newTabValue);
+  }
+
   useEffect(() => {
     axios.get("/api/items")
     .then((items) => {
+      setItems(items.data);
       console.log("HERE ARE THE ITEMS", items);
     })
     .catch()
   }, []);
 
-  useEffect(() => {
-    axios.get("/").then((data) => {
-      console.log("Here is data from the api:", data)
-    })
-  });
-  
-  // TABS STATE
-  const [tabValue, setTabValue ] = useState(0);
-
-  const handleTabChange = (event, newTabValue) => {
-    setTabValue(newTabValue);
-  }
+  // useEffect(() => {
+  //   axios.get("/").then((data) => {
+  //     console.log("Here is data from the api:", data)
+  //   })
+  // });
 
   return (
     <>
@@ -74,11 +79,14 @@ function App() {
       </Box>
       {/* BODY -- ITEMS OR MESSAGES */}
       <Container maxWidth="lg" sx={{ py: 4}}>
-        <ItemList tabValue={tabValue} tabIndex={0} />
-        <ItemList tabValue={tabValue} tabIndex={1} />
-        <ItemList tabValue={tabValue} tabIndex={2} />
+        <ItemList items={items} tabValue={tabValue} tabIndex={0} />
+        <ItemList items={items} tabValue={tabValue} tabIndex={1} />
+        <ItemList items={items} tabValue={tabValue} tabIndex={2} />
         <MessageList tabValue={tabValue} tabIndex={3} />
       </Container>
+      <SingleMessage />
+      <SingleItemModal />
+      <MySingleItemModal />
     </>
   ); 
 }

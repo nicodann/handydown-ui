@@ -22,7 +22,7 @@ const rows = [
   createData('Gingerbread', 356, 16.0, 49, 3.9),
 ];
 
-export default function MessageList(props) {
+function MessageList(props) {
 
   const { conversations, tabValue, tabIndex } = props;
 
@@ -88,3 +88,5 @@ export default function MessageList(props) {
     </div>
   );
 }
+
+export default MessageList;

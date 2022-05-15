@@ -1,5 +1,6 @@
 const db = require("../models");
 const Item = db.items;
+const User = db.users;
 const Op = db.Sequelize.Op;
 
 //Retrieve all Items from the db or search by name
@@ -8,8 +9,11 @@ exports.index = async (req, res) => {
   const name = req.body.name;
   const condition = name ? { name: { [Op.iLike]: `%${name}%`} } : null;
   try {
-    const data = await Item.findAll({ where: condition })
-    res.json(data);
+    const items = await Item.findAll({
+      where: condition,
+      include: User,
+    })
+    res.json(items);
   } catch (err) {
     res.status(499).send({
       message: err.message || "An error occured while retrieving items."

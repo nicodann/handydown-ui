@@ -5,7 +5,15 @@ import {
 } from '@mui/material';
 
 function Conversation(props) {
-  const { id, creatorId, receiverId, itemId, createdAt, updatedAt } = props;
+  const {
+     id, 
+     creatorName, 
+     receiverName, 
+     itemName,
+     messageBody,
+     createdAt, 
+     updatedAt
+   } = props;
   return (
     
     <TableRow
@@ -16,10 +24,10 @@ function Conversation(props) {
         <Checkbox color="primary" />
       </TableCell>
       <TableCell component="th" scope="row">
-        {creatorId}
+        {receiverName}
       </TableCell>
-      <TableCell align="right">{itemId}</TableCell>
-      <TableCell align="right">{id}</TableCell>
+      <TableCell align="right">{itemName}</TableCell>
+      <TableCell align="right">{messageBody}</TableCell>
       <TableCell align="right">{updatedAt}</TableCell>
     </TableRow>
   );

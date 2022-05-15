@@ -27,6 +27,69 @@ function ConversationList(props) {
 
   const { conversations, tabValue, tabIndex } = props;
 
+  console.log("receiverName", conversations[0].receiver)
+
+  const conversationsArray = conversations.map((conversation) => 
+      <Conversation
+        key={conversation.id}
+        id={conversation.id}
+        creatorName={conversation.creator.username}
+        receiverName={conversation.receiver.username}
+        itemName={conversation.item.name}
+        messageBody={conversation.messages[0].body}
+        createdAt={conversation.createdAt}
+        updatedAt={conversation.updatedAt}
+      />
+
+  );
+  console.log("conversation rows:" , conversationsArray)
+  return (
+    <div 
+      role="tabpanel"
+      hidden={tabValue !== tabIndex}
+      id={`simple-tabpanel-${tabIndex}`}
+    >
+      {tabValue === tabIndex && (
+        <TableContainer component={Paper}>
+          <Table sx={{ pt: 2, minWidth: 650 }} aria-label="simple table">
+            <TableHead>
+              <TableRow>
+                <TableCell>
+                  <Checkbox
+                    color="primary"
+                  />
+                </TableCell>
+                <TableCell>Other Party</TableCell>
+                <TableCell align="right">Subject/Item</TableCell>
+                <TableCell align="right">Message</TableCell>
+                <TableCell align="right">Latest Message Date/Time</TableCell>
+              </TableRow>
+            </TableHead>
+            <TableBody>
+            {conversationsArray}
+              {/* {rows.map((row) => (
+                <TableRow
+                  key={row.name}
+                  sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
+                >
+                  <TableCell>
+                    <Checkbox color="primary" />
+                  </TableCell>
+                  <TableCell component="th" scope="row">
+                    {row.name}
+                  </TableCell>
+                  <TableCell align="right">{row.calories}</TableCell>
+                  <TableCell align="right">{row.fat}</TableCell>
+                  <TableCell align="right">{row.carbs}</TableCell>
+                </TableRow>
+              ))} */}
+            </TableBody>
+          </Table>
+        </TableContainer>
+      )}
+    </div>
+  );
+
 //   const conversationsArray = conversations.map((conversation) => (
 //     <TableRow
 //       key={conversation.id}
@@ -62,67 +125,7 @@ function ConversationList(props) {
   //     </TableRow>
   //   )
   // );
-  const conversationsArray = conversations.map((conversation) => 
-      <Conversation
-        id={conversation.id}
-        creatorId={conversation.creatorId}
-        // creatorName={conversation.creater.name}
-        receiverId={conversation.receiverId}
-        // receiverName={conversation.receiver.name}
-        itemId={conversation.itemId}
-        // itemName={conversation.item.name}
-        createdAt={conversation.createdAt}
-        updatedAt={conversation.updatedAt}
-      />
-
-  );
-  console.log("conversation rows:" , conversationsArray)
-  return (
-    <div 
-      role="tabpanel"
-      hidden={tabValue !== tabIndex}
-      id={`simple-tabpanel-${tabIndex}`}
-    >
-      {tabValue === tabIndex && (
-        <TableContainer component={Paper}>
-          <Table sx={{ pt: 2, minWidth: 650 }} aria-label="simple table">
-            <TableHead>
-              <TableRow>
-                <TableCell>
-                  <Checkbox
-                    color="primary"
-                  />
-                </TableCell>
-                <TableCell>From</TableCell>
-                <TableCell align="right">Subject/Item</TableCell>
-                <TableCell align="right">Message</TableCell>
-                <TableCell align="right">Four days ago</TableCell>
-              </TableRow>
-            </TableHead>
-            <TableBody>
-            {conversationsArray}
-              {/* {rows.map((row) => (
-                <TableRow
-                  key={row.name}
-                  sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
-                >
-                  <TableCell>
-                    <Checkbox color="primary" />
-                  </TableCell>
-                  <TableCell component="th" scope="row">
-                    {row.name}
-                  </TableCell>
-                  <TableCell align="right">{row.calories}</TableCell>
-                  <TableCell align="right">{row.fat}</TableCell>
-                  <TableCell align="right">{row.carbs}</TableCell>
-                </TableRow>
-              ))} */}
-            </TableBody>
-          </Table>
-        </TableContainer>
-      )}
-    </div>
-  );
+  
 }
 
 export default ConversationList;

@@ -38,6 +38,8 @@ function ItemList(props) {
             image={item.image}
             offered={item.offered}
             createdAt={item.createdAt}
+            userName={item.user.username}
+            location={item.user.location}
           />
         </Grid>
       </React.Fragment>

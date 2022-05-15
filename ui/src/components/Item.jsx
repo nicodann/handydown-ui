@@ -1,17 +1,33 @@
 import * as React from 'react';
-import Card from '@mui/material/Card';
-import CardContent from '@mui/material/CardContent';
-import CardMedia from '@mui/material/CardMedia';
-import Typography from '@mui/material/Typography';
-import { CardActionArea } from '@mui/material';
-import Box from '@mui/material/Box';
+import { 
+  Card,
+  CardHeader,
+  Button,
+  Avatar,
+  CardMedia,
+  CardContent,
+  CardActionArea,
+  Typography,
+  Box,
+} from '@mui/material';
+// import { PinDrop } from '@mui/icons-material'; 
+import { format } from 'timeago.js';
 
 export default function Item(props) {
-  const { name, description, image, offered, createdAt } = props;
+  const { name, description, image, offered, createdAt, location, userName } = props;
 
   return (
     <Card sx={{ maxWidth: 345 }}>
       <CardActionArea>
+        <CardHeader
+          avatar={
+            <Avatar> 
+              {offered ? "O" : "W"}
+            </Avatar>
+          }
+          title={name}
+          subheader={format(createdAt)}
+        />
         <CardMedia
           component="img"
           height="200"
@@ -19,11 +35,11 @@ export default function Item(props) {
           alt={description}
         />
         <CardContent>
-          <Typography gutterBottom variant="h5" component="div">{name}</Typography>
+          {/* <Typography gutterBottom variant="h5" component="div">{name}</Typography> */}
           <Typography variant="body2" color="text.secondary">{description}</Typography>
           <Box display="flex" justifyContent="space-between" alignItems="center" sx={{ pt: 3 }}>
-              <Typography variant="button" display="block" gutterBottom>Location</Typography>
-              <Typography variant="button" display="block" gutterBottom>{createdAt}</Typography>
+              <Typography display="block" gutterBottom>{location}</Typography>
+              <Typography display="block" gutterBottom>{userName}</Typography>
           </Box>
         </CardContent>
       </CardActionArea>

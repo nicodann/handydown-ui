@@ -3,7 +3,7 @@
 // import Typography from '@mui/material/Typography';
 // import Modal from '@mui/material/Modal';
 import React from 'react';
-import Form from '../Form';
+import Form from './Form';
 import {
   Box,
   Button,

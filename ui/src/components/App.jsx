@@ -13,8 +13,8 @@ import {
 } from '@mui/material';
 import { VolunteerActivism } from '@mui/icons-material';
 import ItemList from './ItemList';
-import MessageList from './MessageList';
-import SingleMessage from './SingleMessage';
+import ConversationList from './ConversationList';
+import SingleMessage from './Modals/SingleConversation';
 import SingleItemModal from './Modals/SingleItemModal';
 import MySingleItemModal from './Modals/MySingleItemModal';
 
@@ -93,7 +93,7 @@ function App() {
         <ItemList items={items} tabValue={tabValue} tabIndex={0} />
         <ItemList items={items} tabValue={tabValue} tabIndex={1} />
         <ItemList items={items} tabValue={tabValue} tabIndex={2} />
-        <MessageList conversations={conversations} tabValue={tabValue} tabIndex={3} />
+        <ConversationList conversations={conversations} tabValue={tabValue} tabIndex={3} />
       </Container>
       <SingleMessage />
       <SingleItemModal />

@@ -2,7 +2,7 @@ import Divider from '@mui/material/Divider';
 import Typography from '@mui/material/Typography';
 import Form from './Form';
 import Box from "@mui/material/Box";
-export default function SingleMessage() {
+export default function SingleConversation() {
   return (
 <>
   <Box display="flexbox" justifyContent="space-between" alignItems="center">

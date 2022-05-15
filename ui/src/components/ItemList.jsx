@@ -15,14 +15,15 @@ import Item from './Item';
 function ItemList(props) {
   const { tabValue, tabIndex, items } = props;
 
+  const userId = 1; // *** HARD CODED FOR NOW ***
   let filteredItemsArray;
 
   if (tabValue === 0) {
     filteredItemsArray = items.filter((item) => item.offered === true );
   } else if (tabValue === 1) {
     filteredItemsArray = items.filter((item) => item.offered === false );
-  // } else if (tabValue === 2) {
-  //   filteredItemsArray = items.filter((item) => item.userId === userId);
+  } else if (tabValue === 2) {
+    filteredItemsArray = items.filter((item) => item.userId === userId);
   } else {
     filteredItemsArray = items;
   }
@@ -30,7 +31,7 @@ function ItemList(props) {
   const itemListArray = filteredItemsArray.map((item) => 
     (
       <React.Fragment key={item.id}>
-        <Grid item xs={4}>
+        <Grid item style={{display: 'flex'}} xs={4} >
           <Item
             key={item.id}
             name={item.name}
@@ -38,6 +39,8 @@ function ItemList(props) {
             image={item.image}
             offered={item.offered}
             createdAt={item.createdAt}
+            userName={item.user.username}
+            location={item.user.location}
           />
         </Grid>
       </React.Fragment>

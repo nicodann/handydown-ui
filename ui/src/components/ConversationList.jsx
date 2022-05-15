@@ -9,6 +9,7 @@ import {
   Checkbox 
 } from '@mui/material';
 import React from 'react';
+import Conversation from './Conversation';
 
 function createData(name, calories, fat, carbs, protein) {
   return { name, calories, fat, carbs, protein };
@@ -22,7 +23,7 @@ const rows = [
   createData('Gingerbread', 356, 16.0, 49, 3.9),
 ];
 
-function MessageList(props) {
+function ConversationList(props) {
 
   const { conversations, tabValue, tabIndex } = props;
 
@@ -61,6 +62,17 @@ function MessageList(props) {
   //     </TableRow>
   //   )
   // );
+  // const conversationsArray = conversations.map((conversation) => 
+  //     <Conversation
+  //       id={conversation.id}
+  //       creatorId={conversation.creatorId}
+  //       receiverId={conversation.receiverId}
+  //       itemId={conversation.itemId}
+  //       createdAt={conversation.createdAt}
+  //       updatedAt={conversation.updatedAt}
+  //     />
+
+  );
   return (
     <div 
       role="tabpanel"
@@ -108,4 +120,4 @@ function MessageList(props) {
   );
 }
 
-export default MessageList;
+export default ConversationList;

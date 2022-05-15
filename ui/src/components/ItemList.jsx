@@ -15,14 +15,15 @@ import Item from './Item';
 function ItemList(props) {
   const { tabValue, tabIndex, items } = props;
 
+  const userId = 1; // *** HARD CODED FOR NOW ***
   let filteredItemsArray;
 
   if (tabValue === 0) {
     filteredItemsArray = items.filter((item) => item.offered === true );
   } else if (tabValue === 1) {
     filteredItemsArray = items.filter((item) => item.offered === false );
-  // } else if (tabValue === 2) {
-  //   filteredItemsArray = items.filter((item) => item.userId === userId);
+  } else if (tabValue === 2) {
+    filteredItemsArray = items.filter((item) => item.userId === userId);
   } else {
     filteredItemsArray = items;
   }

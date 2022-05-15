@@ -11,39 +11,39 @@ import {
 import React from 'react';
 import Conversation from './Conversation';
 
-function createData(name, calories, fat, carbs, protein) {
-  return { name, calories, fat, carbs, protein };
-}
+// function createData(name, calories, fat, carbs, protein) {
+//   return { name, calories, fat, carbs, protein };
+// }
 
-const rows = [
-  createData('', 159, 6.0, 24, 4.0),
-  createData('Ice cream sandwich', 237, 9.0, 37, 4.3),
-  createData('Eclair', 262, 16.0, 24, 6.0),
-  createData('Cupcake', 305, 3.7, 67, 4.3),
-  createData('Gingerbread', 356, 16.0, 49, 3.9),
-];
+// const rows = [
+//   createData('', 159, 6.0, 24, 4.0),
+//   createData('Ice cream sandwich', 237, 9.0, 37, 4.3),
+//   createData('Eclair', 262, 16.0, 24, 6.0),
+//   createData('Cupcake', 305, 3.7, 67, 4.3),
+//   createData('Gingerbread', 356, 16.0, 49, 3.9),
+// ];
 
 function ConversationList(props) {
 
   const { conversations, tabValue, tabIndex } = props;
 
-  const conversationsArray = conversations.map((conversation) => (
-    <TableRow
-      key={conversation.id}
-      sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
-    >
-      <TableCell>
-        <Checkbox color="primary" />
-      </TableCell>
-      <TableCell component="th" scope="row">
-        {conversation.creatorId}
-      </TableCell>
-      <TableCell align="right">{conversation.itemId}</TableCell>
-      <TableCell align="right">{conversation.id}</TableCell>
-      <TableCell align="right">{conversation.updatedAt}</TableCell>
-    </TableRow>
-  )
-);
+//   const conversationsArray = conversations.map((conversation) => (
+//     <TableRow
+//       key={conversation.id}
+//       sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
+//     >
+//       <TableCell>
+//         <Checkbox color="primary" />
+//       </TableCell>
+//       <TableCell component="th" scope="row">
+//         {conversation.creatorId}
+//       </TableCell>
+//       <TableCell align="right">{conversation.item.name}</TableCell>
+//       <TableCell align="right">{conversation.id}</TableCell>
+//       <TableCell align="right">{conversation.updatedAt}</TableCell>
+//     </TableRow>
+//   )
+// );
 
   // const conversationsArray = conversations.map((conversation) => (
   //     <TableRow
@@ -62,17 +62,21 @@ function ConversationList(props) {
   //     </TableRow>
   //   )
   // );
-  // const conversationsArray = conversations.map((conversation) => 
-  //     <Conversation
-  //       id={conversation.id}
-  //       creatorId={conversation.creatorId}
-  //       receiverId={conversation.receiverId}
-  //       itemId={conversation.itemId}
-  //       createdAt={conversation.createdAt}
-  //       updatedAt={conversation.updatedAt}
-  //     />
+  const conversationsArray = conversations.map((conversation) => 
+      <Conversation
+        id={conversation.id}
+        creatorId={conversation.creatorId}
+        // creatorName={conversation.creater.name}
+        receiverId={conversation.receiverId}
+        // receiverName={conversation.receiver.name}
+        itemId={conversation.itemId}
+        // itemName={conversation.item.name}
+        createdAt={conversation.createdAt}
+        updatedAt={conversation.updatedAt}
+      />
 
   );
+  console.log("conversation rows:" , conversationsArray)
   return (
     <div 
       role="tabpanel"
@@ -96,7 +100,8 @@ function ConversationList(props) {
               </TableRow>
             </TableHead>
             <TableBody>
-              {rows.map((row) => (
+            {conversationsArray}
+              {/* {rows.map((row) => (
                 <TableRow
                   key={row.name}
                   sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
@@ -111,7 +116,7 @@ function ConversationList(props) {
                   <TableCell align="right">{row.fat}</TableCell>
                   <TableCell align="right">{row.carbs}</TableCell>
                 </TableRow>
-              ))}
+              ))} */}
             </TableBody>
           </Table>
         </TableContainer>

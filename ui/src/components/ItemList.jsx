@@ -31,7 +31,7 @@ function ItemList(props) {
   const itemListArray = filteredItemsArray.map((item) => 
     (
       <React.Fragment key={item.id}>
-        <Grid item xs={4}>
+        <Grid item style={{display: 'flex'}} xs={4} >
           <Item
             key={item.id}
             name={item.name}

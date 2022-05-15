@@ -3,6 +3,7 @@ const db = require('../models');
 const Conversation = db.conversations;
 const Item = db.items;
 const Message = db.messages;
+const User = db.users;
 
 // Retrieve all conversations belonging to a User
 exports.getByUserId = async (req, res) => {
@@ -12,7 +13,12 @@ exports.getByUserId = async (req, res) => {
       where: {
         [Op.or]: [ { creatorId: userId }, { receiverId: userId }],
       },
-      include: Message, 
+      include:[
+        Item, 
+        Message, 
+        {model: User, as: 'creator'},
+        {model: User, as: 'receiver'}
+      ]
     });
     return res.json(conversations);
   } catch (err) {

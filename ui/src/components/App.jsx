@@ -39,14 +39,14 @@ function App() {
     .catch();
   }, []);
 
-  // useEffect(() => {
-  //   axios.get("/api/conversations/by/user/1")
-  //     .then((conversations) => {
-  //       setConversations(conversations.data);
-  //       console.log("HERE ARE THE CONVERSATIONS", conversations.data)
-  //     })
-  //     .catch();
-  //   }, []);
+  useEffect(() => {
+    axios.get("/api/conversations/by/user/1")
+      .then((conversations) => {
+        setConversations(conversations.data);
+        console.log("HERE ARE THE CONVERSATIONS", conversations.data)
+      })
+      .catch();
+    }, []);
 
   // useEffect(() => {
   //   axios.get("/").then((data) => {

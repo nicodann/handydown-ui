@@ -26,22 +26,41 @@ function MessageList(props) {
 
   const { conversations, tabValue, tabIndex } = props;
 
-  const conversationsArray = conversations.map((conversation) => 
-      <TableRow
-        key={conversation.id}
-        sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
-      >
-        <TableCell>
-          <Checkbox color="primary" />
-        </TableCell>
-        <TableCell component="th" scope="row">
-          {conversation.creatorId}
-        </TableCell>
-        <TableCell align="right">{conversation.itemId}</TableCell>
-        <TableCell align="right">{conversation.id}</TableCell>
-        <TableCell align="right">{conversation.updatedAt}</TableCell>
-      </TableRow>
-  );
+  const conversationsArray = conversations.map((conversation) => (
+    <TableRow
+      key={conversation.id}
+      sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
+    >
+      <TableCell>
+        <Checkbox color="primary" />
+      </TableCell>
+      <TableCell component="th" scope="row">
+        {conversation.creatorId}
+      </TableCell>
+      <TableCell align="right">{conversation.itemId}</TableCell>
+      <TableCell align="right">{conversation.id}</TableCell>
+      <TableCell align="right">{conversation.updatedAt}</TableCell>
+    </TableRow>
+  )
+);
+
+  // const conversationsArray = conversations.map((conversation) => (
+  //     <TableRow
+  //       key={conversation.id}
+  //       sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
+  //     >
+  //       <TableCell>
+  //         <Checkbox color="primary" />
+  //       </TableCell>
+  //       <TableCell component="th" scope="row">
+  //         {conversation.creatorId}
+  //       </TableCell>
+  //       <TableCell align="right">{conversation.itemId}</TableCell>
+  //       <TableCell align="right">{conversation.id}</TableCell>
+  //       <TableCell align="right">{conversation.updatedAt}</TableCell>
+  //     </TableRow>
+  //   )
+  // );
   return (
     <div 
       role="tabpanel"
@@ -53,11 +72,11 @@ function MessageList(props) {
           <Table sx={{ pt: 2, minWidth: 650 }} aria-label="simple table">
             <TableHead>
               <TableRow>
-            <TableCell>
-              <Checkbox
-                color="primary"
-              />
-            </TableCell>
+                <TableCell>
+                  <Checkbox
+                    color="primary"
+                  />
+                </TableCell>
                 <TableCell>From</TableCell>
                 <TableCell align="right">Subject/Item</TableCell>
                 <TableCell align="right">Message</TableCell>

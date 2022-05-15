@@ -14,7 +14,7 @@ import {
 import { VolunteerActivism } from '@mui/icons-material';
 import ItemList from './ItemList';
 import ConversationList from './ConversationList';
-import SingleMessage from './SingleMessage';
+import SingleMessage from './Modals/SingleConversation';
 import SingleItemModal from './Modals/SingleItemModal';
 import MySingleItemModal from './Modals/MySingleItemModal';
 

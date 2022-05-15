@@ -9,6 +9,7 @@ import {
   Checkbox 
 } from '@mui/material';
 import React from 'react';
+import Conversation from './Conversation';
 
 function createData(name, calories, fat, carbs, protein) {
   return { name, calories, fat, carbs, protein };
@@ -27,20 +28,15 @@ function ConversationList(props) {
   const { conversations, tabValue, tabIndex } = props;
 
   const conversationsArray = conversations.map((conversation) => 
-      <TableRow
-        key={conversation.id}
-        sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
-      >
-        <TableCell>
-          <Checkbox color="primary" />
-        </TableCell>
-        <TableCell component="th" scope="row">
-          {conversation.creatorId}
-        </TableCell>
-        <TableCell align="right">{conversation.itemId}</TableCell>
-        <TableCell align="right">{conversation.id}</TableCell>
-        <TableCell align="right">{conversation.updatedAt}</TableCell>
-      </TableRow>
+      <Conversation
+        id={conversation.id}
+        creatorId={conversation.creatorId}
+        receiverId={conversation.receiverId}
+        itemId={conversation.itemId}
+        createdAt={conversation.createdAt}
+        updatedAt={conversation.updatedAt}
+      />
+
   );
   return (
     <div 

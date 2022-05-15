@@ -12,7 +12,7 @@ import {
 // import { PinDrop } from '@mui/icons-material'; 
 import { format } from 'timeago.js';
 
-export default function Item(props) {
+function Item(props) {
   const { name, description, image, offered, createdAt, location, userName } = props;
 
   return (
@@ -44,3 +44,5 @@ export default function Item(props) {
       </Card>
   );
 }
+
+export default Item;

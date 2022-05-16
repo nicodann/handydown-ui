@@ -21,11 +21,21 @@ function Conversation(props) {
       <TableCell>
         <Checkbox color="primary" />
       </TableCell>
-      <TableCell component="th" scope="row">
+      <TableCell component="th" scope="row" >
         {otherPartyName}
       </TableCell>
-      <TableCell align="right">{itemName}</TableCell>
-      <TableCell align="right">{messageBody}</TableCell>
+      <TableCell>{itemName}</TableCell>
+      <TableCell sx={{
+        // display: 'table-cell',
+        width: 'auto',
+        whiteSpace: 'nowrap',
+        overflow: 'hidden',
+        textOverflow: 'ellipsis',
+      }}>
+       
+          {messageBody}
+             
+      </TableCell>
       <TableCell align="right">{updatedAt}</TableCell>
     </TableRow>
   );

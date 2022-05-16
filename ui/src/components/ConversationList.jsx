@@ -16,22 +16,28 @@ function ConversationList(props) {
 
   const { conversations, tabValue, tabIndex, loggedInUserID } = props;
 
+  const findLatestMessageBody = (conversation) => {
+    return conversation.messages[conversation.messages.length - 1].body
+  }
+
+  const findOtherPartyName = (conversation, loggedInUserID) => {
+    return loggedInUserID === conversation.receiver.id ? conversation.creator.username : conversation.receiver.username
+  }
+  
+
   const conversationsArray = conversations.map((conversation) =>
       <Conversation
         key={conversation.id}
         id={conversation.id}
-        otherPartyName={
-          loggedInUserID === conversation.receiver.id ? 
-          conversation.creator.username : conversation.receiver.username
-        }
+        otherPartyName={findOtherPartyName(conversation, loggedInUserID)}
         itemName={conversation.item.name}
-        messageBody={conversation.messages[0].body}
+        messageBody={findLatestMessageBody(conversation)}
         // createdAt={conversation.createdAt}
         updatedAt={format(conversation.updatedAt)}
       />
 
   );
-  console.log("conversation rows:" , conversationsArray)
+
   return (
     <div 
       role="tabpanel"
@@ -40,17 +46,20 @@ function ConversationList(props) {
     >
       {tabValue === tabIndex && (
         <TableContainer component={Paper}>
-          <Table sx={{ pt: 2, minWidth: 650 }} aria-label="simple table">
+          <Table sx={{ pt: 2, minWidth: 650, tableLayout: 'fixed' }} aria-label="simple table">
             <TableHead>
               <TableRow>
-                <TableCell>
-                  <Checkbox
-                    color="primary"
-                  />
+                <TableCell sx={{width: 50}}>
+                  <Checkbox color="primary" />
                 </TableCell>
-                <TableCell>Other Party</TableCell>
-                <TableCell align="right">Subject/Item</TableCell>
-                <TableCell align="right">Message</TableCell>
+                <TableCell >Other Party</TableCell>
+                <TableCell >Subject/Item</TableCell>
+                <TableCell sx={{
+                  width: 'auto', 
+                  height: 'inherit'
+                }}>
+                  Message
+                </TableCell>
                 <TableCell align="right">Latest Message Date/Time</TableCell>
               </TableRow>
             </TableHead>

@@ -1,15 +1,22 @@
 import axios from 'axios';
 import { useEffect, useState } from 'react';
 import {
+  Avatar,
+  Box,
+  Button,
+  Card,
+  CardActionArea,
+  CardActions,
+  CardContent,
+  CardHeader,
+  CardMedia,
+  Container,
   CssBaseline,
   Grid,
-  Typography,
-  Button,
-  Container,
   Tabs,
   Tab,
-  Box,
-  TextField
+  TextField,
+  Typography
 } from '@mui/material';
 import { VolunteerActivism } from '@mui/icons-material';
 import ItemList from './ItemList';
@@ -20,17 +27,8 @@ import MySingleItemModal from './Modals/MySingleItemModal';
 
 function App() {
 
-  const [loggedInUserID, setLoggedInUserID] = useState(1);
-  
   const [items, setItems] = useState([]);
-
   const [conversations, setConversations] = useState([]);
-
-  const [tabValue, setTabValue ] = useState(0);
-
-  const handleTabChange = (_event, newTabValue) => {
-    setTabValue(newTabValue);
-  }
 
   useEffect(() => {
     axios.get("/api/items")
@@ -50,11 +48,37 @@ function App() {
       .catch();
     }, []);
 
-  // useEffect(() => {
-  //   axios.get("/").then((data) => {
-  //     console.log("Here is data from the api:", data)
-  //   })
-  // });
+  const [loggedInUserID, setLoggedInUserID] = useState(1);
+  
+  const [tabValue, setTabValue ] = useState(0);
+  const [name, setName] = useState("");
+  const [foundItems, setFoundItems] = useState(items);
+
+  const handleTabChange = (_event, newTabValue) => {
+    setTabValue(newTabValue);
+
+    if (tabValue === 0) {
+      setFoundItems(items.filter((item) => item.offered === true ));
+    } else if (tabValue === 1) {
+      setFoundItems(items.filter((item) => item.offered === false ));
+    } else if (tabValue === 2) {
+      setFoundItems(items.filter((item) => item.userId === loggedInUserID));
+    } else {
+      setFoundItems(items);
+    }
+  }
+
+  const filter = (event) => {
+    const keyword = event.target.value;
+
+    if (keyword !== '') {
+      setFoundItems(items.filter((item) => item.name.toLowerCase().startsWith(keyword.toLowerCase())));
+    } else {
+      setFoundItems(items);
+    }
+
+    setName(keyword);
+  }
 
   return (
     <>
@@ -88,13 +112,13 @@ function App() {
       </Box>
       {/* SEARCHBAR */}
       <Box display="flex" justifyContent="center" alignItems="center" sx={{ pt: 4 }}>
-        <TextField id="outlined-search" label="Search for items..." type="search" />
+        <TextField type="search" value={name} onChange={filter} id="outlined-search" label="Search by item name..." />
       </Box>
       {/* BODY -- ITEMS OR MESSAGES */}
       <Container maxWidth="lg" sx={{ py: 4}}>
-        <ItemList items={items} tabValue={tabValue} tabIndex={0} />
-        <ItemList items={items} tabValue={tabValue} tabIndex={1} />
-        <ItemList items={items} tabValue={tabValue} tabIndex={2} />
+        <ItemList foundItems={foundItems} tabValue={tabValue} tabIndex={0} />
+        <ItemList foundItems={foundItems} tabValue={tabValue} tabIndex={1} />
+        <ItemList foundItems={foundItems} tabValue={tabValue} tabIndex={2} />
         <ConversationList conversations={conversations} tabValue={tabValue} tabIndex={3} loggedInUserID={loggedInUserID}/>
       </Container>
       <SingleMessage />

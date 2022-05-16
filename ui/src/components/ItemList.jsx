@@ -1,8 +1,17 @@
 import React from 'react';
 // import { styled } from '@mui/material/styles';
-import { Box, Grid } from '@mui/material';
-// import { Box, Grid, Paper } from '@mui/material';
-import Item from './Item';
+import { Box,
+  Avatar,
+  Card,
+  CardActionArea,
+  CardActions,
+  CardContent,
+  CardHeader,
+  CardMedia,
+  Grid,
+  Typography,
+} from '@mui/material';
+import { format } from 'timeago.js';
 
 // const Item = styled(Paper)(({ theme }) => ({
 //   backgroundColor: theme.palette.mode === 'dark' ? '#1A2027' : '#fff',
@@ -13,39 +22,8 @@ import Item from './Item';
 // }));
 
 function ItemList(props) {
-  const { tabValue, tabIndex, items } = props;
+  const { tabValue, tabIndex, foundItems } = props;
 
-  const userId = 1; // *** HARD CODED FOR NOW ***
-  let filteredItemsArray;
-
-  if (tabValue === 0) {
-    filteredItemsArray = items.filter((item) => item.offered === true );
-  } else if (tabValue === 1) {
-    filteredItemsArray = items.filter((item) => item.offered === false );
-  } else if (tabValue === 2) {
-    filteredItemsArray = items.filter((item) => item.userId === userId);
-  } else {
-    filteredItemsArray = items;
-  }
-
-  const itemListArray = filteredItemsArray.map((item) => 
-    (
-      <React.Fragment key={item.id}>
-        <Grid item style={{display: 'flex'}} xs={4} >
-          <Item
-            key={item.id}
-            name={item.name}
-            description={item.description}
-            image={item.image}
-            offered={item.offered}
-            createdAt={item.createdAt}
-            userName={item.user.username}
-            location={item.user.location}
-          />
-        </Grid>
-      </React.Fragment>
-    )
-  );
   return (
     <div 
       role="tabpanel"
@@ -55,7 +33,39 @@ function ItemList(props) {
       {tabValue === tabIndex && (
         <Box sx={{ flexGrow: 1 }}>
           <Grid container spacing={6}>
-            {itemListArray}
+            { foundItems.map((item) => ( 
+              <React.Fragment key={item.id}>
+                <Grid item style={{display: 'flex'}} xs={4} >
+                    <Card style={{height: '100%'}}>
+                      <CardActionArea style={{display: 'flex', flexDirection: 'column', alignItems: 'start', width: '100%', height: '100%'}} > 
+                        <CardHeader
+                          avatar={
+                            <Avatar> 
+                              {item.offered ? "O" : "W"}
+                            </Avatar>
+                          }
+                          title={item.name}
+                          subheader={format(item.createdAt)}
+                        />
+                        <CardMedia
+                          component="img"
+                          height="200"
+                          src={require('../images/baseball-glove.jpg')}
+                          alt={item.description}
+                        />
+                        <CardContent style={{flexGrow: 1}}>
+                          <Typography variant="body2" color="text.secondary">{item.description}</Typography>
+                        </CardContent>
+                        <CardActions style={{width: '100%', paddingLeft: '16px', paddingRight: '16px', display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginTop: 'auto'}}>
+                              <Typography display="block" gutterBottom>{item.user.location}</Typography>
+                              <Typography display="block" gutterBottom>{item.user.username}</Typography>
+                        </CardActions>
+                      </CardActionArea>
+                      </Card>
+                </Grid>
+              </React.Fragment>
+                  ) 
+                )}
           </Grid>
         </Box>
       )}

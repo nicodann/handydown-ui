@@ -3,6 +3,7 @@ import React from 'react';
 import { Box, Grid } from '@mui/material';
 // import { Box, Grid, Paper } from '@mui/material';
 import Item from './Item';
+import SingleItemModal from './Modals/SingleItemModal';
 
 // const Item = styled(Paper)(({ theme }) => ({
 //   backgroundColor: theme.palette.mode === 'dark' ? '#1A2027' : '#fff',
@@ -28,6 +29,12 @@ function ItemList(props) {
     filteredItemsArray = items;
   }
 
+  //MODAL STATE LOGIC
+
+  const [open, setOpen] = React.useState(false);
+  const handleOpen = () => setOpen(true);
+  const handleClose = () => setOpen(false);
+
   const itemListArray = filteredItemsArray.map((item) => 
     (
       <React.Fragment key={item.id}>
@@ -41,11 +48,31 @@ function ItemList(props) {
             createdAt={item.createdAt}
             userName={item.user.username}
             location={item.user.location}
+            onClick={handleOpen}
           />
         </Grid>
       </React.Fragment>
     )
   );
+
+ 
+
+  const itemModalsArray = filteredItemsArray.map((itemModal) =>
+    (
+      <SingleItemModal
+        key={itemModal.id}
+        open={open}
+        onClose={handleClose}
+        name={itemModal.name}
+        description={itemModal.description}
+        image={itemModal.image}
+        offered={itemModal.offered}
+        createdAt={itemModal.createdAt}
+        userName={itemModal.user.username}
+        location={itemModal.user.location}
+      />
+    )
+  )
   return (
     <div 
       role="tabpanel"
@@ -56,6 +83,7 @@ function ItemList(props) {
         <Box sx={{ flexGrow: 1 }}>
           <Grid container spacing={6}>
             {itemListArray}
+            {itemModalsArray}
           </Grid>
         </Box>
       )}

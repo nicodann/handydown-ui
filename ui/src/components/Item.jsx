@@ -13,10 +13,10 @@ import {
 import { format } from 'timeago.js';
 
 function Item(props) {
-  const { name, description, image, offered, createdAt, location, userName } = props;
+  const { name, description, image, offered, createdAt, location, userName, onClick } = props;
 
   return (
-    <Card style={{height: '100%'}}>
+    <Card style={{height: '100%'}} onClick={onClick}>
       <CardActionArea style={{display: 'flex', flexDirection: 'column', alignItems: 'start', width: '100%', height: '100%'}} > 
         <CardHeader
           avatar={

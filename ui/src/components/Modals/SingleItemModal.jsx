@@ -6,7 +6,7 @@ import React from 'react';
 import Form from './Form';
 import {
   Box,
-  Button,
+  // Button,
   Typography,
   Modal
 } from '@mui/material'
@@ -23,52 +23,48 @@ const style = {
   p: 4,
 };
 
-export default function SingleItemModal() {
-  const [open, setOpen] = React.useState(false);
-  const handleOpen = () => setOpen(true);
-  const handleClose = () => setOpen(false);
+export default function SingleItemModal(props) {
 
   return (
-    <div>
-      <Button onClick={handleOpen}>Single Item Modal</Button>
       <Modal
-        open={open}
-        onClose={handleClose}
+        open={props.open}
+        // open={open}
+        onClose={props.handleClose}
+        // onClose={handleClose}
         aria-labelledby="modal-modal-title"
         aria-describedby="modal-modal-description"
       >
         <Box sx={style}>
           <Box
-            component="img"
+            component={props.image}
             sx={{
               height: 233,
               width: 350,
               maxHeight: { xs: 233, md: 167 },
               maxWidth: { xs: 350, md: 250 },
             }}
-            alt="Baseball Glove"
+            alt={props.name}
             src={require('../../images/baseball-glove.jpg')}
           />
           <Typography id="modal-modal-title" variant="h6" component="h2">
-            Baseball Glove
+            {props.name}
           </Typography>
           <Typography id="modal-modal-description" sx={{ mt: 2 }}>
-            Duis mollis, est non commodo luctus, nisi erat porttitor ligula.
+            {props.description}
           </Typography>
           <Box display="flex" justifyContent="space-between" alignItems="center" sx={{ pt: 3 }}>
             <Typography variant="button" display="block" gutterBottom>
-              Location 
+              {props.location} 
             </Typography>
             <Typography variant="button" display="block" gutterBottom>
-              Username 
+              {props.username}
             </Typography>
             <Typography variant="button" display="block" gutterBottom>
-              Created At
+              {props.createdAt}
             </Typography>
           </Box>
           <Form />
         </Box>
       </Modal>
-    </div>
   );
 }

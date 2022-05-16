@@ -64,8 +64,7 @@ function ItemList(props) {
                       </Card>
                 </Grid>
               </React.Fragment>
-                  ) 
-                )}
+            ))}
           </Grid>
         </Box>
       )}

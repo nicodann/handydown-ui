@@ -1,15 +1,8 @@
 import axios from 'axios';
 import { useEffect, useState } from 'react';
 import {
-  Avatar,
   Box,
   Button,
-  Card,
-  CardActionArea,
-  CardActions,
-  CardContent,
-  CardHeader,
-  CardMedia,
   Container,
   CssBaseline,
   Grid,
@@ -55,13 +48,15 @@ function App() {
   const [foundItems, setFoundItems] = useState(items);
 
   const handleTabChange = (_event, newTabValue) => {
+    const currentTab = newTabValue;
+
     setTabValue(newTabValue);
 
-    if (tabValue === 0) {
+    if (currentTab === 0) {
       setFoundItems(items.filter((item) => item.offered === true ));
-    } else if (tabValue === 1) {
+    } else if (currentTab === 1) {
       setFoundItems(items.filter((item) => item.offered === false ));
-    } else if (tabValue === 2) {
+    } else if (currentTab === 2) {
       setFoundItems(items.filter((item) => item.userId === loggedInUserID));
     } else {
       setFoundItems(items);

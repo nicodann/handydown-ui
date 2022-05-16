@@ -22,7 +22,7 @@ import { format } from 'timeago.js';
 // }));
 
 function ItemList(props) {
-  const { tabValue, tabIndex, foundItems } = props;
+  const { tabValue, tabIndex, items } = props;
 
   return (
     <div 
@@ -33,7 +33,7 @@ function ItemList(props) {
       {tabValue === tabIndex && (
         <Box sx={{ flexGrow: 1 }}>
           <Grid container spacing={6}>
-            { foundItems.map((item) => ( 
+            { items.map((item) => ( 
               <React.Fragment key={item.id}>
                 <Grid item style={{display: 'flex'}} xs={4} >
                     <Card style={{height: '100%'}}>

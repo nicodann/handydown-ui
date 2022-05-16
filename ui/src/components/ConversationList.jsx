@@ -10,7 +10,7 @@ import {
 } from '@mui/material';
 import React from 'react';
 import Conversation from './Conversation';
-// import { format} from 'timeago.js';
+import { format} from 'timeago.js';
 
 function ConversationList(props) {
 
@@ -27,7 +27,7 @@ function ConversationList(props) {
         itemName={conversation.item.name}
         messageBody={conversation.messages[0].body}
         // createdAt={conversation.createdAt}
-        updatedAt={conversation.updatedAt}
+        updatedAt={format(conversation.updatedAt)}
       />
 
   );

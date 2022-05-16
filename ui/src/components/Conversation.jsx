@@ -7,11 +7,9 @@ import {
 function Conversation(props) {
   const {
      id, 
-     creatorName, 
-     receiverName, 
+     otherPartyName,
      itemName,
      messageBody,
-     createdAt, 
      updatedAt
    } = props;
   return (
@@ -24,7 +22,7 @@ function Conversation(props) {
         <Checkbox color="primary" />
       </TableCell>
       <TableCell component="th" scope="row">
-        {receiverName}
+        {otherPartyName}
       </TableCell>
       <TableCell align="right">{itemName}</TableCell>
       <TableCell align="right">{messageBody}</TableCell>

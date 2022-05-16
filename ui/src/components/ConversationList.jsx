@@ -10,34 +10,23 @@ import {
 } from '@mui/material';
 import React from 'react';
 import Conversation from './Conversation';
-
-// function createData(name, calories, fat, carbs, protein) {
-//   return { name, calories, fat, carbs, protein };
-// }
-
-// const rows = [
-//   createData('', 159, 6.0, 24, 4.0),
-//   createData('Ice cream sandwich', 237, 9.0, 37, 4.3),
-//   createData('Eclair', 262, 16.0, 24, 6.0),
-//   createData('Cupcake', 305, 3.7, 67, 4.3),
-//   createData('Gingerbread', 356, 16.0, 49, 3.9),
-// ];
+// import { format} from 'timeago.js';
 
 function ConversationList(props) {
 
-  const { conversations, tabValue, tabIndex } = props;
+  const { conversations, tabValue, tabIndex, loggedInUserID } = props;
 
-  console.log("receiverName", conversations[0].receiver)
-
-  const conversationsArray = conversations.map((conversation) => 
+  const conversationsArray = conversations.map((conversation) =>
       <Conversation
         key={conversation.id}
         id={conversation.id}
-        creatorName={conversation.creator.username}
-        receiverName={conversation.receiver.username}
+        otherPartyName={
+          loggedInUserID === conversation.receiver.id ? 
+          conversation.creator.username : conversation.receiver.username
+        }
         itemName={conversation.item.name}
         messageBody={conversation.messages[0].body}
-        createdAt={conversation.createdAt}
+        // createdAt={conversation.createdAt}
         updatedAt={conversation.updatedAt}
       />
 
@@ -66,65 +55,13 @@ function ConversationList(props) {
               </TableRow>
             </TableHead>
             <TableBody>
-            {conversationsArray}
-              {/* {rows.map((row) => (
-                <TableRow
-                  key={row.name}
-                  sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
-                >
-                  <TableCell>
-                    <Checkbox color="primary" />
-                  </TableCell>
-                  <TableCell component="th" scope="row">
-                    {row.name}
-                  </TableCell>
-                  <TableCell align="right">{row.calories}</TableCell>
-                  <TableCell align="right">{row.fat}</TableCell>
-                  <TableCell align="right">{row.carbs}</TableCell>
-                </TableRow>
-              ))} */}
+              {conversationsArray}
             </TableBody>
           </Table>
         </TableContainer>
       )}
     </div>
   );
-
-//   const conversationsArray = conversations.map((conversation) => (
-//     <TableRow
-//       key={conversation.id}
-//       sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
-//     >
-//       <TableCell>
-//         <Checkbox color="primary" />
-//       </TableCell>
-//       <TableCell component="th" scope="row">
-//         {conversation.creatorId}
-//       </TableCell>
-//       <TableCell align="right">{conversation.item.name}</TableCell>
-//       <TableCell align="right">{conversation.id}</TableCell>
-//       <TableCell align="right">{conversation.updatedAt}</TableCell>
-//     </TableRow>
-//   )
-// );
-
-  // const conversationsArray = conversations.map((conversation) => (
-  //     <TableRow
-  //       key={conversation.id}
-  //       sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
-  //     >
-  //       <TableCell>
-  //         <Checkbox color="primary" />
-  //       </TableCell>
-  //       <TableCell component="th" scope="row">
-  //         {conversation.creatorId}
-  //       </TableCell>
-  //       <TableCell align="right">{conversation.itemId}</TableCell>
-  //       <TableCell align="right">{conversation.id}</TableCell>
-  //       <TableCell align="right">{conversation.updatedAt}</TableCell>
-  //     </TableRow>
-  //   )
-  // );
   
 }
 

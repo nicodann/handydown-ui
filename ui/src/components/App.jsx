@@ -19,6 +19,8 @@ import SingleItemModal from './Modals/SingleItemModal';
 import MySingleItemModal from './Modals/MySingleItemModal';
 
 function App() {
+
+  const [loggedInUserID, setLoggedInUserID] = useState(1);
   
   const [items, setItems] = useState([]);
 
@@ -93,7 +95,7 @@ function App() {
         <ItemList items={items} tabValue={tabValue} tabIndex={0} />
         <ItemList items={items} tabValue={tabValue} tabIndex={1} />
         <ItemList items={items} tabValue={tabValue} tabIndex={2} />
-        <ConversationList conversations={conversations} tabValue={tabValue} tabIndex={3} />
+        <ConversationList conversations={conversations} tabValue={tabValue} tabIndex={3} loggedInUserID={loggedInUserID}/>
       </Container>
       <SingleMessage />
       <SingleItemModal />

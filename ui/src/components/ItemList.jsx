@@ -34,7 +34,7 @@ function ItemList(props) {
 
   const [open, setOpen] = useState(false);
   // const handleOpen = () => setOpen(true);
-  const handleClose = () => setOpen(false);
+  // const handleClose = () => setOpen(false);
   const [modalProps, setModalProps] = useState(
     { 
       id: null,
@@ -85,8 +85,6 @@ function ItemList(props) {
             {itemListArray}
             <SingleItemModal
               key={modalProps.id}
-              open={open}
-              handleClose={() => setOpen(false)}
               name={modalProps.name}
               description={modalProps.description}
               image={modalProps.image}
@@ -94,6 +92,8 @@ function ItemList(props) {
               createdAt={modalProps.createdAt}
               userName={modalProps.user.username}
               location={modalProps.user.location}
+              open={open}
+              handleClose={() => setOpen(false)}
             />
           </Grid>
         </Box>

@@ -11,9 +11,12 @@ import {
 } from '@mui/material';
 // import { PinDrop } from '@mui/icons-material'; 
 import { format } from 'timeago.js';
+import SingleItemModal from './Modals/SingleItemModal';
 
 function Item(props) {
-  const { name, description, image, offered, createdAt, location, userName, onClick } = props;
+  const { id, name, description, image, offered, createdAt, location, userName, onClick } = props;
+
+  
 
   return (
     <Card style={{height: '100%'}} onClick={onClick}>
@@ -41,7 +44,8 @@ function Item(props) {
               <Typography display="block" gutterBottom>{userName}</Typography>
         </CardActions>
       </CardActionArea>
-      </Card>
+    </Card>
+  
   );
 }
 

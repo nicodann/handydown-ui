@@ -25,42 +25,42 @@ const style = {
 
 export default function SingleItemModal(props) {
 
+  const { open, handleClose, image, name, description, userName, location, createdAt } = props;
+
   return (
       <Modal
-        open={props.open}
-        // open={open}
-        onClose={props.handleClose}
-        // onClose={handleClose}
+        open={open}
+        onClose={handleClose}
         aria-labelledby="modal-modal-title"
         aria-describedby="modal-modal-description"
       >
         <Box sx={style}>
           <Box
-            component={props.image}
+            // component={image}
             sx={{
               height: 233,
               width: 350,
               maxHeight: { xs: 233, md: 167 },
               maxWidth: { xs: 350, md: 250 },
             }}
-            alt={props.name}
-            src={require('../../images/baseball-glove.jpg')}
+            // alt={name}
+            // src={require('../../images/baseball-glove.jpg')}
           />
           <Typography id="modal-modal-title" variant="h6" component="h2">
-            {props.name}
+            {name}
           </Typography>
           <Typography id="modal-modal-description" sx={{ mt: 2 }}>
-            {props.description}
+            {description}
           </Typography>
           <Box display="flex" justifyContent="space-between" alignItems="center" sx={{ pt: 3 }}>
             <Typography variant="button" display="block" gutterBottom>
-              {props.location} 
+              {location} 
             </Typography>
             <Typography variant="button" display="block" gutterBottom>
-              {props.username}
+              {userName}
             </Typography>
             <Typography variant="button" display="block" gutterBottom>
-              {props.createdAt}
+              {createdAt}
             </Typography>
           </Box>
           <Form />

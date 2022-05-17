@@ -1,4 +1,5 @@
 import React from 'react';
+import { useState } from 'react';
 // import { styled } from '@mui/material/styles';
 import { Box, Grid } from '@mui/material';
 // import { Box, Grid, Paper } from '@mui/material';
@@ -31,9 +32,25 @@ function ItemList(props) {
 
   //MODAL STATE LOGIC
 
-  const [open, setOpen] = React.useState(false);
+  const [open, setOpen] = useState(false);
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
+  const [modalProps, setModalProps] = useState(
+    { 
+      id: null,
+      name: '', 
+      description: '', 
+      image: '', 
+      offered: true,
+      user: { username: '', location: ''}, 
+      createdAt: ''
+    }
+  )
+
+  const openModal = (props) => {
+    handleOpen()
+    setModalProps(props)
+  }
 
   const itemListArray = filteredItemsArray.map((item) => 
     (
@@ -41,6 +58,7 @@ function ItemList(props) {
         <Grid item style={{display: 'flex'}} xs={4} >
           <Item
             key={item.id}
+            id={item.id}
             name={item.name}
             description={item.description}
             image={item.image}
@@ -48,31 +66,13 @@ function ItemList(props) {
             createdAt={item.createdAt}
             userName={item.user.username}
             location={item.user.location}
-            onClick={handleOpen}
+            onClick={() => openModal(item)}
           />
         </Grid>
       </React.Fragment>
     )
   );
 
- 
-
-  const itemModalsArray = filteredItemsArray.map((itemModal) =>
-    (
-      <SingleItemModal
-        key={itemModal.id}
-        open={open}
-        onClose={handleClose}
-        name={itemModal.name}
-        description={itemModal.description}
-        image={itemModal.image}
-        offered={itemModal.offered}
-        createdAt={itemModal.createdAt}
-        userName={itemModal.user.username}
-        location={itemModal.user.location}
-      />
-    )
-  )
   return (
     <div 
       role="tabpanel"
@@ -83,7 +83,18 @@ function ItemList(props) {
         <Box sx={{ flexGrow: 1 }}>
           <Grid container spacing={6}>
             {itemListArray}
-            {itemModalsArray}
+            <SingleItemModal
+              key={modalProps.id}
+              open={open}
+              handleClose={handleClose}
+              name={modalProps.name}
+              description={modalProps.description}
+              image={modalProps.image}
+              offered={modalProps.offered}
+              createdAt={modalProps.createdAt}
+              userName={modalProps.user.username}
+              location={modalProps.user.location}
+            />
           </Grid>
         </Box>
       )}

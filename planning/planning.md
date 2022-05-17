@@ -52,20 +52,18 @@ As parents know, signing your kids up for a new activity often means spending a 
 * Message form at bottom of modal. If hit 'reply/submit' button,  
   * Logged-in user - stays on single_item_modal, says "message successfully sent"
   * Not-logged-in user taken to Login Page
-
-### 5. My_single_item_modal
-* Same as single_item_modal except,
+* For my_items - same as single_item_modal except,
   * there is no reply form at bottom
   * includes a delete button - deleting item takes user to my_items_page
 
-### 6. New_item_form_modal
+### 5. New_item_form_modal
 * User is presented with a form with which to post a new item (see details below)
 * Submitting takes user to ....My items page?  Or just back to all items with an alert saying post successful?  Or the option of both?
 
-### 7. My_messages_page
+### 6. My_messages_page
 * User can click on a conversation and is taken to single_conversation_modal 
 
-### 8. Single_conversation_modal
+### 7. Single_conversation_modal
 * Shows history of conversation
 * reply form at bottom
 * hitting submit on reply button turns the reply into a message and a new blank form is shown at the bottom.
@@ -182,26 +180,23 @@ As parents know, signing your kids up for a new activity often means spending a 
   * messages#create
   * Save a new message to the database
 
-## VII. React Components
+### Images
 
-* offered_items_page, wanted_items_page, and my_items_page:
-  * ItemList
-  * ItemListCard
-* my_messages page:
-  * ConversationList
-  * ConversationListRow
-* all modals:
-  * Modal
-* Single_conversation_modal:
-  * MessageList
-  * MessageListMessage
-* Single_item_modal and Single_conversation_modal:
-  * ReplyForm
-* Miscellaneous:
-  * Application
-  * Button
-  * Tab
-  * Link
+* POST /api/images
+  * images#create
+  * Upload a new image to the database
+
+## VII. React Components
+* App
+* Item
+* ItemList
+* Conversation
+* ConversationList
+* Modals/
+  * SingleItemModal
+  * SingleConversationModal
+  * Form
+  * NewItemModal
 
 ## VIII. Stretch Goals
 * Register_page

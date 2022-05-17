@@ -1,15 +1,13 @@
-// import Box from '@mui/material/Box';
-// import Button from '@mui/material/Button';
-// import Typography from '@mui/material/Typography';
-// import Modal from '@mui/material/Modal';
 import React from 'react';
 import Form from './Form';
 import {
   Box,
-  // Button,
+  Button,
   Typography,
   Modal
-} from '@mui/material'
+} from '@mui/material';
+import DeleteIcon from '@mui/icons-material/Delete';
+import { format } from 'timeago.js';
 
 const style = {
   position: 'absolute',
@@ -25,7 +23,7 @@ const style = {
 
 export default function SingleItemModal(props) {
 
-  const { open, handleClose, image, name, description, userName, location, createdAt } = props;
+  const { open, handleClose, image, name, description, userName, location, createdAt, loggedInUserID } = props;
 
   return (
       <Modal
@@ -60,10 +58,12 @@ export default function SingleItemModal(props) {
               {userName}
             </Typography>
             <Typography variant="button" display="block" gutterBottom>
-              {createdAt}
+              {format(createdAt)}
             </Typography>
           </Box>
-          <Form />
+          {loggedInUserID ? <Button variant="contained" startIcon={<DeleteIcon />}>
+        Delete
+      </Button> : <Form />}
         </Box>
       </Modal>
   );

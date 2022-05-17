@@ -2,24 +2,24 @@ require('dotenv').config();
 
 const express = require('express');
 const cookieSession = require('cookie-session');
-const logger = require('morgan');
+const morgan = require('morgan');
+const fileUpload = require('express-fileupload');
 
 const app = express();
 
-app.use(logger('dev')); // log HTTP requests and errors to console
+app.use(express.static('assets'));
+app.use(morgan('dev')); // log HTTP requests and errors to console
 app.use(express.json({ extended: false })); // parse requests of content-type - application/x-www-form-urlencoded
 app.use(cookieSession({ name: 'session', keys: ['key1'] }));
+app.use(fileUpload());
 
 const db = require("./models");
-// db.sequelize.sync({ force: true }).then(() => {
-  //   console.log("Drop and re-sync db.");
-  // });
 
-//require routes here after app is defined?
 require("./routes/items.routes")(app);
 require("./routes/users.routes")(app);
-require("./routes/conversations.routes")(app)
-require("./routes/messages.routes")(app)
+require("./routes/conversations.routes")(app);
+require("./routes/messages.routes")(app);
+require("./routes/images.routes")(app);
 
 app.get('/', (req, res) => {
   res.json({"message": 'Welcome to the HandyDown API'});
@@ -42,5 +42,3 @@ const startApp = async () => {
 }
 
 startApp();
-
-

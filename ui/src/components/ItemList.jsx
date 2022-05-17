@@ -1,34 +1,15 @@
 import React from 'react';
 import { useState } from 'react';
-// import { styled } from '@mui/material/styles';
-import { Box, Grid } from '@mui/material';
-// import { Box, Grid, Paper } from '@mui/material';
+import { 
+  Box,
+  Grid,
+  Typography,
+} from '@mui/material';
 import Item from './Item';
 import SingleItemModal from './Modals/SingleItemModal';
 
-// const Item = styled(Paper)(({ theme }) => ({
-//   backgroundColor: theme.palette.mode === 'dark' ? '#1A2027' : '#fff',
-//   ...theme.typography.body2,
-//   padding: theme.spacing(1),
-//   textAlign: 'center',
-//   color: theme.palette.text.secondary,
-// }));
-
 function ItemList(props) {
   const { tabValue, tabIndex, items } = props;
-
-  const userId = 1; // *** HARD CODED FOR NOW ***
-  let filteredItemsArray;
-
-  if (tabValue === 0) {
-    filteredItemsArray = items.filter((item) => item.offered === true );
-  } else if (tabValue === 1) {
-    filteredItemsArray = items.filter((item) => item.offered === false );
-  } else if (tabValue === 2) {
-    filteredItemsArray = items.filter((item) => item.userId === userId);
-  } else {
-    filteredItemsArray = items;
-  }
 
   //MODAL STATE LOGIC
 
@@ -52,27 +33,6 @@ function ItemList(props) {
     setOpen(true)
   }
 
-  const itemListArray = filteredItemsArray.map((item) => 
-    (
-      <React.Fragment key={item.id}>
-        <Grid item style={{display: 'flex'}} xs={4} >
-          <Item
-            key={item.id}
-            id={item.id}
-            name={item.name}
-            description={item.description}
-            image={item.image}
-            offered={item.offered}
-            createdAt={item.createdAt}
-            userName={item.user.username}
-            location={item.user.location}
-            onClick={() => openModal(item)}
-          />
-        </Grid>
-      </React.Fragment>
-    )
-  );
-
   return (
     <div 
       role="tabpanel"
@@ -80,10 +40,25 @@ function ItemList(props) {
       id={`simple-tabpanel-${tabIndex}`}
     >
       {tabValue === tabIndex && (
+        items && items.length > 0 ? (
         <Box sx={{ flexGrow: 1 }}>
           <Grid container spacing={6}>
-            {itemListArray}
-            <SingleItemModal
+           
+              { items.map((item) => ( 
+                <Item
+                  key={item.id}
+                  id={item.id}
+                  offered={item.offered}
+                  name={item.name}
+                  createdAt={item.createdAt}
+                  image={item.image}
+                  description={item.description}
+                  location={item.user.location}
+                  username={item.user.username}
+                  onClick={() => openModal(item)}
+                />
+              ))}
+               <SingleItemModal
               key={modalProps.id}
               name={modalProps.name}
               description={modalProps.description}
@@ -97,6 +72,11 @@ function ItemList(props) {
             />
           </Grid>
         </Box>
+      ) : (
+        <Box display='flex' justifyContent='center'>
+        <Typography variant="body2">No results found!</Typography>
+        </Box>
+      )
       )}
     </div>
   );

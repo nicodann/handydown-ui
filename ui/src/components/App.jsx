@@ -81,7 +81,7 @@ function App() {
     <>
       <CssBaseline />
       {/* NAVBAR */}
-      <Grid container justifyContent="space-between" alignItems="center" sx={{ py: 3, px: 2 }}>
+      <Grid container gutterBottom justifyContent="space-between" alignItems="center" sx={{ py: 3, px: 2, borderBottom: 1, borderColor: 'divider' }}>
         {/* NAVBAR--LOGO */}
         <Grid item xs="auto" style={{display: 'flex', justifyContent: 'space-between', alignItems: 'center'}}>
           <VolunteerActivism sx={{ color: 'primary.main', fontSize: 40 }}/>
@@ -93,13 +93,13 @@ function App() {
             {/* <Button variant="text">register</Button> */}
             {/* <Button variant="text">login</Button> */}
             <Avatar sx={{bgcolor: 'primary.main'}}>N</Avatar>
-            <Button variant="text">logout</Button>
-            <Button color="primary" variant="contained">Post Ad</Button>
+            <Button variant="text">Logout</Button>
+            <Button color="primary" variant="contained">Post Item</Button>
           </Stack>
         </Grid>
       </Grid>
       {/* TABBAR */}
-      <Box display="flex" justifyContent="center" alignItems="center" sx={{ borderBottom: 1, borderColor: 'divider' }}>
+      <Box display="flex" justifyContent="center" alignItems="center" sx={{ pt: 1, borderBottom: 1, borderColor: 'divider' }}>
         <Tabs value={tabValue} onChange={handleTabChange}>
           <Tab label="Offers" />
           <Tab label="Wanted" />

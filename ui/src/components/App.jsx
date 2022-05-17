@@ -1,11 +1,13 @@
 import axios from 'axios';
 import { useEffect, useState } from 'react';
 import {
+  Avatar,
   Box,
   Button,
   Container,
   CssBaseline,
   Grid,
+  Stack,
   Tabs,
   Tab,
   TextField,
@@ -81,19 +83,19 @@ function App() {
       {/* NAVBAR */}
       <Grid container justifyContent="space-between" alignItems="center" sx={{ py: 3, px: 2 }}>
         {/* NAVBAR--LOGO */}
-        <Grid item xs="auto">
-          <VolunteerActivism sx={{ fontSize: 60 }}/>
-          <Typography variant="h3" component="div">HandyDown</Typography>
+        <Grid item xs="auto" style={{display: 'flex', justifyContent: 'space-between', alignItems: 'center'}}>
+          <VolunteerActivism sx={{ color: 'primary.main', fontSize: 40 }}/>
+          <Typography variant="h5" sx={{ml: 2, color: 'primary.main'}}>HandyDown</Typography>
         </Grid>
         {/* NAVBAR--BUTTONTRAY */}
         <Grid item xs="auto">
-        <div>
-          {/* <Button variant="text">register</Button> */}
-          {/* <Button variant="text">login</Button> */}
-          <Button variant="disabled">userName</Button>
-          <Button variant="text">logout</Button>
-          <Button variant="contained" sx={{ ml: 1 }}>Post Ad</Button>
-        </div>
+          <Stack direction="row" spacing={2}>
+            {/* <Button variant="text">register</Button> */}
+            {/* <Button variant="text">login</Button> */}
+            <Avatar sx={{bgcolor: 'primary.main'}}>N</Avatar>
+            <Button variant="text">logout</Button>
+            <Button color="primary" variant="contained">Post Ad</Button>
+          </Stack>
         </Grid>
       </Grid>
       {/* TABBAR */}

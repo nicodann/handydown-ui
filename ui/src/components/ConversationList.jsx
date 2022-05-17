@@ -89,13 +89,13 @@ function ConversationList(props) {
             </TableHead>
             <TableBody>
               {conversationsArray}
-              <SingleConversationModal 
-                open={open}
-                handleClose={handleClose}
+              {/* <SingleConversationModal 
                 username={modalProps.username}
                 dateCreated={modalProps.dateCreated}
                 body={modalProps.body}
-              />
+                open={open}
+                handleClose={handleClose}
+              /> */}
             </TableBody>
           </Table>
         </TableContainer>

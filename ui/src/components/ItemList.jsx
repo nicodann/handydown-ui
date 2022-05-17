@@ -33,7 +33,7 @@ function ItemList(props) {
   //MODAL STATE LOGIC
 
   const [open, setOpen] = useState(false);
-  const handleOpen = () => setOpen(true);
+  // const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
   const [modalProps, setModalProps] = useState(
     { 
@@ -48,8 +48,8 @@ function ItemList(props) {
   )
 
   const openModal = (props) => {
-    handleOpen()
     setModalProps(props)
+    setOpen(true)
   }
 
   const itemListArray = filteredItemsArray.map((item) => 
@@ -86,7 +86,7 @@ function ItemList(props) {
             <SingleItemModal
               key={modalProps.id}
               open={open}
-              handleClose={handleClose}
+              handleClose={() => setOpen(false)}
               name={modalProps.name}
               description={modalProps.description}
               image={modalProps.image}

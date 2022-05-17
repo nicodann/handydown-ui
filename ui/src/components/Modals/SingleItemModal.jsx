@@ -38,13 +38,13 @@ export default function SingleItemModal(props) {
           <Box
             // component={image}
             sx={{
-              height: 233,
-              width: 350,
+              height: 100,
               maxHeight: { xs: 233, md: 167 },
               maxWidth: { xs: 350, md: 250 },
             }}
-            // alt={name}
-            // src={require('../../images/baseball-glove.jpg')}
+            alt={name}
+            src={require(`../../images/baseball-glove.jpg`)}
+            // src={require(`../../images/${image}`)}
           />
           <Typography id="modal-modal-title" variant="h6" component="h2">
             {name}

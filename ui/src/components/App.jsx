@@ -16,9 +16,9 @@ import {
 import { VolunteerActivism } from '@mui/icons-material';
 import ItemList from './ItemList';
 import ConversationList from './ConversationList';
-import SingleMessage from './Modals/SingleConversation';
-import SingleItemModal from './Modals/SingleItemModal';
-import MySingleItemModal from './Modals/MySingleItemModal';
+// import SingleMessage from './Modals/SingleConversation';
+// import SingleItemModalLogic from './Modals/SingleItemModalLogic';
+// import MySingleItemModal from './Modals/MySingleItemModal';
 
 function App() {
 
@@ -118,9 +118,9 @@ function App() {
         <ItemList items={name !== '' ? foundItems : tabbedItems} tabValue={tabValue} tabIndex={2} />
         <ConversationList conversations={conversations} tabValue={tabValue} tabIndex={3} loggedInUserID={loggedInUserID}/>
       </Container>
-      <SingleMessage />
-      <SingleItemModal />
-      <MySingleItemModal />
+      {/* <SingleMessage /> */}
+      {/* <SingleItemModalLogic /> */}
+      {/* <MySingleItemModal /> */}
     </>
   ); 
 }

@@ -1,5 +1,4 @@
 import { 
-  Avatar,
   Button,
   Card,
   CardActionArea,
@@ -13,10 +12,11 @@ import {
 import { format } from 'timeago.js';
 
 function Item(props) {
-  const { offered, name, createdAt, image, description, location, username } = props;
+  
+  const { offered, name, createdAt, image, description, location, username, onClick } = props;
     return (
     <Grid item style={{display: 'flex'}} xs={4} >
-      <Card style={{height: '100%'}}>
+      <Card style={{height: '100%'}} onClick={onClick}>
         <CardActionArea style={{display: 'flex', flexDirection: 'column', alignItems: 'start', width: '100%', height: '100%'}} > 
           <CardHeader
             style={{justifyContent: 'space-between', width: '100%'}}

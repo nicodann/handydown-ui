@@ -6,7 +6,7 @@ import React from 'react';
 import Form from './Form';
 import {
   Box,
-  Button,
+  // Button,
   Typography,
   Modal
 } from '@mui/material'
@@ -23,14 +23,11 @@ const style = {
   p: 4,
 };
 
-export default function SingleItemModal() {
-  const [open, setOpen] = React.useState(false);
-  const handleOpen = () => setOpen(true);
-  const handleClose = () => setOpen(false);
+export default function SingleItemModal(props) {
+
+  const { open, handleClose, image, name, description, userName, location, createdAt } = props;
 
   return (
-    <div>
-      <Button onClick={handleOpen}>Single Item Modal</Button>
       <Modal
         open={open}
         onClose={handleClose}
@@ -39,36 +36,35 @@ export default function SingleItemModal() {
       >
         <Box sx={style}>
           <Box
-            component="img"
+            // component={image}
             sx={{
-              height: 233,
-              width: 350,
+              height: 100,
               maxHeight: { xs: 233, md: 167 },
               maxWidth: { xs: 350, md: 250 },
             }}
-            alt="Baseball Glove"
-            src={require('../../images/baseball-glove.jpg')}
+            alt={name}
+            src={require(`../../images/baseball-glove.jpg`)}
+            // src={require(`../../images/${image}`)}
           />
           <Typography id="modal-modal-title" variant="h6" component="h2">
-            Baseball Glove
+            {name}
           </Typography>
           <Typography id="modal-modal-description" sx={{ mt: 2 }}>
-            Duis mollis, est non commodo luctus, nisi erat porttitor ligula.
+            {description}
           </Typography>
           <Box display="flex" justifyContent="space-between" alignItems="center" sx={{ pt: 3 }}>
             <Typography variant="button" display="block" gutterBottom>
-              Location 
+              {location} 
             </Typography>
             <Typography variant="button" display="block" gutterBottom>
-              Username 
+              {userName}
             </Typography>
             <Typography variant="button" display="block" gutterBottom>
-              Created At
+              {createdAt}
             </Typography>
           </Box>
           <Form />
         </Box>
       </Modal>
-    </div>
   );
 }

@@ -8,8 +8,9 @@ import {
   Paper,
   Checkbox 
 } from '@mui/material';
-import React from 'react';
+import {React, useState} from 'react';
 import Conversation from './Conversation';
+import SingleConversationModal from './Modals/SingleConversationModal'
 import { format} from 'timeago.js';
 
 function ConversationList(props) {
@@ -23,10 +24,33 @@ function ConversationList(props) {
   const findOtherPartyName = (conversation, loggedInUserID) => {
     return loggedInUserID === conversation.receiver.id ? conversation.creator.username : conversation.receiver.username
   }
+
+  //MODAL STATE LOGIC
+
+  const [open, setOpen] = useState(false);
+  const handleOpen = () => setOpen(true);
+  const handleClose = () => setOpen(false);
+  const [modalProps, setModalProps] = useState(
+    { 
+      id: null,
+      name: '', 
+      description: '', 
+      image: '', 
+      offered: true,
+      user: { username: '', location: ''}, 
+      createdAt: ''
+    }
+  )
+
+  const openModal = (props) => {
+    handleOpen()
+    setModalProps(props)
+  }
   
 
   const conversationsArray = conversations.map((conversation) =>
       <Conversation
+        onClick={() => openModal(conversation)}
         key={conversation.id}
         id={conversation.id}
         otherPartyName={findOtherPartyName(conversation, loggedInUserID)}
@@ -65,6 +89,13 @@ function ConversationList(props) {
             </TableHead>
             <TableBody>
               {conversationsArray}
+              {/* <SingleConversationModal 
+                username={modalProps.username}
+                dateCreated={modalProps.dateCreated}
+                body={modalProps.body}
+                open={open}
+                handleClose={handleClose}
+              /> */}
             </TableBody>
           </Table>
         </TableContainer>

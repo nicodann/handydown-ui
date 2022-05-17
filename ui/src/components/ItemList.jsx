@@ -1,22 +1,37 @@
 import React from 'react';
-// import { styled } from '@mui/material/styles';
+import { useState } from 'react';
 import { 
   Box,
   Grid,
   Typography,
 } from '@mui/material';
 import Item from './Item';
-
-// const Item = styled(Paper)(({ theme }) => ({
-//   backgroundColor: theme.palette.mode === 'dark' ? '#1A2027' : '#fff',
-//   ...theme.typography.body2,
-//   padding: theme.spacing(1),
-//   textAlign: 'center',
-//   color: theme.palette.text.secondary,
-// }));
+import SingleItemModal from './Modals/SingleItemModal';
 
 function ItemList(props) {
   const { tabValue, tabIndex, items } = props;
+
+  //MODAL STATE LOGIC
+
+  const [open, setOpen] = useState(false);
+  // const handleOpen = () => setOpen(true);
+  // const handleClose = () => setOpen(false);
+  const [modalProps, setModalProps] = useState(
+    { 
+      id: null,
+      name: '', 
+      description: '', 
+      image: '', 
+      offered: true,
+      user: { username: '', location: ''}, 
+      createdAt: ''
+    }
+  )
+
+  const openModal = (props) => {
+    setModalProps(props)
+    setOpen(true)
+  }
 
   return (
     <div 
@@ -28,9 +43,11 @@ function ItemList(props) {
         items && items.length > 0 ? (
         <Box sx={{ flexGrow: 1 }}>
           <Grid container spacing={6}>
+           
               { items.map((item) => ( 
                 <Item
                   key={item.id}
+                  id={item.id}
                   offered={item.offered}
                   name={item.name}
                   createdAt={item.createdAt}
@@ -38,8 +55,21 @@ function ItemList(props) {
                   description={item.description}
                   location={item.user.location}
                   username={item.user.username}
+                  onClick={() => openModal(item)}
                 />
               ))}
+               <SingleItemModal
+              key={modalProps.id}
+              name={modalProps.name}
+              description={modalProps.description}
+              image={modalProps.image}
+              offered={modalProps.offered}
+              createdAt={modalProps.createdAt}
+              userName={modalProps.user.username}
+              location={modalProps.user.location}
+              open={open}
+              handleClose={() => setOpen(false)}
+            />
           </Grid>
         </Box>
       ) : (

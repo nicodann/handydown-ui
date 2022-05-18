@@ -51,7 +51,6 @@ function ConversationList(props) {
       otherPartyName={findOtherPartyName(conversation, loggedInUserID)}
       itemName={conversation.item.name}
       messageBody={findLatestMessageBody(conversation)}
-      // createdAt={conversation.createdAt}
       updatedAt={format(conversation.updatedAt)}
       onClick={() => openModal(conversation)}
       />
@@ -91,6 +90,8 @@ function ConversationList(props) {
                 image={modalProps.item.image}
                 name={modalProps.item.name}
                 messages={modalProps.messages}
+                creator={modalProps.creator}
+                receiver={modalProps.receiver}
               /> 
             </TableBody>
           </Table>

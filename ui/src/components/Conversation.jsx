@@ -13,6 +13,7 @@ function Conversation(props) {
      updatedAt,
      onClick
    } = props;
+
   return (
     
     <TableRow

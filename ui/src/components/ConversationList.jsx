@@ -26,41 +26,34 @@ function ConversationList(props) {
   }
 
   //MODAL STATE LOGIC
-
-  {console.log("conversation:", conversations[0])}
   
 
   const [open, setOpen] = useState(false);
-  const handleOpen = () => setOpen(true);
-  const handleClose = () => setOpen(false);
+  // const handleOpen = () => setOpen(true);
+  // const handleClose = () => setOpen(false);
   const [modalProps, setModalProps] = useState({
-    item: {
-      image: '',
-      name:''
-    }
+    creator:{id: null, username: ""},
+    receiver: {id: null, username: ""},
+    item: {name: '', image: ''},
+    messages: [{id: null, createdAt: null, body: ''}],
   })
 
-  setModalProps(prevState => conversations[0])
-
-
-  {console.log("modalProps:",modalProps)}
-
   const openModal = (props) => {
-    handleOpen()
+    setOpen(true)
     setModalProps(props)
   }
   
 
   const conversationsArray = conversations.map((conversation) =>
       <Conversation
-        onClick={() => openModal(conversation)}
-        key={conversation.id}
-        id={conversation.id}
-        otherPartyName={findOtherPartyName(conversation, loggedInUserID)}
-        itemName={conversation.item.name}
-        messageBody={findLatestMessageBody(conversation)}
-        // createdAt={conversation.createdAt}
-        updatedAt={format(conversation.updatedAt)}
+      key={conversation.id}
+      id={conversation.id}
+      otherPartyName={findOtherPartyName(conversation, loggedInUserID)}
+      itemName={conversation.item.name}
+      messageBody={findLatestMessageBody(conversation)}
+      // createdAt={conversation.createdAt}
+      updatedAt={format(conversation.updatedAt)}
+      onClick={() => openModal(conversation)}
       />
 
   );
@@ -92,16 +85,12 @@ function ConversationList(props) {
             </TableHead>
             <TableBody>
               {conversationsArray}
-              
-              {/* <SingleConversationModal /> */}
               <SingleConversationModal 
-                otherPartyName={findOtherPartyName(modalProps, loggedInUserID)}
-                image={modalProps.image}
-                name={modalProps.name}
-                dateCreated={modalProps.dateCreated}
-                body={modalProps.body}
                 open={open}
-                handleClose={handleClose}
+                handleClose={() => setOpen(false)}
+                image={modalProps.item.image}
+                name={modalProps.item.name}
+                messages={modalProps.messages}
               /> 
             </TableBody>
           </Table>

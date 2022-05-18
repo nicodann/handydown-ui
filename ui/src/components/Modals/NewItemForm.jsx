@@ -12,7 +12,8 @@
   } from '@mui/material';
 
   function NewItemForm(props) {
-    // const { userId } = props;
+    // const { userId, setITEMs } = props;
+    const { handleNewItem } = props;
 
     const [formValue, setFormValue] = useState({
       userId: 1,
@@ -46,12 +47,13 @@
       const imagefile = document.querySelector("#file");
       newItemFormData.append("imageFile", imagefile.files[0]);
       try {
-        await axios({
+        const response = await axios({
           method: 'post',
           url: '/api/items',
           data: newItemFormData,
           headers: { "Content-Type": "multipart/form-data" },
         });
+        handleNewItem(response.data);
       } catch(error) {
         console.log(error);
       }

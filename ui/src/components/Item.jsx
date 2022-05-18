@@ -22,7 +22,7 @@ function Item(props) {
             style={{justifyContent: 'space-between', width: '100%'}}
             title={name}
             subheader={format(createdAt)}
-            action={ offered ? <Button color="success">Offered</Button> : <Button color="error">Wanted</Button>}
+            action={ offered ? <Button component="div" color="success">Offered</Button> : <Button component="div" color="error">Wanted</Button>}
           />
           <CardMedia
             component="img"

@@ -17,9 +17,6 @@ import { VolunteerActivism } from '@mui/icons-material';
 import ItemList from './ItemList';
 import ConversationList from './ConversationList';
 import NewItemForm from './Modals/NewItemForm';
-// import SingleMessage from './Modals/SingleConversation';
-// import SingleItemModalLogic from './Modals/SingleItemModalLogic';
-// import MySingleItemModal from './Modals/MySingleItemModal';
 
 function App() {
 
@@ -51,6 +48,14 @@ function App() {
       .catch();
     }, []);
 
+  const handleNewItem = async (newItem) => {
+    const newTabbedItems = [...tabbedItems, newItem];
+    (tabValue === 0 && newItem.offered) || 
+      (tabValue === 1 && !newItem.offered) ||
+      (tabValue === 2 && newItem.userId === loggedInUserID) ? 
+      setTabbedItems(newTabbedItems) : setTabbedItems(tabbedItems);
+    setITEMS([...ITEMS, newItem]);
+  }
   const handleTabChange = (_event, newTabValue) => {
     const currentTab = newTabValue;
     setName('');
@@ -62,7 +67,6 @@ function App() {
     } else if (currentTab === 2) {
       setTabbedItems(ITEMS.filter((item) => item.userId === loggedInUserID));
     }
-
     setTabValue(currentTab);
   }
 
@@ -82,7 +86,7 @@ function App() {
     <>
       <CssBaseline />
       {/* NAVBAR */}
-      <Grid container gutterBottom justifyContent="space-between" alignItems="center" sx={{ py: 3, px: 2, borderBottom: 1, borderColor: 'divider' }}>
+      <Grid container justifyContent="space-between" alignItems="center" sx={{ py: 3, px: 2, borderBottom: 1, borderColor: 'divider' }}>
         {/* NAVBAR--LOGO */}
         <Grid item xs="auto" style={{display: 'flex', justifyContent: 'space-between', alignItems: 'center'}}>
           <VolunteerActivism sx={{ color: 'primary.main', fontSize: 40 }}/>
@@ -119,7 +123,7 @@ function App() {
         <ItemList items={name !== '' ? foundItems : tabbedItems} tabValue={tabValue} tabIndex={2} loggedInUserID={loggedInUserID} />
         <ConversationList conversations={conversations} tabValue={tabValue} tabIndex={3} loggedInUserID={loggedInUserID}/>
       </Container>
-      <NewItemForm />
+      <NewItemForm handleNewItem={handleNewItem} />
     </>
   ); 
 }

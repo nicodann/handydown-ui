@@ -75,7 +75,8 @@ console.log("UPLOAD PATH:::::::::::::::::::::::::::::::::", uploadPath)
   //save
   try {
     data = await Item.create(item);
-    res.json(data);
+    const itemPlusUser = await Item.findByPk(data.dataValues.id, { include: User });
+    res.json(itemPlusUser);
   } catch (err) {
       res.status(500).send({
         message: err.message || "An error occured while creating the Item."

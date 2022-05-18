@@ -41,7 +41,7 @@ export default function SingleItemModal(props) {
               maxWidth: { xs: 350, md: 250 },
             }}
             alt={name}
-            src={require(`../../images/baseball-glove.jpg`)}
+            src={"http://localhost:8080/images/glove2.jpg"}
             // src={require(`../../images/${image}`)}
           />
           <Typography id="modal-modal-title" variant="h6" component="h2">

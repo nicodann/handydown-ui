@@ -5,18 +5,30 @@
     Button,
     FormControl,
     FormControlLabel,
+    Modal,
     Radio,
     RadioGroup,
     TextField,
     Typography,
   } from '@mui/material';
 
+  const style = {
+    position: 'absolute',
+    top: '50%',
+    left: '50%',
+    transform: 'translate(-50%, -50%)',
+    width: 400,
+    bgcolor: 'background.paper',
+    border: '2px solid #000',
+    boxShadow: 24,
+    p: 4,
+  };
+
   function NewItemForm(props) {
-    // const { userId, setITEMs } = props;
-    const { handleNewItem } = props;
+    const { loggedInUserID, openForm, handleNewItem, handleCloseForm } = props;
 
     const [formValue, setFormValue] = useState({
-      userId: 1,
+      userId: loggedInUserID,
       name: "",
       description: "",
       offered: true,
@@ -60,67 +72,71 @@
     };
 
     return (
-      <Box sx={{ width: 400, px: 2 }}>
-        <Typography variant="h4">Post a New Item</Typography>
-          <Box component="form" onSubmit={handleSubmit} sx={{ display: "flex", flexDirection: "column"}}>
-            <FormControl>
-              <RadioGroup row name="offered" defaultValue="true" onChange={handleChange}>
-                <FormControlLabel 
-                  value="true"
-                  control={<Radio />}
-                  label="Offering"
-                />
-                <FormControlLabel
-                  value="false"
-                  control={<Radio />}
-                  label="Wanted"
-                />
-              </RadioGroup>
-            </FormControl>
-            <TextField
-              type="text"
-              name="name"
-              label="Item Name"
-              sx={{ mt: 1}}
-              onChange={handleChange}
-            />
-            <TextField
-              type="text"
-              name="description"
-              label="Description"
-              multiline
-              rows={5}
-              sx={{mt:2}}
-              onChange={handleChange}
-            />
-             <Button
-          component="label"
-          variant="outlined"
-          sx={{mt: 2}}
-        >
-          Add an Image
-          <input
-            type="file"
-            name="imageFile"
-            accept="image/*"
-            hidden
-            id="file"
-          />
-        </Button>
-            <Box sx={{ display: "flex", justifyContent: "start", mt: 2 }}>
+      <Modal
+        open={openForm}
+        onClose={handleCloseForm}
+        aria-labelledby="modal-modal-title"
+        aria-describedby="modal-modal-description"
+      >
+        <Box sx={{ style }}>
+          <Typography variant="h4">Post a New Item</Typography>
+            <Box component="form" onSubmit={handleSubmit} sx={{ display: "flex", flexDirection: "column"}}>
+              <FormControl>
+                <RadioGroup row name="offered" defaultValue="true" onChange={handleChange}>
+                  <FormControlLabel 
+                    value="true"
+                    control={<Radio />}
+                    label="Offering"
+                  />
+                  <FormControlLabel
+                    value="false"
+                    control={<Radio />}
+                    label="Wanted"
+                  />
+                </RadioGroup>
+              </FormControl>
+              <TextField
+                type="text"
+                name="name"
+                label="Item Name"
+                sx={{ mt: 1}}
+                onChange={handleChange}
+              />
+              <TextField
+                type="text"
+                name="description"
+                label="Description"
+                multiline
+                rows={5}
+                sx={{mt:2}}
+                onChange={handleChange}
+              />
               <Button
-                type="submit"
-                variant="contained"
-              >
-                Submit
-              </Button>
-              <Button variant="outlined" sx={{ml:1}}>Cancel</Button>
+            component="label"
+            variant="outlined"
+            sx={{mt: 2}}
+          >
+            Add an Image
+            <input
+              type="file"
+              name="imageFile"
+              accept="image/*"
+              hidden
+              id="file"
+            />
+          </Button>
+              <Box sx={{ display: "flex", justifyContent: "start", mt: 2 }}>
+                <Button
+                  type="submit"
+                  variant="contained"
+                >
+                  Submit
+                </Button>
+                <Button variant="outlined" sx={{ml:1}}>Cancel</Button>
+              </Box>
             </Box>
-          </Box>
-        
-       
-        
-      </Box>
+        </Box>
+      </Modal>
     )
   };
 

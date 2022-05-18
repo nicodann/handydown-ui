@@ -10,13 +10,15 @@ function Conversation(props) {
      otherPartyName,
      itemName,
      messageBody,
-     updatedAt
+     updatedAt,
+     onClick
    } = props;
   return (
     
     <TableRow
       key={id}
       sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
+      onClick={onClick}
     >
       <TableCell>
         <Checkbox color="primary" />

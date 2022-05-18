@@ -27,20 +27,23 @@ function ConversationList(props) {
 
   //MODAL STATE LOGIC
 
+  {console.log("conversation:", conversations[0])}
+  
+
   const [open, setOpen] = useState(false);
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
-  const [modalProps, setModalProps] = useState(
-    { 
-      id: null,
-      name: '', 
-      description: '', 
-      image: '', 
-      offered: true,
-      user: { username: '', location: ''}, 
-      createdAt: ''
+  const [modalProps, setModalProps] = useState({
+    item: {
+      image: '',
+      name:''
     }
-  )
+  })
+
+  setModalProps(prevState => conversations[0])
+
+
+  {console.log("modalProps:",modalProps)}
 
   const openModal = (props) => {
     handleOpen()
@@ -89,13 +92,17 @@ function ConversationList(props) {
             </TableHead>
             <TableBody>
               {conversationsArray}
-              {/* <SingleConversationModal 
-                username={modalProps.username}
+              
+              {/* <SingleConversationModal /> */}
+              <SingleConversationModal 
+                otherPartyName={findOtherPartyName(modalProps, loggedInUserID)}
+                image={modalProps.image}
+                name={modalProps.name}
                 dateCreated={modalProps.dateCreated}
                 body={modalProps.body}
                 open={open}
                 handleClose={handleClose}
-              /> */}
+              /> 
             </TableBody>
           </Table>
         </TableContainer>

@@ -63,7 +63,7 @@ export default function SingleConversationModal(props) {
     >
       <Box sx={style}>
         <Box sx={{display:"flex", justifyContent:"space-between", marginBottom: '30px'}}>
-          <Typography variant="body1">{name}</Typography>
+          <Typography variant="h5">{name}</Typography>
           <img src={image} alt={name} width={200}/>
         </Box >
         {messagesArray}

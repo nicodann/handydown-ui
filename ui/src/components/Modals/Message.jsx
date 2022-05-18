@@ -6,7 +6,7 @@ import {
 import { format } from 'timeago.js';
 
 export default function Message(props) {
-  const {user, createdAt, body } = props;
+  const {user, createdAt, body, style } = props;
   return (
     <>
       <Divider />
@@ -14,9 +14,8 @@ export default function Message(props) {
         <Typography variant="body1">{user}</Typography>
         <Typography variant="body1">{format(createdAt)}</Typography>
       </Box>
-      <Typography variant="body2" gutterBottom>{body}</Typography>
-      <Divider />
-      <Form /> 
+      <Typography variant="body2" gutterBottom sx={style}>{body}</Typography>
+      
     </>
   )
 };

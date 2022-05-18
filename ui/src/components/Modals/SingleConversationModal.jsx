@@ -22,18 +22,37 @@ const style = {
 };
 
 export default function SingleConversationModal(props) {
-  const {open, handleClose, image, name, messages} = props
+  const {
+    open, 
+    handleClose, 
+    image, 
+    name, 
+    messages, 
+    creator, 
+    receiver
+  } = props
 
-  const messagesArray = messages.map(message => {
+  const hiddenBodyStyle = {
+    height: '20px',
+    overflow:'hidden', 
+    textOverflow: 'ellipsis', 
+    whiteSpace: 'nowrap'
+  }
+
+  const messagesArray = messages.map((message, index) => {
+    const bodyStyle = (index === messages.length - 1) ? {...hiddenBodyStyle, ...{ height: 'auto', overflow: 'visible', whiteSpace: 'wrap' } } : hiddenBodyStyle;
     return (
         <Message
           key={message.id}
-          user={message.userId}
+          user={creator.id === message.userId ? creator.username : receiver.username}
           createdAt={message.createdAt}
           body={message.body}
+          style={bodyStyle}
         />
     )
   })
+
+  
 
   return (
     <Modal
@@ -43,19 +62,12 @@ export default function SingleConversationModal(props) {
       aria-describedby="modal-modal-description"
     >
       <Box sx={style}>
-        <Box sx={{display:"flex", justifyContent:"space-between"}}>
+        <Box sx={{display:"flex", justifyContent:"space-between", marginBottom: '30px'}}>
           <Typography variant="body1">{name}</Typography>
           <img src={image} alt={name} width={200}/>
-        </Box>
+        </Box >
         {messagesArray}
-        {/* <Divider />
-        <Box sx={{display:"flex", justifyContent:"space-between"}}>
-          <Typography variant="body1">{messages[0].userId}</Typography>
-          <Typography variant="body1">{format(messages[0].createdAt)}</Typography>
-        </Box>
-        <Typography variant="body2" gutterBottom>{messages[0].body}</Typography>
-        <Divider />
-        <Form /> */}
+        <Form />
       </Box>
       
       

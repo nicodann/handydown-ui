@@ -55,7 +55,7 @@
             variant="contained" 
             sx={{width: 150, mt: 3.5}}
           >
-            Submit
+            Post Item
           </Button>
         </Box>
       )

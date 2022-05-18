@@ -27,6 +27,10 @@ function App() {
   const [name, setName] = useState("");
   const [conversations, setConversations] = useState([]);
   const [loggedInUserID, setLoggedInUserID] = useState(1);
+  const [openForm, setOpenForm] = useState(false);
+
+  const handleOpenForm = () => setOpenForm(true);
+  const handleCloseForm = () => setOpenForm(false); 
 
   useEffect(() => {
     axios.get("/api/items")
@@ -99,7 +103,8 @@ function App() {
             {/* <Button variant="text">login</Button> */}
             <Avatar sx={{bgcolor: 'primary.main'}}>N</Avatar>
             <Button variant="text">Logout</Button>
-            <Button color="primary" variant="contained">Post Item</Button>
+            <Button color="primary" variant="contained" onClick={handleOpenForm}>Post Item</Button>
+            <NewItemForm openForm={openForm} handleNewItem={handleNewItem} loggedInUserID={loggedInUserID} handleCloseForm={handleCloseForm} />
           </Stack>
         </Grid>
       </Grid>
@@ -123,7 +128,7 @@ function App() {
         <ItemList items={name !== '' ? foundItems : tabbedItems} tabValue={tabValue} tabIndex={2} loggedInUserID={loggedInUserID} />
         <ConversationList conversations={conversations} tabValue={tabValue} tabIndex={3} loggedInUserID={loggedInUserID}/>
       </Container>
-      <NewItemForm handleNewItem={handleNewItem} />
+      
     </>
   ); 
 }

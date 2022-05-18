@@ -1,62 +1,72 @@
     import {
       Box,
-      Typography,
-      Grid,
-      Switch,
+      Button,
+      FormControl,
+      FormControlLabel,
+      Radio,
+      RadioGroup,
       TextField,
-      Button
+      Typography,
     } from '@mui/material';
 
     function NewItemForm(props) {
       return (
-        <Box
-          component="form"
-          style={{display: "flex", flexDirection: "column"}} 
-          sx={{ px: 2}}
-        >
+        <Box sx={{ width: 400, px: 2 }}>
           <Typography variant="h4">Post a New Item</Typography>
-          <Grid component="label" container alignItems="center" sx={{ width: 400, mt: 0.5 }}> 
-            <Grid item>Wanted</Grid>
-            <Grid item>
-              <Switch
-                defaultChecked
-              />
-            </Grid>
-            <Grid item>Offering</Grid>
-          </Grid>
-          <br />
-          <TextField
-            sx={{ width: 400}}
-            type="text"
-            label="Item Name"
-            variant="outlined"
-          />
-          <br />
-          <TextField
-            sx={{ width: 400, mt: 1 }}
-            type="text"
-            label="Description"
-            variant="outlined"
-            multiline
-            rows={5}
-          />
-          <br />
-          <Button
-            variant="outlined"
-            component="label"
-            sx={{ width: 150, mt: 1 }}
-          >Add an Image
-            <input
-              type="file"
-              hidden
-            />
-          </Button>
-          <Button
-            variant="contained" 
-            sx={{width: 150, mt: 3.5}}
+          
+          <form 
+            action="http://localhost:8080/api/items"
+            method="POST"
+            encType="multipart/form-data"
           >
-            Post Item
-          </Button>
+            <Box sx={{ display: "flex", flexDirection: "column"}}>
+              <FormControl>
+                <RadioGroup row name="offered" defaultValue="true">
+                  <FormControlLabel 
+                    value="true"
+                    control={<Radio />}
+                    label="Offering"
+                  />
+                  <FormControlLabel
+                    value="false"
+                    control={<Radio />}
+                    label="Wanted"
+                  />
+                </RadioGroup>
+              </FormControl>
+              <TextField
+                type="text"
+                name="name"
+                label="Item Name"
+                sx={{ mt: 1}}
+              />
+              <TextField
+                type="text"
+                name="description"
+                label="Description"
+                multiline
+                rows={5}
+                sx={{mt:2}}
+              />
+              <Button
+                component="label"
+                variant="outlined"
+                sx={{mt: 2}}
+              >
+                Add an Image
+                <input
+                  type="file"
+                  name="image"
+                  accept="image/*"
+                  hidden
+                />
+              </Button>
+              <Box sx={{ display: "flex", justifyContent: "start", mt: 2 }}>
+                <Button type="submit" variant="contained">Submit</Button>
+                <Button variant="outlined" sx={{ml:1}}>Cancel</Button>
+              </Box>
+            </Box>
+          </form>
         </Box>
       )
     };

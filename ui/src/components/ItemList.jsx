@@ -10,7 +10,7 @@ import SingleItemModal from './Modals/SingleItemModal';
 
 function ItemList(props) {
   const { tabValue, tabIndex, items, loggedInUserID } = props;
-
+console.log('ITEMLIST props:', props);
   //MODAL STATE LOGIC
 
   const [open, setOpen] = useState(false);
@@ -67,9 +67,12 @@ function ItemList(props) {
               createdAt={modalProps.createdAt}
               userName={modalProps.user.username}
               location={modalProps.user.location}
+              creatorId={modalProps.user.id}
+              itemId={modalProps.id}
               open={open}
               handleClose={() => setOpen(false)}
-              loggedInUserID={loggedInUserID}
+              loggedInUserID={1}
+
             />
           </Grid>
         </Box>

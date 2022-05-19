@@ -38,24 +38,26 @@ exports.show = async (req, res) => {
 exports.create = async (req, res) => {
 
   const { name, description, userId, offered } = req.body
-
+  
   let imageFile;
   let uploadPath;
 
-  // The name of the input field (i.e., "imageFile") is used to retrieve the uploaded file
-  imageFile = req.files.imageFile;
-  uploadPath = path.join(__dirname, '..', 'assets/images', imageFile.name);
-console.log("DIRNAME:::::::::::::::::", __dirname);
-console.log("UPLOAD PATH:::::::::::::::::::::::::::::::::", uploadPath)
-  // Use the mv() method to place the file somewhere on your server
-  imageFile.mv(uploadPath, function(err) {
-    if (err) {
-      // return res.status(500).send(err);
-      console.log(err);
-    }
-      console.log("imageFile.name", imageFile.name);
-    // res.send('File uploaded!');
-  });
+  if (req.files) {
+    imageFile = req.files.imageFile;
+    uploadPath = path.join(__dirname, '..', 'assets/images', imageFile.name);
+    console.log("DIRNAME:::::::::::::::::", __dirname);
+    console.log("UPLOAD PATH:::::::::::::::::::::::::::::::::", uploadPath)
+    // Use the mv() method to place the file somewhere on your server
+    imageFile.mv(uploadPath, function(err) {
+      if (err) {
+        // return res.status(500).send(err);
+        console.log(err);
+      }
+        console.log("imageFile.name", imageFile.name);
+      // res.send('File uploaded!');
+    }); 
+  }
+  
 
   //validate
   if (!name) {
@@ -70,7 +72,7 @@ console.log("UPLOAD PATH:::::::::::::::::::::::::::::::::", uploadPath)
     description,
     userId,
     offered,
-    image: `http://localhost:8080/images/${imageFile.name}`
+    image: imageFile ? `http://localhost:8080/images/${imageFile.name}` : `http://localhost:8080/images/glove2.jpg`
   };
   //save
   try {

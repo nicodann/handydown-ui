@@ -11,9 +11,11 @@ import {
   Tabs,
   Tab,
   TextField,
-  Typography
+  Typography,
+  IconButton
 } from '@mui/material';
 import { VolunteerActivism } from '@mui/icons-material';
+import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import ItemList from './ItemList';
 import ConversationList from './ConversationList';
 import NewItemForm from './Modals/NewItemForm';
@@ -111,7 +113,7 @@ function App() {
           <Stack direction="row" spacing={2}>
             {/* <Button variant="text">register</Button> */}
             {/* <Button variant="text">login</Button> */}
-            <Avatar sx={{bgcolor: 'primary.main'}}>N</Avatar>
+            <IconButton sx={{mr: -3.5}}><AccountCircleIcon color="primary"/></IconButton><Button component="span">nicoDann</Button>
             <Button variant="text">Logout</Button>
             <Button color="primary" variant="contained" onClick={handleOpenForm}>Post Item</Button>
             <NewItemForm openForm={openForm} handleNewItem={handleNewItem} loggedInUserID={loggedInUserID} handleCloseForm={handleCloseForm} />

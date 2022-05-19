@@ -24,7 +24,7 @@ const style = {
 
 export default function SingleItemModal(props) {
 
-  const { open, handleClose, image, name, description, userName, location, createdAt, loggedInUserID, itemId, creatorId } = props;
+  const { open, handleClose, image, name, description, userName, location, createdAt, loggedInUserID, itemId, creatorId, tabIndex } = props;
 console.log(props);
 
 const replyMessageFunction = (message) => {
@@ -76,16 +76,14 @@ const replyMessageFunction = (message) => {
               {format(createdAt)}
             </Typography>
           </Box>
-          {loggedInUserID !== creatorId  ? 
-            <Button variant="contained" startIcon={<DeleteIcon />}>Delete</Button> : 
-            <ReplyForm 
-              replyMessageFunction={replyMessageFunction}
-            />
+          {console.log(
+            'loggedInUserID:', loggedInUserID,
+            'creatorId:', creatorId
+,           )}
+          {loggedInUserID !== creatorId  &&  <ReplyForm replyMessageFunction={replyMessageFunction} />}
+          {tabIndex === 2 && loggedInUserID === creatorId &&
+            <Button variant="contained" startIcon={<DeleteIcon />}>Delete</Button>
           }
-         {/* {loggedInUserID !== item.userId  ? 
-            <Button variant="contained" startIcon={<DeleteIcon />}>Delete</Button> : 
-            <ReplyForm />
-          } */}
         </Box>
       </Modal>
   );

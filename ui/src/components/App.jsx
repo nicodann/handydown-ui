@@ -123,8 +123,8 @@ function App() {
       </Box>
       {/* BODY -- ITEMS OR MESSAGES */}
       <Container maxWidth="lg" sx={{ py: 4}}>
-        <ItemList items={name !== '' ? foundItems : tabbedItems} tabValue={tabValue} tabIndex={0} />
-        <ItemList items={name !== '' ? foundItems : tabbedItems} tabValue={tabValue} tabIndex={1} />
+        <ItemList items={name !== '' ? foundItems : tabbedItems} tabValue={tabValue} tabIndex={0} loggedInUserID={loggedInUserID}/>
+        <ItemList items={name !== '' ? foundItems : tabbedItems} tabValue={tabValue} tabIndex={1} loggedInUserID={loggedInUserID}/>
         <ItemList items={name !== '' ? foundItems : tabbedItems} tabValue={tabValue} tabIndex={2} loggedInUserID={loggedInUserID} />
         <ConversationList conversations={conversations} tabValue={tabValue} tabIndex={3} loggedInUserID={loggedInUserID}/>
       </Container>

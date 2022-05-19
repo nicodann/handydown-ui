@@ -12,18 +12,6 @@
     Typography,
   } from '@mui/material';
 
-  const style = {
-    position: 'absolute',
-    top: '50%',
-    left: '50%',
-    transform: 'translate(-50%, -50%)',
-    width: 400,
-    bgcolor: 'background.paper',
-    border: '2px solid #000',
-    boxShadow: 24,
-    p: 4,
-  };
-
   function NewItemForm(props) {
     const { loggedInUserID, openForm, handleNewItem, handleCloseForm } = props;
 
@@ -66,6 +54,7 @@
           headers: { "Content-Type": "multipart/form-data" },
         });
         handleNewItem(response.data);
+        handleCloseForm();
       } catch(error) {
         console.log(error);
       }
@@ -78,7 +67,17 @@
         aria-labelledby="modal-modal-title"
         aria-describedby="modal-modal-description"
       >
-        <Box sx={{ style }}>
+        <Box sx={{ 
+          position: 'absolute',
+          top: '50%',
+          left: '50%',
+          transform: 'translate(-50%, -50%)',
+          width: 600,
+          bgcolor: 'background.paper',
+          border: '2px solid #000',
+          boxShadow: 24,
+          p: 4, 
+        }}>
           <Typography variant="h4">Post a New Item</Typography>
             <Box component="form" onSubmit={handleSubmit} sx={{ display: "flex", flexDirection: "column"}}>
               <FormControl>
@@ -132,7 +131,13 @@
                 >
                   Submit
                 </Button>
-                <Button variant="outlined" sx={{ml:1}}>Cancel</Button>
+                <Button
+                  variant="outlined" 
+                  sx={{ml:1}}
+                  onClick={handleCloseForm}
+                >
+                  Cancel
+                </Button>
               </Box>
             </Box>
         </Box>

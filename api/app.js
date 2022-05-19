@@ -30,8 +30,8 @@ const startApp = async () => {
   try {
     await db.sequelize.authenticate();
     console.log('Connection has been established successfully.');
-    // await db.sequelize.sync({ force: true })
-    await db.sequelize.sync()
+    await db.sequelize.sync({ force: true }) 
+    // await db.sequelize.sync()
     console.log('All models have been (re)created!')
     app.listen(process.env.PORT, () => {
       console.log(`HandyDown API listening on port ${process.env.PORT}`);

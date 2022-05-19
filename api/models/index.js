@@ -1,39 +1,37 @@
-require('dotenv').config(); 
-const { Sequelize, DataTypes } = require('sequelize');
-const sequelize = new Sequelize(process.env.DB_NAME, process.env.DB_USER, process.env.DB_PASS, {
-  host: process.env.DB_HOST,
-  dialect: process.env.DB_DIALECT
-});
+'use strict';
 
+const fs = require('fs');
+const path = require('path');
+const Sequelize = require('sequelize');
+const basename = path.basename(__filename);
+const env = process.env.NODE_ENV || 'development';
+const config = require(__dirname + '/../config/config.json')[env];
 const db = {};
 
-db.Sequelize = Sequelize;
+let sequelize;
+if (config.use_env_variable) {
+  sequelize = new Sequelize(process.env[config.use_env_variable], config);
+} else {
+  sequelize = new Sequelize(config.database, config.username, config.password, config);
+}
+
+fs
+  .readdirSync(__dirname)
+  .filter(file => {
+    return (file.indexOf('.') !== 0) && (file !== basename) && (file.slice(-3) === '.js');
+  })
+  .forEach(file => {
+    const model = require(path.join(__dirname, file))(sequelize, Sequelize.DataTypes);
+    db[model.name] = model;
+  });
+
+Object.keys(db).forEach(modelName => {
+  if (db[modelName].associate) {
+    db[modelName].associate(db);
+  }
+});
+
 db.sequelize = sequelize;
-db.users = require("./user.model.js")(sequelize, DataTypes);
-db.items = require("./item.model.js")(sequelize, DataTypes);
-db.messages = require("./message.model.js")(sequelize, DataTypes);
-db.conversations = require("./conversation.model.js")(sequelize);
-
-// USER - ITEMS (1:n)
-db.users.hasMany(db.items); // FK `userId` defined in items table
-db.items.belongsTo(db.users, { allowNull: false });
-
-// USER - MESSAGES (1:n)
-db.users.hasMany(db.messages); // FK `userId` defined in messages table
-db.messages.belongsTo(db.users, { allowNull: false });
-
-// USER - CONVERSATIONS (2:n)
-db.users.hasMany(db.conversations, { foreignKey: 'creatorId' });
-db.users.hasMany(db.conversations, { foreignKey: 'receiverId' });
-db.conversations.belongsTo(db.users, { as: 'creator', foreignKey: 'creatorId', allowNull: false });
-db.conversations.belongsTo(db.users, { as: 'receiver', foreignKey: 'receiverId', allowNull: false });
-
-// ITEM - CONVERSATIONS (1:n)
-db.items.hasMany(db.conversations); // FK `itemId` defined in conversations
-db.conversations.belongsTo(db.items, { allowNull: false });
-
-// CONVERSATION - MESSAGES (1:n)
-db.conversations.hasMany(db.messages); // FK `conversationId` defined in messages table
-db.messages.belongsTo(db.conversations, { allowNull: false });
+db.Sequelize = Sequelize;
 
 module.exports = db;

@@ -1,6 +1,6 @@
 const db = require("../models");
-const Item = db.items;
-const User = db.users;
+const Item = db.item;
+const User = db.user;
 const Op = db.Sequelize.Op;
 
 //Retrieve all Items from the db or search by name
@@ -53,6 +53,7 @@ exports.create = async (req, res) => {
     userId,
     offered
   };
+  console.log(Item)
   //save
   try {
     data = await Item.create(item);

@@ -31,6 +31,14 @@ exports.getByUserId = async (req, res) => {
 exports.create = async (req, res) => {
   const { userId, itemId, body } = req.body;
   try {
+    // Check for existing conversation
+    // select * from conversations where itemID = $1, creatorId = $2, receiverId = $3
+    // Conversation.findAll({
+
+    // })
+    // if query returns empty, then create conversation and then create message
+    // if query returns a conversation (value > 0), create message with that conversationId, then update the updatedAt column in the Conversation record
+
     const item = await Item.findByPk(itemId);
     
     const conversation = await Conversation.create({

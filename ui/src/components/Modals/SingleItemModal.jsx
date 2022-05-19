@@ -1,5 +1,5 @@
 import React from 'react';
-import Form from './Form';
+import ReplyForm from './Form';
 import {
   Box,
   Button,
@@ -8,6 +8,7 @@ import {
 } from '@mui/material';
 import DeleteIcon from '@mui/icons-material/Delete';
 import { format } from 'timeago.js';
+import { axios } from 'axios';
 
 const style = {
   position: 'absolute',
@@ -23,8 +24,22 @@ const style = {
 
 export default function SingleItemModal(props) {
 
-  const { open, handleClose, image, name, description, userName, location, createdAt, loggedInUserID } = props;
+  const { open, handleClose, image, name, description, userName, location, createdAt, loggedInUserID, itemId, creatorId } = props;
+console.log(props);
 
+const replyMessageFunction = (message) => {
+  console.log('MESSAGE', message);
+  // retrieve itemId userId
+  const data = { itemId, creatorId, loggedInUserID, message }
+  try {
+    axios.post('/api/conversations', {data} )
+      .then((response) => {
+        console.log('response', response);
+      })
+  } catch(err) {
+
+  }
+};
   return (
       <Modal
         open={open}
@@ -61,9 +76,16 @@ export default function SingleItemModal(props) {
               {format(createdAt)}
             </Typography>
           </Box>
-          {loggedInUserID ? <Button variant="contained" startIcon={<DeleteIcon />}>
-        Delete
-      </Button> : <Form />}
+          {loggedInUserID !== creatorId  ? 
+            <Button variant="contained" startIcon={<DeleteIcon />}>Delete</Button> : 
+            <ReplyForm 
+              replyMessageFunction={replyMessageFunction}
+            />
+          }
+         {/* {loggedInUserID !== item.userId  ? 
+            <Button variant="contained" startIcon={<DeleteIcon />}>Delete</Button> : 
+            <ReplyForm />
+          } */}
         </Box>
       </Modal>
   );

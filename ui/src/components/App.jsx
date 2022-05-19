@@ -90,7 +90,17 @@ function App() {
     <>
       <CssBaseline />
       {/* NAVBAR */}
-      <Grid container justifyContent="space-between" alignItems="center" sx={{ py: 3, px: 2, borderBottom: 1, borderColor: 'divider' }}>
+      <Grid 
+        container
+        justifyContent="space-between"
+        alignItems="center"
+        sx={{
+          py: 3,
+          px: 2,
+          borderBottom: 1,
+          borderColor: 'divider'
+        }}
+      >
         {/* NAVBAR--LOGO */}
         <Grid item xs="auto" style={{display: 'flex', justifyContent: 'space-between', alignItems: 'center'}}>
           <VolunteerActivism sx={{ color: 'primary.main', fontSize: 40 }}/>

@@ -6,7 +6,7 @@ import {
   CardHeader } from '@mui/material';
 import Message from './Message';
 import { format } from 'timeago.js';
-import Form from './Form';
+import ReplyForm from './ReplyForm';
 import { flexbox } from '@mui/system';
 
 const style = {
@@ -67,7 +67,7 @@ export default function SingleConversationModal(props) {
           <img src={image} alt={name} width={200}/>
         </Box >
         {messagesArray}
-        <Form />
+        <ReplyForm />
       </Box>
       
       

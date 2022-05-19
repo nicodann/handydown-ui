@@ -28,6 +28,11 @@ export default function SingleItemModal(props) {
   const { name, description, offered, image, createdAt, open, handleClose, userName, location, loggedInUserID, itemId, creatorId, tabIndex } = props;
   console.log('SIMPROPS', props);
 
+  const handleDeleteButtonClick = async (event) => {
+    event.preventDefault();
+    console.log('delete button!!!!!!')
+  }
+
   const replyMessageFunction = (message) => {
     console.log('MESSAGE', message);
     // retrieve itemId userId
@@ -66,7 +71,7 @@ export default function SingleItemModal(props) {
             <Typography display="block">{location}</Typography>
           </Box>
         </Box>
-        <img src={image} style={{height: '100%', maxHeight: '350px', width: '100%', objectFit: 'cover', paddingTop: '16px'}} />
+        <img alt={name} src={image} style={{height: '100%', maxHeight: '350px', width: '100%', objectFit: 'cover', paddingTop: '16px'}} />
         <Typography id="modal-modal-description" variant="body1" sx={{ mt: 2 }}>
           {description}
         </Typography>
@@ -76,9 +81,19 @@ export default function SingleItemModal(props) {
           'loggedInUserID:', loggedInUserID,
           'creatorId:', creatorId
 ,           )}
-        {loggedInUserID !== creatorId  &&  <ReplyForm replyMessageFunction={replyMessageFunction} />}
+        {loggedInUserID !== creatorId  &&  
+          <ReplyForm 
+            replyMessageFunction={replyMessageFunction}
+          />}
         {tabIndex === 2 && loggedInUserID === creatorId &&
-          <Button variant="contained" startIcon={<DeleteIcon />} sx={{mt: 3}}>Delete</Button>
+          <Button
+            variant="contained"
+            startIcon={<DeleteIcon />}
+            sx={{mt: 3}}
+            onClick={handleDeleteButtonClick}
+          >
+            Delete
+          </Button>
         }
       </Box>
     </Modal>

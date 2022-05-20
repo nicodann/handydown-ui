@@ -1,9 +1,9 @@
 const { Op } = require("sequelize");
 const db = require('../models');
-const Conversation = db.conversations;
-const Item = db.items;
-const Message = db.messages;
-const User = db.users;
+const Conversation = db.conversation;
+const Item = db.item;
+const Message = db.message;
+const User = db.user;
 
 // Retrieve all conversations belonging to a User
 exports.getByUserId = async (req, res) => {
@@ -30,6 +30,7 @@ exports.getByUserId = async (req, res) => {
 // Create a new Conversation and its first message
 exports.create = async (req, res) => {
   const { userId, itemId, body } = req.body;
+  console.log(itemId)
   try {
     // Check for existing conversation
     // select * from conversations where itemID = $1, creatorId = $2, receiverId = $3

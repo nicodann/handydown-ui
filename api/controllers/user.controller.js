@@ -1,6 +1,6 @@
 const bcrypt = require('bcrypt');
 const db = require("../models");
-const User = db.users;
+const User = db.user;
 const Op = db.Sequelize.Op; //maybe use if more routes
 
 exports.create = async (req,res) => {
@@ -21,6 +21,7 @@ exports.create = async (req,res) => {
     password: hashedPass,
     location
   }
+  console.log("User:", User)
   try {
     const data =  await User.create(user);
     res.json(data);

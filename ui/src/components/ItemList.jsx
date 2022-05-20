@@ -69,7 +69,7 @@ console.log('tab value:', props);
               itemId={modalProps.id}
               open={open}
               handleClose={() => setOpen(false)}
-              loggedInUserID={1}
+              loggedInUserID={loggedInUserID}
               tabIndex={tabIndex}
 
             />

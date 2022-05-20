@@ -27,7 +27,7 @@ function App() {
   const [foundItems, setFoundItems] = useState([])
   const [searchText, setSearchText] = useState("");
   const [conversations, setConversations] = useState([]);
-  const [loggedInUserID, setLoggedInUserID] = useState(1);
+  const [loggedInUserID, setLoggedInUserID] = useState(3);
   const [openForm, setOpenForm] = useState(false);
 
   useEffect(() => {
@@ -42,7 +42,7 @@ function App() {
   }, []);
 
   useEffect(() => {
-    axios.get("/api/conversations/by/user/1")
+    axios.get(`/api/conversations/by/user/${loggedInUserID}`)
       .then((conversations) => {
         setConversations(conversations.data);
         console.log("HERE ARE THE CONVERSATIONS", conversations.data)

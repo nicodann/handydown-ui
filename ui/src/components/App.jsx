@@ -1,13 +1,15 @@
 import axios from 'axios';
 import { useEffect, useState } from 'react';
 import {
+  AppBar,
+  Toolbar,
   Box,
   Button,
   Container,
   CssBaseline,
-  Grid,
+  // Grid,
   IconButton,
-  Stack,
+  // Stack,
   Tabs,
   Tab,
   TextField,
@@ -48,7 +50,7 @@ function App() {
         console.log("HERE ARE THE CONVERSATIONS", conversations.data)
       })
       .catch();
-    }, []);
+    }, [loggedInUserID]);
 
   const addItem = async (newItemFormData) => {
     try {
@@ -59,9 +61,10 @@ function App() {
         headers: { "Content-Type": "multipart/form-data" },
       });
       const newItem = response.data;
-      const newTabbedItems = [newItem, ...tabbedItems];
-      if ((tabValue === 0 && newItem.offered) || (tabValue === 1 && !newItem.offered) || (tabValue === 2 && newItem.userId === loggedInUserID)) {
-        setTabbedItems(newTabbedItems);
+      if ((tabValue === 0 && newItem.offered) ||
+          (tabValue === 1 && !newItem.offered) ||
+          (tabValue === 2 && newItem.userId === loggedInUserID)) {
+        setTabbedItems([newItem, ...tabbedItems]);
       } 
       setITEMS([newItem, ...ITEMS]);
     } catch(error) {
@@ -73,7 +76,9 @@ function App() {
     try {
       const response = await axios.delete(`/api/items/${itemId}`);
       console.log("AXIOS DELETE RESPONSE", response);
-      if ((tabValue === 0 && offered) || (tabValue === 1 && !offered) || (tabValue === 2)) {
+      if ((tabValue === 0 && offered) ||
+          (tabValue === 1 && !offered) ||
+          (tabValue === 2)) {
         setTabbedItems(tabbedItems.filter((tabbedItem) => tabbedItem.id !== itemId));
       }
       setITEMS(ITEMS.filter((item) => item.id !== itemId));
@@ -119,7 +124,30 @@ function App() {
     <>
       <CssBaseline />
       {/* NAVBAR */}
-      <Grid 
+      <Box sx={{ flexGrow: 1 }}>
+        <AppBar position="static">
+          <Toolbar>
+            <IconButton
+              size="large"
+              edge="start"
+              color="inherit"
+              aria-label="menu"
+              sx={{ mr: 2 }}
+            >
+              <VolunteerActivism />
+            </IconButton>
+            <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
+              HandyDown
+            </Typography>
+            <IconButton sx={{mr: -1.5}}><AccountCircleIcon style={{fill: "white"}}/></IconButton><Button color="inherit" component="span">nicoDann</Button>
+            <Button color="inherit" variant="text">Logout</Button>
+            <Button color="warning"  variant="contained" onClick={handleFormOpen}>Post Item</Button>
+            <AddItemForm 
+              color="inherit" formOpen={formOpen} addItem={addItem} loggedInUserID={loggedInUserID} handleFormClose={handleFormClose} />
+          </Toolbar>
+        </AppBar>
+      </Box>
+      {/* <Grid 
         container
         justifyContent="space-between"
         alignItems="center"
@@ -129,24 +157,23 @@ function App() {
           borderBottom: 1,
           borderColor: 'divider'
         }}
-      >
-        {/* NAVBAR--LOGO */}
+        >
+        
         <Grid item xs="auto" style={{display: 'flex', justifyContent: 'space-between', alignItems: 'center'}}>
           <VolunteerActivism sx={{ color: 'primary.main', fontSize: 40 }}/>
           <Typography variant="h5" sx={{ml: 2, color: 'primary.main'}}>HandyDown</Typography>
         </Grid>
-        {/* NAVBAR--BUTTONTRAY */}
         <Grid item xs="auto">
           <Stack direction="row" spacing={2}>
-            {/* <Button variant="text">register</Button> */}
-            {/* <Button variant="text">login</Button> */}
+            // <Button variant="text">register</Button> 
+            // <Button variant="text">login</Button>
             <IconButton sx={{mr: -3.5}}><AccountCircleIcon color="primary"/></IconButton><Button component="span">nicoDann</Button>
             <Button variant="text">Logout</Button>
             <Button color="primary" variant="contained" onClick={handleFormOpen}>Post Item</Button>
             <AddItemForm formOpen={formOpen} addItem={addItem} loggedInUserID={loggedInUserID} handleFormClose={handleFormClose} />
           </Stack>
         </Grid>
-      </Grid>
+      </Grid> */}
       {/* TABBAR */}
       <Box display="flex" justifyContent="center" alignItems="center" sx={{ pt: 1, borderBottom: 1, borderColor: 'divider' }}>
         <Tabs value={tabValue} onChange={handleTabClick}>

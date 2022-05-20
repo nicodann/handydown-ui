@@ -124,8 +124,7 @@ function App() {
     <>
       <CssBaseline />
       {/* NAVBAR */}
-      <Box sx={{ flexGrow: 1 }}>
-        <AppBar position="static">
+        <AppBar position="sticky">
           <Toolbar>
             <IconButton
               size="large"
@@ -149,7 +148,6 @@ function App() {
               color="inherit" formOpen={formOpen} addItem={addItem} loggedInUserID={loggedInUserID} handleFormClose={handleFormClose} />
           </Toolbar>
         </AppBar>
-      </Box>
       {/* <Grid 
         container
         justifyContent="space-between"

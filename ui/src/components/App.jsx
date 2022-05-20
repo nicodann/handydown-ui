@@ -126,9 +126,6 @@ function App() {
     }
   };
 
-  // const updateItem = async () => {
-  // };
-
   const handleTabClick = (_event, newTabValue) => {
     const currentTab = newTabValue;
     setSearchText('');
@@ -159,10 +156,6 @@ function App() {
     setSearchText(keyword);
   };
 
-  const handleFormOpen = () => setFormOpen(true);
-  
-  const handleFormClose = () => setFormOpen(false); 
-  
   return (
     <>
       <CssBaseline />
@@ -186,9 +179,9 @@ function App() {
             </IconButton>
             <Button color="inherit" component="span">nicoDann</Button>
             <Button color="inherit" variant="text">Logout</Button>
-            <Button color="warning"  variant="contained" onClick={handleFormOpen} sx={{ml: 1}}>Post Item</Button>
+            <Button color="warning"  variant="contained" onClick={() => setFormOpen(true)} sx={{ml: 1}}>Post Item</Button>
             <AddItemForm 
-              color="inherit" formOpen={formOpen} addItem={addItem} loggedInUserID={loggedInUserID} handleFormClose={handleFormClose} />
+              color="inherit" formOpen={formOpen} addItem={addItem} loggedInUserID={loggedInUserID} handleFormClose={() => setFormOpen(false)} />
           </Toolbar>
         </AppBar>
       {/* <Grid 

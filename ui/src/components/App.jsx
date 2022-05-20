@@ -29,6 +29,7 @@ function App() {
   const [conversations, setConversations] = useState([]);
   const [loggedInUserID, setLoggedInUserID] = useState(3);
   const [openForm, setOpenForm] = useState(false);
+  const [openLoginForm, setOpenLoginForm] = useState(false);
 
   const handleOpenForm = () => setOpenForm(true);
   const handleCloseForm = () => setOpenForm(false); 
@@ -111,9 +112,9 @@ function App() {
         <Grid item xs="auto">
           <Stack direction="row" spacing={2}>
             {/* <Button variant="text">register</Button> */}
-            {/* <Button variant="text">login</Button> */}
+            <Button variant="text" onClick={() => setOpenLoginForm(true)}>login</Button>
             <IconButton sx={{mr: -3.5}}><AccountCircleIcon color="primary"/></IconButton><Button component="span">nicoDann</Button>
-            <Button variant="text">Logout</Button>
+            {/* <Button variant="text">Logout</Button> */}
             <Button color="primary" variant="contained" onClick={handleOpenForm}>Post Item</Button>
             <NewItemForm openForm={openForm} handleNewItem={handleNewItem} loggedInUserID={loggedInUserID} handleCloseForm={handleCloseForm} />
           </Stack>

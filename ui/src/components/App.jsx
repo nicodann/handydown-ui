@@ -6,33 +6,37 @@ import {
   Container,
   CssBaseline,
   Grid,
+  IconButton,
   Stack,
   Tabs,
   Tab,
   TextField,
   Typography,
-  IconButton
 } from '@mui/material';
 import { VolunteerActivism } from '@mui/icons-material';
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import ItemList from './ItemList';
 import ConversationList from './ConversationList';
-import NewItemForm from './Modals/NewItemForm';
+import AddItemForm from './Modals/AddItemForm';
 
 function App() {
 
   const [ITEMS, setITEMS] = useState([]);
-  const [tabbedItems, setTabbedItems] = useState([]);
-  const [foundItems, setFoundItems] = useState([])
-  const [tabValue, setTabValue ] = useState(0);
-  const [name, setName] = useState("");
   const [conversations, setConversations] = useState([]);
+  const [tabbedItems, setTabbedItems] = useState([]);
+  const [searchedItems, setSearchedItems] = useState([])
+  const [tabValue, setTabValue ] = useState(0);
+  const [searchText, setSearchText] = useState("");
   const [loggedInUserID, setLoggedInUserID] = useState(3);
+<<<<<<< HEAD
   const [openForm, setOpenForm] = useState(false);
   const [openLoginForm, setOpenLoginForm] = useState(false);
 
   const handleOpenForm = () => setOpenForm(true);
   const handleCloseForm = () => setOpenForm(false); 
+=======
+  const [formOpen, setFormOpen] = useState(false);
+>>>>>>> main
 
   useEffect(() => {
     axios.get("/api/items")
@@ -54,17 +58,44 @@ function App() {
       .catch();
     }, []);
 
-  const handleNewItem = async (newItem) => {
-    const newTabbedItems = [...tabbedItems, newItem];
-    (tabValue === 0 && newItem.offered) || 
-      (tabValue === 1 && !newItem.offered) ||
-      (tabValue === 2 && newItem.userId === loggedInUserID) ? 
-      setTabbedItems(newTabbedItems) : setTabbedItems(tabbedItems);
-    setITEMS([...ITEMS, newItem]);
-  }
-  const handleTabChange = (_event, newTabValue) => {
+  const addItem = async (newItemFormData) => {
+    try {
+      const response = await axios({
+        method: 'post',
+        url: '/api/items',
+        data: newItemFormData,
+        headers: { "Content-Type": "multipart/form-data" },
+      });
+      const newItem = response.data;
+      const newTabbedItems = [newItem, ...tabbedItems];
+      if ((tabValue === 0 && newItem.offered) || (tabValue === 1 && !newItem.offered) || (tabValue === 2 && newItem.userId === loggedInUserID)) {
+        setTabbedItems(newTabbedItems);
+      } 
+      setITEMS([newItem, ...ITEMS]);
+    } catch(error) {
+      console.log(error);
+    }
+  };
+
+  const deleteItem = async (itemId, offered) => {
+    try {
+      const response = await axios.delete(`/api/items/${itemId}`);
+      console.log("AXIOS DELETE RESPONSE", response);
+      if ((tabValue === 0 && offered) || (tabValue === 1 && !offered) || (tabValue === 2)) {
+        setTabbedItems(tabbedItems.filter((tabbedItem) => tabbedItem.id !== itemId));
+      }
+      setITEMS(ITEMS.filter((item) => item.id !== itemId));
+    } catch(err) {
+      console.log(err);
+    }
+  };
+
+  // const updateItem = async () => {
+  // };
+
+  const handleTabClick = (_event, newTabValue) => {
     const currentTab = newTabValue;
-    setName('');
+    setSearchText('');
 
     if (currentTab === 0) {
       setTabbedItems(ITEMS.filter((item) => item.offered));
@@ -74,20 +105,24 @@ function App() {
       setTabbedItems(ITEMS.filter((item) => item.userId === loggedInUserID));
     }
     setTabValue(currentTab);
-  }
+  };
 
   const handleSearchInput = (event) => {
     const keyword = event.target.value;
 
     if (keyword !== '') {
-      setFoundItems(tabbedItems.filter((item) => item.name.toLowerCase().startsWith(keyword.toLowerCase())));
+      setSearchedItems(tabbedItems.filter((item) => item.name.toLowerCase().startsWith(keyword.toLowerCase())));
     } else {
-      setFoundItems(tabbedItems);
+      setSearchedItems(tabbedItems);
     }
 
-    setName(keyword);
-  }
+    setSearchText(keyword);
+  };
 
+  const handleFormOpen = () => setFormOpen(true);
+  
+  const handleFormClose = () => setFormOpen(false); 
+  
   return (
     <>
       <CssBaseline />
@@ -114,15 +149,21 @@ function App() {
             {/* <Button variant="text">register</Button> */}
             <Button variant="text" onClick={() => setOpenLoginForm(true)}>login</Button>
             <IconButton sx={{mr: -3.5}}><AccountCircleIcon color="primary"/></IconButton><Button component="span">nicoDann</Button>
+<<<<<<< HEAD
             {/* <Button variant="text">Logout</Button> */}
             <Button color="primary" variant="contained" onClick={handleOpenForm}>Post Item</Button>
             <NewItemForm openForm={openForm} handleNewItem={handleNewItem} loggedInUserID={loggedInUserID} handleCloseForm={handleCloseForm} />
+=======
+            <Button variant="text">Logout</Button>
+            <Button color="primary" variant="contained" onClick={handleFormOpen}>Post Item</Button>
+            <AddItemForm formOpen={formOpen} addItem={addItem} loggedInUserID={loggedInUserID} handleFormClose={handleFormClose} />
+>>>>>>> main
           </Stack>
         </Grid>
       </Grid>
       {/* TABBAR */}
       <Box display="flex" justifyContent="center" alignItems="center" sx={{ pt: 1, borderBottom: 1, borderColor: 'divider' }}>
-        <Tabs value={tabValue} onChange={handleTabChange}>
+        <Tabs value={tabValue} onChange={handleTabClick}>
           <Tab label="Offers" />
           <Tab label="Wanted" />
           <Tab label="My Items" />
@@ -131,16 +172,45 @@ function App() {
       </Box>
       {/* SEARCHBAR */}
       <Box display="flex" justifyContent="center" alignItems="center" sx={{ pt: 4 }}>
-        <TextField type="search" value={name} onChange={handleSearchInput} id="outlined-search" label="Search by item name..." />
+        <TextField
+          type="search"
+          value={searchText}
+          onChange={handleSearchInput}
+          id="outlined-search"
+          label="Search by item name..."
+          sx={{ visibility: tabValue !== 3 ? 'visible': 'hidden'}}
+        />
       </Box>
       {/* BODY -- ITEMS OR MESSAGES */}
       <Container maxWidth="lg" sx={{ py: 4}}>
-        <ItemList items={name !== '' ? foundItems : tabbedItems} tabValue={tabValue} tabIndex={0} loggedInUserID={loggedInUserID}/>
-        <ItemList items={name !== '' ? foundItems : tabbedItems} tabValue={tabValue} tabIndex={1} loggedInUserID={loggedInUserID}/>
-        <ItemList items={name !== '' ? foundItems : tabbedItems} tabValue={tabValue} tabIndex={2} loggedInUserID={loggedInUserID} />
-        <ConversationList conversations={conversations} tabValue={tabValue} tabIndex={3} loggedInUserID={loggedInUserID}/>
+        <ItemList 
+          items={searchText !== '' ? searchedItems : tabbedItems}
+          tabValue={tabValue}
+          tabIndex={0}
+          loggedInUserID={loggedInUserID}
+          deleteItem={deleteItem}
+        />
+        <ItemList
+          items={searchText !== '' ? searchedItems : tabbedItems}
+          tabValue={tabValue}
+          tabIndex={1}
+          loggedInUserID={loggedInUserID}
+          deleteItem={deleteItem}
+        />
+        <ItemList
+          items={searchText !== '' ? searchedItems : tabbedItems}
+          tabValue={tabValue}
+          tabIndex={2}
+          loggedInUserID={loggedInUserID}
+          deleteItem={deleteItem}
+        />
+        <ConversationList
+          conversations={conversations}
+          tabValue={tabValue}
+          tabIndex={3}
+          loggedInUserID={loggedInUserID}
+        />
       </Container>
-      
     </>
   ); 
 }

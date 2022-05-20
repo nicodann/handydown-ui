@@ -1,5 +1,4 @@
   import { useState } from 'react';
-  import axios from 'axios';
   import {
     Box,
     Button,
@@ -12,9 +11,8 @@
     Typography,
   } from '@mui/material';
 
-  function NewItemForm(props) {
-    const { loggedInUserID, openForm, handleNewItem, handleCloseForm } = props;
-
+  function AddItemForm(props) {
+    const { loggedInUserID, formOpen, addItem, handleFormClose } = props;
     const [formValue, setFormValue] = useState({
       userId: loggedInUserID,
       name: "",
@@ -30,14 +28,14 @@
       return value;
     };
 
-    const handleChange = (event) => {
+    const handleFormChange = (event) => {
       setFormValue({
         ...formValue,
         [event.target.name]: str2bool(event.target.value)
       });
     };
 
-    const handleSubmit = async (event) => {
+    const handleFormSubmit = async (event) => {
       event.preventDefault();
       const newItemFormData = new FormData();
       newItemFormData.append("userId", formValue.userId);
@@ -46,24 +44,14 @@
       newItemFormData.append("offered", formValue.offered);
       const imagefile = document.querySelector("#file");
       newItemFormData.append("imageFile", imagefile.files[0]);
-      try {
-        const response = await axios({
-          method: 'post',
-          url: '/api/items',
-          data: newItemFormData,
-          headers: { "Content-Type": "multipart/form-data" },
-        });
-        handleNewItem(response.data);
-        handleCloseForm();
-      } catch(error) {
-        console.log(error);
-      }
+      addItem(newItemFormData)
+      handleFormClose();
     };
 
     return (
       <Modal
-        open={openForm}
-        onClose={handleCloseForm}
+        open={formOpen}
+        onClose={handleFormClose}
         aria-labelledby="modal-modal-title"
         aria-describedby="modal-modal-description"
       >
@@ -79,9 +67,9 @@
           p: 4, 
         }}>
           <Typography variant="h4">Post a New Item</Typography>
-            <Box component="form" onSubmit={handleSubmit} sx={{ display: "flex", flexDirection: "column"}}>
+            <Box component="form" onSubmit={handleFormSubmit} sx={{ display: "flex", flexDirection: "column"}}>
               <FormControl>
-                <RadioGroup row name="offered" defaultValue="true" onChange={handleChange}>
+                <RadioGroup row name="offered" defaultValue="true" onChange={handleFormChange}>
                   <FormControlLabel 
                     value="true"
                     control={<Radio />}
@@ -99,7 +87,7 @@
                 name="name"
                 label="Item Name"
                 sx={{ mt: 1}}
-                onChange={handleChange}
+                onChange={handleFormChange}
               />
               <TextField
                 type="text"
@@ -108,7 +96,7 @@
                 multiline
                 rows={5}
                 sx={{mt:2}}
-                onChange={handleChange}
+                onChange={handleFormChange}
               />
               <Button
             component="label"
@@ -134,7 +122,7 @@
                 <Button
                   variant="outlined" 
                   sx={{ml:1}}
-                  onClick={handleCloseForm}
+                  onClick={handleFormClose}
                 >
                   Cancel
                 </Button>
@@ -145,4 +133,4 @@
     )
   };
 
-  export default NewItemForm;
+  export default AddItemForm;

@@ -39,7 +39,11 @@ function App() {
       console.log("HERE ARE THE ITEMS", items.data);
       return items.data;
     })
-    .then((data) => setTabbedItems(data.filter((item) => item.offered === true)))
+    .then((data) => 
+      setTabbedItems(ITEMS.filter((item) => { 
+        return item.offered === true && item.userId !== loggedInUserID; 
+      }))
+    )
     .catch();
   }, []);
 
@@ -95,9 +99,13 @@ function App() {
     setSearchText('');
 
     if (currentTab === 0) {
-      setTabbedItems(ITEMS.filter((item) => item.offered));
+      setTabbedItems(ITEMS.filter((item) => { 
+        return item.offered === true && item.userId !== loggedInUserID; 
+      }));
     } else if (currentTab === 1) {
-      setTabbedItems(ITEMS.filter((item) => !item.offered));
+      setTabbedItems(ITEMS.filter((item) => {
+        return !item.offered && item.userId !== loggedInUserID; 
+      }));
     } else if (currentTab === 2) {
       setTabbedItems(ITEMS.filter((item) => item.userId === loggedInUserID));
     }

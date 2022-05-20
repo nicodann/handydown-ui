@@ -25,12 +25,13 @@ const style = {
 
 export default function SingleItemModal(props) {
 
-  const { name, description, offered, image, createdAt, open, handleClose, userName, location, loggedInUserID, itemId, creatorId, tabIndex } = props;
+  const { name, description, offered, image, createdAt, itemId, creatorId, userName, location, loggedInUserID, open, handleClose, tabIndex, deleteItem } = props;
   console.log('SIMPROPS', props);
 
-  const handleDeleteButtonClick = async (event) => {
+  const handleDeleteClick = async (event) => {
     event.preventDefault();
-    console.log('delete button!!!!!!')
+    console.log('delete button!!!!!!');
+    deleteItem(itemId, offered);
   }
 
   const replyMessageFunction = (message) => {
@@ -90,7 +91,7 @@ export default function SingleItemModal(props) {
             variant="contained"
             startIcon={<DeleteIcon />}
             sx={{mt: 3}}
-            onClick={handleDeleteButtonClick}
+            onClick={handleDeleteClick}
           >
             Delete
           </Button>

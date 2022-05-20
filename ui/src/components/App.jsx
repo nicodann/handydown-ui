@@ -6,29 +6,29 @@ import {
   Container,
   CssBaseline,
   Grid,
+  IconButton,
   Stack,
   Tabs,
   Tab,
   TextField,
   Typography,
-  IconButton
 } from '@mui/material';
 import { VolunteerActivism } from '@mui/icons-material';
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import ItemList from './ItemList';
 import ConversationList from './ConversationList';
-import NewItemForm from './Modals/NewItemForm';
+import AddItemForm from './Modals/AddItemForm';
 
 function App() {
 
   const [ITEMS, setITEMS] = useState([]);
-  const [tabbedItems, setTabbedItems] = useState([]);
-  const [tabValue, setTabValue ] = useState(0);
-  const [foundItems, setFoundItems] = useState([])
-  const [searchText, setSearchText] = useState("");
   const [conversations, setConversations] = useState([]);
+  const [tabbedItems, setTabbedItems] = useState([]);
+  const [searchedItems, setSearchedItems] = useState([])
+  const [tabValue, setTabValue ] = useState(0);
+  const [searchText, setSearchText] = useState("");
   const [loggedInUserID, setLoggedInUserID] = useState(3);
-  const [openForm, setOpenForm] = useState(false);
+  const [formOpen, setFormOpen] = useState(false);
 
   useEffect(() => {
     axios.get("/api/items")
@@ -50,22 +50,42 @@ function App() {
       .catch();
     }, []);
 
-  const addItem = async (newItem) => {
-    const newTabbedItems = [...tabbedItems, newItem];
-    (tabValue === 0 && newItem.offered) || 
-      (tabValue === 1 && !newItem.offered) ||
-      (tabValue === 2 && newItem.userId === loggedInUserID) ? 
-      setTabbedItems(newTabbedItems) : setTabbedItems(tabbedItems);
-    setITEMS([...ITEMS, newItem]);
+  const addItem = async (newItemFormData) => {
+    try {
+      const response = await axios({
+        method: 'post',
+        url: '/api/items',
+        data: newItemFormData,
+        headers: { "Content-Type": "multipart/form-data" },
+      });
+      const newItem = response.data;
+      const newTabbedItems = [newItem, ...tabbedItems];
+      if ((tabValue === 0 && newItem.offered) || (tabValue === 1 && !newItem.offered) || (tabValue === 2 && newItem.userId === loggedInUserID)) {
+        setTabbedItems(newTabbedItems);
+      } 
+      setITEMS([newItem, ...ITEMS]);
+    } catch(error) {
+      console.log(error);
+    }
   };
 
-  const removeItem = async () => {
+  const deleteItem = async (itemId, offered) => {
+    try {
+      const response = await axios.delete(`/api/items/${itemId}`);
+      console.log("AXIOS DELETE RESPONSE", response);
+      if ((tabValue === 0 && offered) || (tabValue === 1 && !offered) || (tabValue === 2)) {
+        setTabbedItems(tabbedItems.filter((tabbedItem) => tabbedItem.id !== itemId));
+      }
+      setITEMS(ITEMS.filter((item) => item.id !== itemId));
+    } catch(err) {
+      console.log(err);
+    }
   };
 
   // const updateItem = async () => {
   // };
 
-  const handleTabChange = (_event, newTabValue) => {
+  const handleTabClick = (_event, newTabValue) => {
     const currentTab = newTabValue;
     setSearchText('');
 
@@ -83,17 +103,17 @@ function App() {
     const keyword = event.target.value;
 
     if (keyword !== '') {
-      setFoundItems(tabbedItems.filter((item) => item.name.toLowerCase().startsWith(keyword.toLowerCase())));
+      setSearchedItems(tabbedItems.filter((item) => item.name.toLowerCase().startsWith(keyword.toLowerCase())));
     } else {
-      setFoundItems(tabbedItems);
+      setSearchedItems(tabbedItems);
     }
 
     setSearchText(keyword);
   };
 
-  const handleOpenForm = () => setOpenForm(true);
+  const handleFormOpen = () => setFormOpen(true);
   
-  const handleCloseForm = () => setOpenForm(false); 
+  const handleFormClose = () => setFormOpen(false); 
   
   return (
     <>
@@ -122,14 +142,14 @@ function App() {
             {/* <Button variant="text">login</Button> */}
             <IconButton sx={{mr: -3.5}}><AccountCircleIcon color="primary"/></IconButton><Button component="span">nicoDann</Button>
             <Button variant="text">Logout</Button>
-            <Button color="primary" variant="contained" onClick={handleOpenForm}>Post Item</Button>
-            <NewItemForm openForm={openForm} addItem={addItem} loggedInUserID={loggedInUserID} handleCloseForm={handleCloseForm} />
+            <Button color="primary" variant="contained" onClick={handleFormOpen}>Post Item</Button>
+            <AddItemForm formOpen={formOpen} addItem={addItem} loggedInUserID={loggedInUserID} handleFormClose={handleFormClose} />
           </Stack>
         </Grid>
       </Grid>
       {/* TABBAR */}
       <Box display="flex" justifyContent="center" alignItems="center" sx={{ pt: 1, borderBottom: 1, borderColor: 'divider' }}>
-        <Tabs value={tabValue} onChange={handleTabChange}>
+        <Tabs value={tabValue} onChange={handleTabClick}>
           <Tab label="Offers" />
           <Tab label="Wanted" />
           <Tab label="My Items" />
@@ -142,10 +162,33 @@ function App() {
       </Box>
       {/* BODY -- ITEMS OR MESSAGES */}
       <Container maxWidth="lg" sx={{ py: 4}}>
-        <ItemList items={searchText !== '' ? foundItems : tabbedItems} tabValue={tabValue} tabIndex={0} loggedInUserID={loggedInUserID} removeItem={removeItem}/>
-        <ItemList items={searchText !== '' ? foundItems : tabbedItems} tabValue={tabValue} tabIndex={1} loggedInUserID={loggedInUserID} removeItem={removeItem}/>
-        <ItemList items={searchText !== '' ? foundItems : tabbedItems} tabValue={tabValue} tabIndex={2} loggedInUserID={loggedInUserID} removeItem={removeItem}/>
-        <ConversationList conversations={conversations} tabValue={tabValue} tabIndex={3} loggedInUserID={loggedInUserID}/>
+        <ItemList 
+          items={searchText !== '' ? searchedItems : tabbedItems}
+          tabValue={tabValue}
+          tabIndex={0}
+          loggedInUserID={loggedInUserID}
+          deleteItem={deleteItem}
+        />
+        <ItemList
+          items={searchText !== '' ? searchedItems : tabbedItems}
+          tabValue={tabValue}
+          tabIndex={1}
+          loggedInUserID={loggedInUserID}
+          deleteItem={deleteItem}
+        />
+        <ItemList
+          items={searchText !== '' ? searchedItems : tabbedItems}
+          tabValue={tabValue}
+          tabIndex={2}
+          loggedInUserID={loggedInUserID}
+          deleteItem={deleteItem}
+        />
+        <ConversationList
+          conversations={conversations}
+          tabValue={tabValue}
+          tabIndex={3}
+          loggedInUserID={loggedInUserID}
+        />
       </Container>
     </>
   ); 

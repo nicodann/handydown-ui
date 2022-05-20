@@ -6,6 +6,7 @@ module.exports = {
       type: 'foreign key',
       fields: ['receiverId'],
       name: 'conversations_receiver_association',
+      onDelete: 'cascade',
       references: {
         table: 'users',
         field: 'id'

@@ -21,9 +21,11 @@ module.exports = {
       },
       userId: {
         type: Sequelize.INTEGER,
+        onDelete: 'CASCADE' 
       },
       conversationId: {
         type: Sequelize.INTEGER,
+        onDelete: 'CASCADE' 
       }
     });
   },

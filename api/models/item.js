@@ -5,8 +5,8 @@ const {
 module.exports = (sequelize, DataTypes) => {
   class Item extends Model {
     static associate(models) {
-      Item.belongsTo(models.user, { allowNull: false });
-      models.user.hasMany(Item); // FK `userId` defined in Items table
+      Item.belongsTo(models.user, { allowNull: false, onDelete: 'cascade'  });
+      models.user.hasMany(Item, {onDelete: 'cascade' }); // FK `userId` defined in Items table
     }
   }
   Item.init({

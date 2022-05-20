@@ -19,12 +19,15 @@ module.exports = {
       },
       creatorId: {
         type: Sequelize.INTEGER,
+        onDelete: 'CASCADE' 
       },
       receiverId: {
         type: Sequelize.INTEGER,
+        onDelete: 'CASCADE' 
       },
       itemId: {
         type: Sequelize.INTEGER,
+        onDelete: 'CASCADE' 
       },
     });
   },

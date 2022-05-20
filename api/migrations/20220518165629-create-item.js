@@ -33,6 +33,7 @@ module.exports = {
       },
       userId: {
         type: Sequelize.INTEGER,
+        onDelete: 'CASCADE' 
       }
     });
   },

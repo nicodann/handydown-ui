@@ -280,6 +280,8 @@ function App() {
           tabIndex={0}
           loggedInUserID={loggedInUserID}
           deleteItem={deleteItem}
+          addMessage={addMessage}
+          loggedInUser={loggedInUser}
         />
         <ItemList
           items={searchText !== '' ? searchedItems : tabbedItems}
@@ -287,6 +289,8 @@ function App() {
           tabIndex={1}
           loggedInUserID={loggedInUserID}
           deleteItem={deleteItem}
+          addMessage={addMessage}
+          loggedInUser={loggedInUser}
         />
         <ItemList
           items={searchText !== '' ? searchedItems : tabbedItems}

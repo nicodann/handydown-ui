@@ -8,10 +8,20 @@ import TextField from '@mui/material/TextField';
 
 export default function ReplyForm(props) {
 
-  const { replyMessageFunction } = props;
+  const { addMessage, itemId, loggedInUser, otherUserId } = props;
 
-  const [replyMessage, setReplyMessage] = useState('');
-console.log('replyMessage!!!', replyMessage)
+  const [message, setMessage] = useState('');
+  
+  const handleMessageSubmit = () => {
+
+  };
+
+  const handleMessageChange = (event) => {
+
+  };
+  
+  console.log('replyMessage!!!', message)
+  
   return (
     <Box sx={{mt: 3}}>
       <Box sx={{display: 'flex', justifyContent: 'space-between', alignItems: 'center'}}>
@@ -36,7 +46,7 @@ console.log('replyMessage!!!', replyMessage)
         value={replyMessage}
         onChange={(e) => setReplyMessage(e.target.value) }
       /> */}
-        <Button onClick={() => replyMessageFunction(replyMessage)} variant="outlined" sx={{mt: 2}}>Reply</Button>
+        <Button onClick={() => addMessage(message)} variant="outlined" sx={{mt: 2}}>Reply</Button>
     </Box>
   );
 }

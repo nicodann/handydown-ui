@@ -158,7 +158,14 @@ function App() {
       </Box>
       {/* SEARCHBAR */}
       <Box display="flex" justifyContent="center" alignItems="center" sx={{ pt: 4 }}>
-        <TextField type="search" value={searchText} onChange={handleSearchInput} id="outlined-search" label="Search by item name..." />
+        <TextField
+          type="search"
+          value={searchText}
+          onChange={handleSearchInput}
+          id="outlined-search"
+          label="Search by item name..."
+          sx={{ visibility: tabValue !== 3 ? 'visible': 'hidden'}}
+        />
       </Box>
       {/* BODY -- ITEMS OR MESSAGES */}
       <Container maxWidth="lg" sx={{ py: 4}}>

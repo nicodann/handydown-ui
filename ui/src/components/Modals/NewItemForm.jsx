@@ -13,7 +13,7 @@
   } from '@mui/material';
 
   function NewItemForm(props) {
-    const { loggedInUserID, openForm, handleNewItem, handleCloseForm } = props;
+    const { loggedInUserID, openForm, addItem, handleCloseForm } = props;
 
     const [formValue, setFormValue] = useState({
       userId: loggedInUserID,
@@ -53,7 +53,7 @@
           data: newItemFormData,
           headers: { "Content-Type": "multipart/form-data" },
         });
-        handleNewItem(response.data);
+        addItem(response.data);
         handleCloseForm();
       } catch(error) {
         console.log(error);

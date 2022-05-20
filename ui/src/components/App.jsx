@@ -23,15 +23,12 @@ function App() {
 
   const [ITEMS, setITEMS] = useState([]);
   const [tabbedItems, setTabbedItems] = useState([]);
-  const [foundItems, setFoundItems] = useState([])
   const [tabValue, setTabValue ] = useState(0);
-  const [name, setName] = useState("");
+  const [foundItems, setFoundItems] = useState([])
+  const [searchText, setSearchText] = useState("");
   const [conversations, setConversations] = useState([]);
   const [loggedInUserID, setLoggedInUserID] = useState(1);
   const [openForm, setOpenForm] = useState(false);
-
-  const handleOpenForm = () => setOpenForm(true);
-  const handleCloseForm = () => setOpenForm(false); 
 
   useEffect(() => {
     axios.get("/api/items")
@@ -53,17 +50,24 @@ function App() {
       .catch();
     }, []);
 
-  const handleNewItem = async (newItem) => {
+  const addItem = async (newItem) => {
     const newTabbedItems = [...tabbedItems, newItem];
     (tabValue === 0 && newItem.offered) || 
       (tabValue === 1 && !newItem.offered) ||
       (tabValue === 2 && newItem.userId === loggedInUserID) ? 
       setTabbedItems(newTabbedItems) : setTabbedItems(tabbedItems);
     setITEMS([...ITEMS, newItem]);
-  }
+  };
+
+  const removeItem = async () => {
+  };
+
+  // const updateItem = async () => {
+  // };
+
   const handleTabChange = (_event, newTabValue) => {
     const currentTab = newTabValue;
-    setName('');
+    setSearchText('');
 
     if (currentTab === 0) {
       setTabbedItems(ITEMS.filter((item) => item.offered));
@@ -73,7 +77,7 @@ function App() {
       setTabbedItems(ITEMS.filter((item) => item.userId === loggedInUserID));
     }
     setTabValue(currentTab);
-  }
+  };
 
   const handleSearchInput = (event) => {
     const keyword = event.target.value;
@@ -84,9 +88,13 @@ function App() {
       setFoundItems(tabbedItems);
     }
 
-    setName(keyword);
-  }
+    setSearchText(keyword);
+  };
 
+  const handleOpenForm = () => setOpenForm(true);
+  
+  const handleCloseForm = () => setOpenForm(false); 
+  
   return (
     <>
       <CssBaseline />
@@ -115,7 +123,7 @@ function App() {
             <IconButton sx={{mr: -3.5}}><AccountCircleIcon color="primary"/></IconButton><Button component="span">nicoDann</Button>
             <Button variant="text">Logout</Button>
             <Button color="primary" variant="contained" onClick={handleOpenForm}>Post Item</Button>
-            <NewItemForm openForm={openForm} handleNewItem={handleNewItem} loggedInUserID={loggedInUserID} handleCloseForm={handleCloseForm} />
+            <NewItemForm openForm={openForm} addItem={addItem} loggedInUserID={loggedInUserID} handleCloseForm={handleCloseForm} />
           </Stack>
         </Grid>
       </Grid>
@@ -130,16 +138,15 @@ function App() {
       </Box>
       {/* SEARCHBAR */}
       <Box display="flex" justifyContent="center" alignItems="center" sx={{ pt: 4 }}>
-        <TextField type="search" value={name} onChange={handleSearchInput} id="outlined-search" label="Search by item name..." />
+        <TextField type="search" value={searchText} onChange={handleSearchInput} id="outlined-search" label="Search by item name..." />
       </Box>
       {/* BODY -- ITEMS OR MESSAGES */}
       <Container maxWidth="lg" sx={{ py: 4}}>
-        <ItemList items={name !== '' ? foundItems : tabbedItems} tabValue={tabValue} tabIndex={0} loggedInUserID={loggedInUserID}/>
-        <ItemList items={name !== '' ? foundItems : tabbedItems} tabValue={tabValue} tabIndex={1} loggedInUserID={loggedInUserID}/>
-        <ItemList items={name !== '' ? foundItems : tabbedItems} tabValue={tabValue} tabIndex={2} loggedInUserID={loggedInUserID} />
+        <ItemList items={searchText !== '' ? foundItems : tabbedItems} tabValue={tabValue} tabIndex={0} loggedInUserID={loggedInUserID} removeItem={removeItem}/>
+        <ItemList items={searchText !== '' ? foundItems : tabbedItems} tabValue={tabValue} tabIndex={1} loggedInUserID={loggedInUserID} removeItem={removeItem}/>
+        <ItemList items={searchText !== '' ? foundItems : tabbedItems} tabValue={tabValue} tabIndex={2} loggedInUserID={loggedInUserID} removeItem={removeItem}/>
         <ConversationList conversations={conversations} tabValue={tabValue} tabIndex={3} loggedInUserID={loggedInUserID}/>
       </Container>
-      
     </>
   ); 
 }

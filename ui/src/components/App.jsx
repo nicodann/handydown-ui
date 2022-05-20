@@ -1,7 +1,6 @@
 import axios from 'axios';
 import { useEffect, useState } from 'react';
 import {
-  Avatar,
   Box,
   Button,
   Container,
@@ -11,9 +10,11 @@ import {
   Tabs,
   Tab,
   TextField,
-  Typography
+  Typography,
+  IconButton
 } from '@mui/material';
 import { VolunteerActivism } from '@mui/icons-material';
+import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import ItemList from './ItemList';
 import ConversationList from './ConversationList';
 import NewItemForm from './Modals/NewItemForm';
@@ -90,7 +91,17 @@ function App() {
     <>
       <CssBaseline />
       {/* NAVBAR */}
-      <Grid container justifyContent="space-between" alignItems="center" sx={{ py: 3, px: 2, borderBottom: 1, borderColor: 'divider' }}>
+      <Grid 
+        container
+        justifyContent="space-between"
+        alignItems="center"
+        sx={{
+          py: 3,
+          px: 2,
+          borderBottom: 1,
+          borderColor: 'divider'
+        }}
+      >
         {/* NAVBAR--LOGO */}
         <Grid item xs="auto" style={{display: 'flex', justifyContent: 'space-between', alignItems: 'center'}}>
           <VolunteerActivism sx={{ color: 'primary.main', fontSize: 40 }}/>
@@ -101,7 +112,7 @@ function App() {
           <Stack direction="row" spacing={2}>
             {/* <Button variant="text">register</Button> */}
             {/* <Button variant="text">login</Button> */}
-            <Avatar sx={{bgcolor: 'primary.main'}}>N</Avatar>
+            <IconButton sx={{mr: -3.5}}><AccountCircleIcon color="primary"/></IconButton><Button component="span">nicoDann</Button>
             <Button variant="text">Logout</Button>
             <Button color="primary" variant="contained" onClick={handleOpenForm}>Post Item</Button>
             <NewItemForm openForm={openForm} handleNewItem={handleNewItem} loggedInUserID={loggedInUserID} handleCloseForm={handleCloseForm} />

@@ -19,7 +19,7 @@ function Item(props) {
       <Card style={{height: '100%'}} onClick={onClick}>
         <CardActionArea style={{display: 'flex', flexDirection: 'column', alignItems: 'start', width: '100%', height: '100%'}} > 
           <CardHeader
-            style={{justifyContent: 'space-between', width: '100%'}}
+            style={{justifyContent: 'space-between', width: '100%', minWidth: '350px'}}
             title={name}
             subheader={format(createdAt)}
             action={ offered ? <Button component="div" color="success">Offered</Button> : <Button component="div" color="error">Wanted</Button>}

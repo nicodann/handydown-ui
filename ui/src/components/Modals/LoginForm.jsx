@@ -1,4 +1,4 @@
-  import { useState } from 'react';
+  import { useState, useEffect } from 'react';
   import axios from 'axios';
   import {
     Box,
@@ -11,50 +11,51 @@
     TextField,
     Typography,
   } from '@mui/material';
+  // const bcrypt = require('bcrypt');
 
   function LoginForm(props) {
-    const { openForm, handleCloseForm } = props;
+    const { loginFormOpen, handleLoginFormClose, setLoggedInUser } = props;
+
+    // const hashedPass = bcrypt.hashSync(password, 10);
 
     const [formValue, setFormValue] = useState({
-      userId: loggedInUserID,
-      name: "",
-      description: "",
-      offered: true,
+      username: '',
+      password: ''
     });
 
-    const str2bool = (value) => {
-      if (value && typeof value === "string") {
-           if (value.toLowerCase() === "true") return true;
-           if (value.toLowerCase() === "false") return false;
-      }
-      return value;
-    };
+    // const str2bool = (value) => {
+    //   if (value && typeof value === "string") {
+    //        if (value.toLowerCase() === "true") return true;
+    //        if (value.toLowerCase() === "false") return false;
+    //   }
+    //   return value;
+    // };
 
     const handleChange = (event) => {
       setFormValue({
         ...formValue,
-        [event.target.name]: str2bool(event.target.value)
+        [event.target.name]: event.target.value
       });
     };
 
+    // useEffect(() => {
+    //   console.log(formValue)
+    // })
+
     const handleSubmit = async (event) => {
       event.preventDefault();
-      const newItemFormData = new FormData();
-      newItemFormData.append("userId", formValue.userId);
-      newItemFormData.append("name", formValue.name);
-      newItemFormData.append("description", formValue.description);
-      newItemFormData.append("offered", formValue.offered);
-      const imagefile = document.querySelector("#file");
-      newItemFormData.append("imageFile", imagefile.files[0]);
+      const loginFormData = new FormData();
+      console.log("loginFormData", loginFormData)
       try {
         const response = await axios({
           method: 'post',
-          url: '/api/items',
-          data: newItemFormData,
+          url: '/users/login',
+          data: loginFormData,
           headers: { "Content-Type": "multipart/form-data" },
         });
-        handleNewItem(response.data);
-        handleCloseForm();
+        console.log("responseData: ",response.data)
+        setLoggedInUser(response.data);
+        loginFormOpen(false);
       } catch(error) {
         console.log(error);
       }
@@ -62,8 +63,9 @@
 
     return (
       <Modal
-        open={openForm}
-        onClose={handleCloseForm}
+        // open={loginFormOpen}
+        open={true}
+        onClose={handleLoginFormClose}
         aria-labelledby="modal-modal-title"
         aria-describedby="modal-modal-description"
       >
@@ -78,9 +80,9 @@
           boxShadow: 24,
           p: 4, 
         }}>
-          <Typography variant="h4">Post a New Item</Typography>
+          <Typography variant="h4">Login</Typography>
             <Box component="form" onSubmit={handleSubmit} sx={{ display: "flex", flexDirection: "column"}}>
-              <FormControl>
+              {/* <FormControl>
                 <RadioGroup row name="offered" defaultValue="true" onChange={handleChange}>
                   <FormControlLabel 
                     value="true"
@@ -93,24 +95,22 @@
                     label="Wanted"
                   />
                 </RadioGroup>
-              </FormControl>
+              </FormControl> */}
               <TextField
                 type="text"
-                name="name"
-                label="Item Name"
+                name="username"
+                label="Username"
                 sx={{ mt: 1}}
                 onChange={handleChange}
               />
               <TextField
                 type="text"
-                name="description"
-                label="Description"
-                multiline
-                rows={5}
-                sx={{mt:2}}
+                name="password"
+                label="Password"
+                sx={{mt:1}}
                 onChange={handleChange}
               />
-              <Button
+              {/* <Button
             component="label"
             variant="outlined"
             sx={{mt: 2}}
@@ -123,7 +123,7 @@
               hidden
               id="file"
             />
-          </Button>
+          </Button> */}
               <Box sx={{ display: "flex", justifyContent: "start", mt: 2 }}>
                 <Button
                   type="submit"
@@ -134,7 +134,7 @@
                 <Button
                   variant="outlined" 
                   sx={{ml:1}}
-                  onClick={handleCloseForm}
+                  onClick={handleLoginFormClose}
                 >
                   Cancel
                 </Button>
@@ -145,4 +145,4 @@
     )
   };
 
-  export default NewItemForm;
+  export default LoginForm;

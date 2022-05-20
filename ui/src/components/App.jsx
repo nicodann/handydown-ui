@@ -18,6 +18,7 @@ import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import ItemList from './ItemList';
 import ConversationList from './ConversationList';
 import AddItemForm from './Modals/AddItemForm';
+import LoginForm from './Modals/LoginForm';
 
 function App() {
 
@@ -27,16 +28,10 @@ function App() {
   const [searchedItems, setSearchedItems] = useState([])
   const [tabValue, setTabValue ] = useState(0);
   const [searchText, setSearchText] = useState("");
+  const [loggedInUser, setLoggedInUser] = useState();
   const [loggedInUserID, setLoggedInUserID] = useState(3);
-<<<<<<< HEAD
-  const [openForm, setOpenForm] = useState(false);
-  const [openLoginForm, setOpenLoginForm] = useState(false);
-
-  const handleOpenForm = () => setOpenForm(true);
-  const handleCloseForm = () => setOpenForm(false); 
-=======
   const [formOpen, setFormOpen] = useState(false);
->>>>>>> main
+  const [loginFormOpen, setLoginFormOpen] = useState(false);
 
   useEffect(() => {
     axios.get("/api/items")
@@ -147,17 +142,20 @@ function App() {
         <Grid item xs="auto">
           <Stack direction="row" spacing={2}>
             {/* <Button variant="text">register</Button> */}
-            <Button variant="text" onClick={() => setOpenLoginForm(true)}>login</Button>
+            <Button variant="text" onClick={() => setLoginFormOpen(true)}>login</Button>
+            <LoginForm
+              loginFormOpen={loginFormOpen}
+              handleLoginFormCLose={() => setLoginFormOpen(false)}
+            />
             <IconButton sx={{mr: -3.5}}><AccountCircleIcon color="primary"/></IconButton><Button component="span">nicoDann</Button>
-<<<<<<< HEAD
             {/* <Button variant="text">Logout</Button> */}
-            <Button color="primary" variant="contained" onClick={handleOpenForm}>Post Item</Button>
-            <NewItemForm openForm={openForm} handleNewItem={handleNewItem} loggedInUserID={loggedInUserID} handleCloseForm={handleCloseForm} />
-=======
-            <Button variant="text">Logout</Button>
             <Button color="primary" variant="contained" onClick={handleFormOpen}>Post Item</Button>
-            <AddItemForm formOpen={formOpen} addItem={addItem} loggedInUserID={loggedInUserID} handleFormClose={handleFormClose} />
->>>>>>> main
+            <AddItemForm 
+              formOpen={formOpen} 
+              addItem={addItem} 
+              loggedInUserID={loggedInUserID} 
+              handleFormClose={handleFormClose} 
+            />
           </Stack>
         </Grid>
       </Grid>

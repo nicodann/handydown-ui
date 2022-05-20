@@ -46,7 +46,7 @@ function App() {
       console.log("HERE ARE THE ITEMS", items.data);
       return items.data;
     })
-    .then((data) => 
+    .then(() => 
       setTabbedItems(ITEMS.filter((item) => { 
         return item.offered === true && item.userId !== loggedInUserID; 
       }))
@@ -124,6 +124,26 @@ function App() {
     } catch(err) {
       console.log(err);
     }
+  };
+
+  const addMessage = async (newMessageFormData) => {
+    try {
+      const response = await axios({
+        method: 'post',
+        url: '/api/messages',
+        data: newMessageFormData,
+      });
+      console.log(response.data);
+      // const returnedConversation = response.data;
+      // if conversations includes returnedConversation
+        // replace oldConversation with returnedConversation
+          // const filteredConversations = conversations.filter conversation => conversation.id !== returnedConversation.id
+          // setConversations(returnedConversation, filteredConversations)
+      // else 
+        // setConversations(returnedConversation, ...conversations)
+    } catch(err) {
+      console.log(err);
+    };
   };
 
   const handleTabClick = (_event, newTabValue) => {

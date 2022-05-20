@@ -34,6 +34,10 @@ function App() {
   const [loginFormOpen, setLoginFormOpen] = useState(false);
 
   useEffect(() => {
+    console.log("loggedInUser:" ,loggedInUser)
+  })
+
+  useEffect(() => {
     axios.get("/api/items")
     .then((items) => {
       setITEMS(items.data);
@@ -52,6 +56,34 @@ function App() {
       })
       .catch();
     }, []);
+
+  const loginUser = async (loginFormData) => {
+    try {
+      const response = await axios({
+        method: 'post',
+        url: '/api/users/login',
+        data: loginFormData,
+        headers: { "Content-Type": "multipart/form-data" },
+      });
+      setLoggedInUser(response.data);
+    } catch(error) {
+      console.log(error);
+    }
+  }
+
+  const logoutUser = async () => {
+    console.log("logging out")
+    try {
+      const response = await axios({
+        method: 'post',
+        url: '/api/users/logout'
+      })
+    } catch(error) {
+      console.log(error)
+    }
+
+    setLoggedInUser(prev => null);
+  }
 
   const addItem = async (newItemFormData) => {
     try {
@@ -141,14 +173,23 @@ function App() {
         {/* NAVBAR--BUTTONTRAY */}
         <Grid item xs="auto">
           <Stack direction="row" spacing={2}>
-            {/* <Button variant="text">register</Button> */}
-            <Button variant="text" onClick={() => setLoginFormOpen(true)}>login</Button>
-            <LoginForm
-              loginFormOpen={loginFormOpen}
-              handleLoginFormCLose={() => setLoginFormOpen(false)}
-            />
-            <IconButton sx={{mr: -3.5}}><AccountCircleIcon color="primary"/></IconButton><Button component="span">nicoDann</Button>
-            {/* <Button variant="text">Logout</Button> */}
+            { !loggedInUser ?
+              <>
+                <Button variant="text">register</Button>
+                <Button variant="text" onClick={() => setLoginFormOpen(true)}>login</Button>
+                <LoginForm
+                  loginFormOpen={loginFormOpen}
+                  loginUser={loginUser}
+                  setLoginFormOpen={setLoginFormOpen}
+                />
+              
+              </>
+            :
+              <>
+                <IconButton sx={{mr: -3.5}}><AccountCircleIcon color="primary"/></IconButton><Button component="span">{loggedInUser.username}</Button>
+                <Button variant="text" onClick={logoutUser}>Logout</Button>
+              </>
+            }
             <Button color="primary" variant="contained" onClick={handleFormOpen}>Post Item</Button>
             <AddItemForm 
               formOpen={formOpen} 
@@ -156,6 +197,7 @@ function App() {
               loggedInUserID={loggedInUserID} 
               handleFormClose={handleFormClose} 
             />
+
           </Stack>
         </Grid>
       </Grid>

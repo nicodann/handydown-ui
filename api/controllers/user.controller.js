@@ -71,8 +71,14 @@ exports.login = async (req,res) => {
 };
 
 exports.logout =  (req, res) => {
-  req.session = null;
-  res.redirect("/");
+  try {
+    req.session = null;
+    res.status(200).send("User is logged out")
+
+  
+  } catch (err) {
+    res.status(500).send(err.message)
+  }
 };
 
 // exports.create = (req,res) => {

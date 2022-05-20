@@ -14,7 +14,7 @@
   // const bcrypt = require('bcrypt');
 
   function LoginForm(props) {
-    const { loginFormOpen, handleLoginFormClose, setLoggedInUser } = props;
+    const { loginFormOpen, setLoginFormOpen, loginUser } = props;
 
     // const hashedPass = bcrypt.hashSync(password, 10);
 
@@ -23,14 +23,6 @@
       password: ''
     });
 
-    // const str2bool = (value) => {
-    //   if (value && typeof value === "string") {
-    //        if (value.toLowerCase() === "true") return true;
-    //        if (value.toLowerCase() === "false") return false;
-    //   }
-    //   return value;
-    // };
-
     const handleChange = (event) => {
       setFormValue({
         ...formValue,
@@ -38,34 +30,25 @@
       });
     };
 
-    // useEffect(() => {
-    //   console.log(formValue)
-    // })
+    useEffect(() => {
+      console.log("formValue:", formValue)
+    })
 
     const handleSubmit = async (event) => {
       event.preventDefault();
       const loginFormData = new FormData();
-      console.log("loginFormData", loginFormData)
-      try {
-        const response = await axios({
-          method: 'post',
-          url: '/users/login',
-          data: loginFormData,
-          headers: { "Content-Type": "multipart/form-data" },
-        });
-        console.log("responseData: ",response.data)
-        setLoggedInUser(response.data);
-        loginFormOpen(false);
-      } catch(error) {
-        console.log(error);
-      }
+      loginFormData.append("username", formValue.username);
+      loginFormData.append("password", formValue.password);
+      loginUser(loginFormData)
+      setLoginFormOpen(false);
+      
     };
 
     return (
       <Modal
-        // open={loginFormOpen}
-        open={true}
-        onClose={handleLoginFormClose}
+        open={loginFormOpen}
+        // open={true}
+        onClose={() => setLoginFormOpen(false)}
         aria-labelledby="modal-modal-title"
         aria-describedby="modal-modal-description"
       >
@@ -82,20 +65,6 @@
         }}>
           <Typography variant="h4">Login</Typography>
             <Box component="form" onSubmit={handleSubmit} sx={{ display: "flex", flexDirection: "column"}}>
-              {/* <FormControl>
-                <RadioGroup row name="offered" defaultValue="true" onChange={handleChange}>
-                  <FormControlLabel 
-                    value="true"
-                    control={<Radio />}
-                    label="Offering"
-                  />
-                  <FormControlLabel
-                    value="false"
-                    control={<Radio />}
-                    label="Wanted"
-                  />
-                </RadioGroup>
-              </FormControl> */}
               <TextField
                 type="text"
                 name="username"
@@ -110,20 +79,6 @@
                 sx={{mt:1}}
                 onChange={handleChange}
               />
-              {/* <Button
-            component="label"
-            variant="outlined"
-            sx={{mt: 2}}
-          >
-            Add an Image
-            <input
-              type="file"
-              name="imageFile"
-              accept="image/*"
-              hidden
-              id="file"
-            />
-          </Button> */}
               <Box sx={{ display: "flex", justifyContent: "start", mt: 2 }}>
                 <Button
                   type="submit"
@@ -134,7 +89,7 @@
                 <Button
                   variant="outlined" 
                   sx={{ml:1}}
-                  onClick={handleLoginFormClose}
+                  onClick={() => setLoginFormOpen(false)}
                 >
                   Cancel
                 </Button>

@@ -26,7 +26,7 @@ const style = {
 export default function SingleItemModal(props) {
 
   const { name, description, offered, image, createdAt, itemId, creatorId, userName, location, loggedInUserID, open, handleClose, tabIndex, deleteItem } = props;
-  console.log('SIMPROPS', props);
+  // console.log('SIMPROPS', props);
 
   const handleDeleteClick = async (event) => {
     event.preventDefault();
@@ -76,12 +76,6 @@ export default function SingleItemModal(props) {
         <Typography id="modal-modal-description" variant="body1" sx={{ mt: 2 }}>
           {description}
         </Typography>
-        
-        
-        {console.log(
-          'loggedInUserID:', loggedInUserID,
-          'creatorId:', creatorId
-,           )}
         {loggedInUserID !== creatorId  &&  
           <ReplyForm 
             replyMessageFunction={replyMessageFunction}

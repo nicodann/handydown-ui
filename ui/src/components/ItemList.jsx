@@ -10,7 +10,7 @@ import SingleItemModal from './Modals/SingleItemModal';
 
 function ItemList(props) {
   const { tabValue, tabIndex, items, loggedInUserID, deleteItem } = props;
-console.log('tab value:', props);
+// console.log('tab value:', props);
   //MODAL STATE LOGIC
 
   const [open, setOpen] = useState(false);

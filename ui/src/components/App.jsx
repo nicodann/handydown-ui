@@ -20,6 +20,7 @@ import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import ItemList from './ItemList';
 import ConversationList from './ConversationList';
 import AddItemForm from './Modals/AddItemForm';
+import LoginForm from './Modals/LoginForm';
 
 function App() {
 
@@ -29,8 +30,14 @@ function App() {
   const [searchedItems, setSearchedItems] = useState([])
   const [tabValue, setTabValue ] = useState(0);
   const [searchText, setSearchText] = useState("");
+  const [loggedInUser, setLoggedInUser] = useState();
   const [loggedInUserID, setLoggedInUserID] = useState(3);
   const [formOpen, setFormOpen] = useState(false);
+  const [loginFormOpen, setLoginFormOpen] = useState(false);
+
+  useEffect(() => {
+    console.log("loggedInUser:" ,loggedInUser)
+  })
 
   useEffect(() => {
     axios.get("/api/items")
@@ -55,6 +62,34 @@ function App() {
       })
       .catch();
     }, [loggedInUserID]);
+
+  const loginUser = async (loginFormData) => {
+    try {
+      const response = await axios({
+        method: 'post',
+        url: '/api/users/login',
+        data: loginFormData,
+        headers: { "Content-Type": "multipart/form-data" },
+      });
+      setLoggedInUser(response.data);
+    } catch(error) {
+      console.log(error);
+    }
+  }
+
+  const logoutUser = async () => {
+    console.log("logging out")
+    try {
+      const response = await axios({
+        method: 'post',
+        url: '/api/users/logout'
+      })
+    } catch(error) {
+      console.log(error)
+    }
+
+    setLoggedInUser(prev => null);
+  }
 
   const addItem = async (newItemFormData) => {
     try {
@@ -174,12 +209,33 @@ function App() {
         </Grid>
         <Grid item xs="auto">
           <Stack direction="row" spacing={2}>
-            // <Button variant="text">register</Button> 
-            // <Button variant="text">login</Button>
-            <IconButton sx={{mr: -3.5}}><AccountCircleIcon color="primary"/></IconButton><Button component="span">nicoDann</Button>
-            <Button variant="text">Logout</Button>
+
+            { !loggedInUser ?
+              <>
+                <Button variant="text">register</Button>
+                <Button variant="text" onClick={() => setLoginFormOpen(true)}>login</Button>
+                <LoginForm
+                  loginFormOpen={loginFormOpen}
+                  loginUser={loginUser}
+                  setLoginFormOpen={setLoginFormOpen}
+                />
+              
+              </>
+            :
+              <>
+                <IconButton sx={{mr: -3.5}}><AccountCircleIcon color="primary"/></IconButton><Button component="span">{loggedInUser.username}</Button>
+                <Button variant="text" onClick={logoutUser}>Logout</Button>
+              </>
+            }
+
             <Button color="primary" variant="contained" onClick={handleFormOpen}>Post Item</Button>
-            <AddItemForm formOpen={formOpen} addItem={addItem} loggedInUserID={loggedInUserID} handleFormClose={handleFormClose} />
+            <AddItemForm 
+              formOpen={formOpen} 
+              addItem={addItem} 
+              loggedInUserID={loggedInUserID} 
+              handleFormClose={handleFormClose} 
+            />
+
           </Stack>
         </Grid>
       </Grid> */}

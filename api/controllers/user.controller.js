@@ -45,11 +45,11 @@ exports.show = async (req,res) => {
 };
 
 exports.login = async (req,res) => {
-  const email = req.body.email;
+  const username = req.body.username;
   const password = req.body.password;
   try {
     const user = await User.findOne({where: {
-        email: email
+        username: username
       }
     })
     if (!user) {
@@ -59,19 +59,26 @@ exports.login = async (req,res) => {
       res.status(403).send("Error: the password is incorrect.");
     } else {
       req.session.userID = user.id;
-      res.redirect("/");
+      res.json(user)
+      // res.redirect("/");
     }
   } catch (err) {
       res.status(500).send({
-        message: err.message || "This email is not registered"
+        message: err.message || "This username is not registered"
       })
   };
   
 };
 
 exports.logout =  (req, res) => {
-  req.session = null;
-  res.redirect("/");
+  try {
+    req.session = null;
+    res.status(200).send("User is logged out")
+
+  
+  } catch (err) {
+    res.status(500).send(err.message)
+  }
 };
 
 // exports.create = (req,res) => {

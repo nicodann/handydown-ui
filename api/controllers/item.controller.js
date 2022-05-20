@@ -13,6 +13,9 @@ exports.index = async (req, res) => {
     const items = await Item.findAll({
       where: condition,
       include: User,
+      order: [
+        ['id', 'DESC'],
+      ]
     })
     res.json(items);
   } catch (err) {

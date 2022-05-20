@@ -1,13 +1,15 @@
 import axios from 'axios';
 import { useEffect, useState } from 'react';
 import {
+  AppBar,
+  Toolbar,
   Box,
   Button,
   Container,
   CssBaseline,
-  Grid,
+  // Grid,
   IconButton,
-  Stack,
+  // Stack,
   Tabs,
   Tab,
   TextField,
@@ -44,7 +46,11 @@ function App() {
       console.log("HERE ARE THE ITEMS", items.data);
       return items.data;
     })
-    .then((data) => setTabbedItems(data.filter((item) => item.offered === true)))
+    .then((data) => 
+      setTabbedItems(ITEMS.filter((item) => { 
+        return item.offered === true && item.userId !== loggedInUserID; 
+      }))
+    )
     .catch();
   }, []);
 
@@ -55,7 +61,7 @@ function App() {
         console.log("HERE ARE THE CONVERSATIONS", conversations.data)
       })
       .catch();
-    }, []);
+    }, [loggedInUserID]);
 
   const loginUser = async (loginFormData) => {
     try {
@@ -94,9 +100,10 @@ function App() {
         headers: { "Content-Type": "multipart/form-data" },
       });
       const newItem = response.data;
-      const newTabbedItems = [newItem, ...tabbedItems];
-      if ((tabValue === 0 && newItem.offered) || (tabValue === 1 && !newItem.offered) || (tabValue === 2 && newItem.userId === loggedInUserID)) {
-        setTabbedItems(newTabbedItems);
+      if ((tabValue === 0 && newItem.offered) ||
+          (tabValue === 1 && !newItem.offered) ||
+          (tabValue === 2 && newItem.userId === loggedInUserID)) {
+        setTabbedItems([newItem, ...tabbedItems]);
       } 
       setITEMS([newItem, ...ITEMS]);
     } catch(error) {
@@ -108,7 +115,9 @@ function App() {
     try {
       const response = await axios.delete(`/api/items/${itemId}`);
       console.log("AXIOS DELETE RESPONSE", response);
-      if ((tabValue === 0 && offered) || (tabValue === 1 && !offered) || (tabValue === 2)) {
+      if ((tabValue === 0 && offered) ||
+          (tabValue === 1 && !offered) ||
+          (tabValue === 2)) {
         setTabbedItems(tabbedItems.filter((tabbedItem) => tabbedItem.id !== itemId));
       }
       setITEMS(ITEMS.filter((item) => item.id !== itemId));
@@ -125,9 +134,13 @@ function App() {
     setSearchText('');
 
     if (currentTab === 0) {
-      setTabbedItems(ITEMS.filter((item) => item.offered));
+      setTabbedItems(ITEMS.filter((item) => { 
+        return item.offered === true && item.userId !== loggedInUserID; 
+      }));
     } else if (currentTab === 1) {
-      setTabbedItems(ITEMS.filter((item) => !item.offered));
+      setTabbedItems(ITEMS.filter((item) => {
+        return !item.offered && item.userId !== loggedInUserID; 
+      }));
     } else if (currentTab === 2) {
       setTabbedItems(ITEMS.filter((item) => item.userId === loggedInUserID));
     }
@@ -154,7 +167,31 @@ function App() {
     <>
       <CssBaseline />
       {/* NAVBAR */}
-      <Grid 
+        <AppBar position="sticky">
+          <Toolbar>
+            <IconButton
+              size="large"
+              edge="start"
+              color="inherit"
+              aria-label="menu"
+              sx={{ mr: 2 }}
+            >
+              <VolunteerActivism />
+            </IconButton>
+            <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
+              HandyDown
+            </Typography>
+            <IconButton sx={{mr: -1.5}}>
+              <AccountCircleIcon style={{fill: "white"}}/>
+            </IconButton>
+            <Button color="inherit" component="span">nicoDann</Button>
+            <Button color="inherit" variant="text">Logout</Button>
+            <Button color="warning"  variant="contained" onClick={handleFormOpen} sx={{ml: 1}}>Post Item</Button>
+            <AddItemForm 
+              color="inherit" formOpen={formOpen} addItem={addItem} loggedInUserID={loggedInUserID} handleFormClose={handleFormClose} />
+          </Toolbar>
+        </AppBar>
+      {/* <Grid 
         container
         justifyContent="space-between"
         alignItems="center"
@@ -164,15 +201,15 @@ function App() {
           borderBottom: 1,
           borderColor: 'divider'
         }}
-      >
-        {/* NAVBAR--LOGO */}
+        >
+        
         <Grid item xs="auto" style={{display: 'flex', justifyContent: 'space-between', alignItems: 'center'}}>
           <VolunteerActivism sx={{ color: 'primary.main', fontSize: 40 }}/>
           <Typography variant="h5" sx={{ml: 2, color: 'primary.main'}}>HandyDown</Typography>
         </Grid>
-        {/* NAVBAR--BUTTONTRAY */}
         <Grid item xs="auto">
           <Stack direction="row" spacing={2}>
+
             { !loggedInUser ?
               <>
                 <Button variant="text">register</Button>
@@ -190,6 +227,7 @@ function App() {
                 <Button variant="text" onClick={logoutUser}>Logout</Button>
               </>
             }
+
             <Button color="primary" variant="contained" onClick={handleFormOpen}>Post Item</Button>
             <AddItemForm 
               formOpen={formOpen} 
@@ -200,7 +238,7 @@ function App() {
 
           </Stack>
         </Grid>
-      </Grid>
+      </Grid> */}
       {/* TABBAR */}
       <Box display="flex" justifyContent="center" alignItems="center" sx={{ pt: 1, borderBottom: 1, borderColor: 'divider' }}>
         <Tabs value={tabValue} onChange={handleTabClick}>

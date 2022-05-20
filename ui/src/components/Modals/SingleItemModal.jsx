@@ -32,6 +32,7 @@ export default function SingleItemModal(props) {
     event.preventDefault();
     console.log('delete button!!!!!!');
     deleteItem(itemId, offered);
+    handleClose();
   }
 
   const replyMessageFunction = (message) => {

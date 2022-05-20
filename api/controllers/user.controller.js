@@ -69,6 +69,23 @@ exports.login = async (req,res) => {
   
 };
 
+exports.logged_in = async (req, res) => {
+  const loggedInUserId = req.session.userID;
+  //authenticate
+  try {
+    const user = await User.findOne({where: {
+        id: loggedInUserId
+      }
+    })
+    if (user) {
+      res.status(200).send(user)
+    } 
+  } catch (err) {
+    res.status(500).send()
+  }
+  
+}
+ 
 exports.logout =  (req, res) => {
   req.session = null;
   res.redirect("/");

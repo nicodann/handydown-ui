@@ -1,6 +1,6 @@
 const db = require('../models');
-const Conversation = db.conversations;
-const Message = db.messages;
+const Conversation = db.conversation;
+const Message = db.message;
 
 // Create a new message belonging to a conversation with conversationId
 exports.create = async (req, res) => {

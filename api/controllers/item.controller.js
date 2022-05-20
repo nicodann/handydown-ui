@@ -1,7 +1,7 @@
 const path = require('node:path');
 const db = require("../models");
-const Item = db.items;
-const User = db.users;
+const Item = db.item;
+const User = db.user;
 const Op = db.Sequelize.Op;
 
 //Retrieve all Items from the db or search by name
@@ -74,6 +74,7 @@ exports.create = async (req, res) => {
     offered,
     image: imageFile ? `http://localhost:8080/images/${imageFile.name}` : `http://localhost:8080/images/glove2.jpg`
   };
+  console.log(Item)
   //save
   try {
     data = await Item.create(item);

@@ -26,10 +26,6 @@
       });
     };
 
-    useEffect(() => {
-      console.log("formValue:", formValue)
-    })
-
     const handleSubmit = async (event) => {
       event.preventDefault();
       const loginFormData = new FormData();

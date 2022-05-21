@@ -35,9 +35,22 @@ function App() {
   const [formOpen, setFormOpen] = useState(false);
   const [loginFormOpen, setLoginFormOpen] = useState(false);
 
+  const checkLoggedInUser = async () => {
+    try {
+      const response = await axios({
+        method: 'post',
+        url: 'api/users/logged_in',
+      });
+      setLoggedInUser(response.data);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   useEffect(() => {
-    console.log("loggedInUser:" ,loggedInUser)
-  })
+    console.log("checking")
+    checkLoggedInUser()
+  }, [])
 
   useEffect(() => {
     axios.get("/api/items")
@@ -75,7 +88,7 @@ function App() {
     } catch(error) {
       console.log(error);
     }
-  }
+  };
 
   const logoutUser = async () => {
     console.log("logging out")
@@ -85,11 +98,13 @@ function App() {
         url: '/api/users/logout'
       })
     } catch(error) {
-      console.log(error)
+      console.log(error);
     }
 
     setLoggedInUser(prev => null);
-  }
+  };
+
+  
 
   const addItem = async (newItemFormData) => {
     try {

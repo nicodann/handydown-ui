@@ -5,7 +5,7 @@ const Op = db.Sequelize.Op; //maybe use if more routes
 
 exports.create = async (req,res) => {
   //validate
-  if (!req.body.username) {
+  if (!req.body.username ) {
     res.status(400).send({
       message: "User needs a username!"
     });
@@ -15,16 +15,16 @@ exports.create = async (req,res) => {
   //hash password
   const hashedPass = bcrypt.hashSync(password, 10);
   //create
-  const user = {
+  const userData = {
     username,
     email,
     password: hashedPass,
     location
   }
-  console.log("User:", User)
   try {
-    const data =  await User.create(user);
-    res.json(data);
+    const user =  await User.create(userData);
+    req.session.userID = user.id;
+    res.json(user);
   } catch (err) {
       res.status(500).send({
         message: err.message || "An error occured while creating the User."
@@ -35,8 +35,8 @@ exports.create = async (req,res) => {
 exports.show = async (req,res) => {
   const id = req.params.id;
   try {
-    const data = await User.findByPk(id)
-    res.json(data);
+    const user = await User.findByPk(id)
+    res.json(user);
   } catch (err) {
       res.status(500).send({
         message: err.message || "An error occured while retrieving user."
@@ -70,6 +70,27 @@ exports.login = async (req,res) => {
   
 };
 
+exports.logged_in = async (req, res) => {
+  const loggedInUserId = req.session.userID;
+  console.log ("loggedInUserId",loggedInUserId)
+  if (loggedInUserId === undefined) {
+    res.status(400).send("User is not logged in")
+  } else {
+    //authenticate
+    try {
+      const user = await User.findOne({where: {
+          id: loggedInUserId
+        }
+      })
+      console.log("found:", user)
+      res.status(200).send(user);
+    } catch (err) {
+      res.status(500).send(err);
+    }
+  }
+  
+}
+ 
 exports.logout =  (req, res) => {
   try {
     req.session = null;

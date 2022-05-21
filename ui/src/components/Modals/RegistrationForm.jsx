@@ -7,12 +7,14 @@
     Typography,
   } from '@mui/material';
 
-  function LoginForm(props) {
-    const { loginFormOpen, setLoginFormOpen, loginUser } = props;
+  function RegistrationForm(props) {
+    const { registrationFormOpen, setRegistrationFormOpen, registerUser } = props;
 
     const [formValue, setFormValue] = useState({
       username: '',
-      password: ''
+      email: '',
+      password: '',
+      location: ''
     });
 
     const handleChange = (event) => {
@@ -24,19 +26,22 @@
 
     const handleSubmit = async (event) => {
       event.preventDefault();
-      const loginFormData = new FormData();
-      loginFormData.append("username", formValue.username);
-      loginFormData.append("password", formValue.password);
-      loginUser(loginFormData)
-      setLoginFormOpen(false);
+      console.log("formValue:",formValue)
+      const registrationFormData = new FormData();
+      registrationFormData.append("username", formValue.username);
+      registrationFormData.append("email", formValue.email);
+      registrationFormData.append("password", formValue.password);
+      registrationFormData.append("location", formValue.location);
+      console.log("regFormData:", registrationFormData)
+      registerUser(registrationFormData)
+      setRegistrationFormOpen(false);
       
     };
 
     return (
       <Modal
-        open={loginFormOpen}
-        // open={true}
-        onClose={() => setLoginFormOpen(false)}
+        open={registrationFormOpen}
+        onClose={() => setRegistrationFormOpen(false)}
         aria-labelledby="modal-modal-title"
         aria-describedby="modal-modal-description"
       >
@@ -51,7 +56,7 @@
           boxShadow: 24,
           p: 4, 
         }}>
-          <Typography variant="h4">Login</Typography>
+          <Typography variant="h4">Register</Typography>
             <Box component="form" onSubmit={handleSubmit} sx={{ display: "flex", flexDirection: "column"}}>
               <TextField
                 type="text"
@@ -62,9 +67,23 @@
               />
               <TextField
                 type="text"
+                name="email"
+                label="Email"
+                sx={{ mt: 1}}
+                onChange={handleChange}
+              />
+              <TextField
+                type="text"
                 name="password"
                 label="Password"
                 sx={{mt:1}}
+                onChange={handleChange}
+              />
+              <TextField
+                type="text"
+                name="location"
+                label="Location"
+                sx={{ mt: 1}}
                 onChange={handleChange}
               />
               <Box sx={{ display: "flex", justifyContent: "start", mt: 2 }}>
@@ -77,7 +96,7 @@
                 <Button
                   variant="outlined" 
                   sx={{ml:1}}
-                  onClick={() => setLoginFormOpen(false)}
+                  onClick={() => setRegistrationFormOpen(false)}
                 >
                   Cancel
                 </Button>
@@ -88,4 +107,4 @@
     )
   };
 
-  export default LoginForm;
+  export default RegistrationForm;

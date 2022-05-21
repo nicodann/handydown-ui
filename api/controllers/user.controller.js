@@ -15,16 +15,16 @@ exports.create = async (req,res) => {
   //hash password
   const hashedPass = bcrypt.hashSync(password, 10);
   //create
-  const user = {
+  const userData = {
     username,
     email,
     password: hashedPass,
     location
   }
-  console.log("User:", User)
   try {
-    const data =  await User.create(user);
-    res.json(data);
+    const user =  await User.create(userData);
+    req.session.userID = user.id;
+    res.json(user);
   } catch (err) {
       res.status(500).send({
         message: err.message || "An error occured while creating the User."
@@ -35,8 +35,8 @@ exports.create = async (req,res) => {
 exports.show = async (req,res) => {
   const id = req.params.id;
   try {
-    const data = await User.findByPk(id)
-    res.json(data);
+    const user = await User.findByPk(id)
+    res.json(user);
   } catch (err) {
       res.status(500).send({
         message: err.message || "An error occured while retrieving user."

@@ -60,8 +60,12 @@ function App() {
       return items.data;
     })
     .then((data) => 
-      setTabbedItems(ITEMS.filter((item) => { 
-        return item.offered === true && item.userId !== loggedInUser.id; 
+      setTabbedItems(ITEMS.filter((item) => {
+        if (loggedInUser) {
+          return item.offered === true && item.userId !== loggedInUser.id; 
+        } else {
+          return item.offered === true
+        }
       }))
     )
     .catch();
@@ -167,14 +171,24 @@ function App() {
 
     if (currentTab === 0) {
       setTabbedItems(ITEMS.filter((item) => { 
-        return item.offered === true && item.userId !== loggedInUser.id; 
+        if (loggedInUser) {
+          return item.offered === true && item.userId !== loggedInUser.id; 
+        } else {
+          return item.offered === true
+        }
       }));
     } else if (currentTab === 1) {
       setTabbedItems(ITEMS.filter((item) => {
-        return !item.offered && item.userId !== loggedInUser.id; 
+        if (loggedInUser) {
+          return !item.offered && item.userId !== loggedInUser.id; 
+        } else {
+          return !item.offered
+        }
       }));
     } else if (currentTab === 2) {
-      setTabbedItems(ITEMS.filter((item) => item.userId === loggedInUser.id));
+      if (loggedInUser) {
+        setTabbedItems(ITEMS.filter((item) => item.userId === loggedInUser.id));
+      } 
     }
     setTabValue(currentTab);
   };

@@ -17,6 +17,7 @@ function ConversationList(props) {
 
   const { conversations, tabValue, tabIndex, loggedInUserID } = props;
 
+  console.log('latest conversations', conversations)
   const findLatestMessageBody = (conversation) => {
     return conversation.messages[conversation.messages.length - 1].body
   }

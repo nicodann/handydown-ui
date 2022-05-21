@@ -131,16 +131,10 @@ function App() {
         url: '/api/messages',
         data: newMessageFormData,
       });
-      console.log(response.data);
+      console.log('returned conversation', response.data);
       const returnedConversation = response.data;
-      // setTabValue(3);
-      // if (conversations) {
-      //   // replace oldConversation with returnedConversation
-      //   // const filteredConversations = conversations.filter conversation => conversation.id !== returnedConversation.id
-      //   // setConversations(returnedConversation, filteredConversations)
-      // } else {
-      //   // setConversations(returnedConversation, ...conversations)
-      // }
+      const filteredConversations= conversations.filter(conversation => conversation.id !== returnedConversation.id);
+      setConversations([returnedConversation, ...filteredConversations]);
     } catch(err) {
       console.log(err);
     };

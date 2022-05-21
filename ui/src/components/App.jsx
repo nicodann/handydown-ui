@@ -82,6 +82,11 @@ function App() {
 
     }
     }, [loggedInUser && loggedInUser.id]);
+  
+  useEffect(() => {
+    console.log("tabbedItems.length:",tabbedItems.length)
+    console.log("tabValue:", tabValue)
+  });
 
   const loginUser = async (loginFormData) => {
     try {
@@ -226,10 +231,7 @@ function App() {
     )
   }
 
-  useEffect(() => {
-    console.log("tabbedItems.length:",tabbedItems.length)
-    console.log("tabValue:", tabValue)
-  })
+  
 
   const handleFormOpen = () => setFormOpen(true);
   

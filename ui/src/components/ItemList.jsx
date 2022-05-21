@@ -41,9 +41,7 @@ function ItemList(props) {
         items && items.length > 0 ? (
         <Box sx={{ flexGrow: 1 }}>
           <Grid container spacing={6}>
-            {tabValue === 2 && items.length === 0 ? 
-            <Box><Typography>You haven't posted anything yet!</Typography></Box> :
-            <>
+            
             
             { items.map((item) => ( 
               <Item
@@ -77,12 +75,14 @@ function ItemList(props) {
               deleteItem={deleteItem}
 
             /> 
-            </>}
           </Grid>
         </Box>
       ) : (
         <Box display='flex' justifyContent='center'>
-        <Typography variant="body2">No results found!</Typography>
+          {tabIndex === 2 ?
+            <Typography variant="body2">You haven't posted anything yet!</Typography> :
+            <Typography variant="body2">No results found!</Typography>
+          }
         </Box>
       )
       )}

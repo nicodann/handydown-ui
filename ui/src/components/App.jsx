@@ -205,6 +205,11 @@ function App() {
     setSearchText(keyword);
   };
 
+  useEffect(() => {
+    console.log("tabbedItems.length:",tabbedItems.length)
+    console.log("tabValue:", tabValue)
+  })
+
   const handleFormOpen = () => setFormOpen(true);
   
   const handleFormClose = () => setFormOpen(false); 
@@ -263,55 +268,7 @@ function App() {
             />
           </Toolbar>
         </AppBar>
-      {/* <Grid 
-        container
-        justifyContent="space-between"
-        alignItems="center"
-        sx={{
-          py: 3,
-          px: 2,
-          borderBottom: 1,
-          borderColor: 'divider'
-        }}
-        >
-        
-        <Grid item xs="auto" style={{display: 'flex', justifyContent: 'space-between', alignItems: 'center'}}>
-          <VolunteerActivism sx={{ color: 'primary.main', fontSize: 40 }}/>
-          <Typography variant="h5" sx={{ml: 2, color: 'primary.main'}}>HandyDown</Typography>
-        </Grid>
-        <Grid item xs="auto">
-          <Stack direction="row" spacing={2}>
-
-            { !loggedInUser ?
-              <>
-                <Button variant="text">register</Button>
-                <Button variant="text" onClick={() => setLoginFormOpen(true)}>login</Button>
-                <LoginForm
-                  loginFormOpen={loginFormOpen}
-                  loginUser={loginUser}
-                  setLoginFormOpen={setLoginFormOpen}
-                />
-              
-              </>
-            :
-              <>
-                <IconButton sx={{mr: -3.5}}><AccountCircleIcon color="primary"/></IconButton><Button component="span">{loggedInUser.username}</Button>
-                <Button variant="text" onClick={logoutUser}>Logout</Button>
-              </>
-            }
-
-            <Button color="primary" variant="contained" onClick={handleFormOpen}>Post Item</Button>
-            <AddItemForm 
-              formOpen={formOpen} 
-              addItem={addItem} 
-              loggedInUserID={loggedInUserID} 
-              handleFormClose={handleFormClose} 
-            />
-
-          </Stack>
-        </Grid>
-      </Grid> */}
-      {/* TABBAR */}
+      
       <Box display="flex" justifyContent="center" alignItems="center" sx={{ pt: 1, borderBottom: 1, borderColor: 'divider' }}>
         <Tabs value={tabValue} onChange={handleTabClick}>
           <Tab label="Offers" />
@@ -328,7 +285,7 @@ function App() {
           onChange={handleSearchInput}
           id="outlined-search"
           label="Search by item name..."
-          sx={{ visibility: tabValue !== 3 ? 'visible': 'hidden'}}
+          sx={{ visibility: (tabValue !== 2 && tabbedItems.length) ? 'visible': 'hidden'}}
         />
       </Box>
       {/* BODY -- ITEMS OR MESSAGES */}

@@ -328,7 +328,7 @@ function App() {
           onChange={handleSearchInput}
           id="outlined-search"
           label="Search by item name..."
-          sx={{ visibility: tabValue !== 3 ? 'visible': 'hidden'}}
+          sx={{ visibility: tabValue !== 3 || (tabValue !== 2 && tabbedItems.length !== 0) ? 'visible': 'hidden'}}
         />
       </Box>
       {/* BODY -- ITEMS OR MESSAGES */}

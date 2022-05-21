@@ -17,6 +17,7 @@ import {
 } from '@mui/material';
 import { VolunteerActivism } from '@mui/icons-material';
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
+import CircularProgress from '@mui/material/CircularProgress';
 import ItemList from './ItemList';
 import ConversationList from './ConversationList';
 import AddItemForm from './Modals/AddItemForm';
@@ -24,7 +25,7 @@ import LoginForm from './Modals/LoginForm';
 
 function App() {
 
-  const [ITEMS, setITEMS] = useState([]);
+  const [ITEMS, setITEMS] = useState(null);
   const [conversations, setConversations] = useState([]);
   const [tabbedItems, setTabbedItems] = useState([]);
   const [searchedItems, setSearchedItems] = useState([])
@@ -43,14 +44,11 @@ function App() {
     axios.get("/api/items")
     .then((items) => {
       setITEMS(items.data);
-      console.log("HERE ARE THE ITEMS", items.data);
       return items.data;
     })
-    .then(() => 
-      setTabbedItems(ITEMS.filter((item) => { 
-        return item.offered === true && item.userId !== loggedInUserID; 
-      }))
-    )
+    .then((data) => {
+      setTabbedItems(data.filter((item) => item.offered === true && loggedInUserID !== item.userId));
+    })
     .catch();
   }, []);
 
@@ -176,6 +174,14 @@ function App() {
     setSearchText(keyword);
   };
 
+  if (ITEMS === null) {
+    return (
+      <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100vh' }}>
+      <CircularProgress size={80} />
+    </Box>
+    )
+  }
+
   return (
     <>
       <CssBaseline />
@@ -281,7 +287,7 @@ function App() {
           loggedInUserID={loggedInUserID}
           deleteItem={deleteItem}
           addMessage={addMessage}
-          loggedInUser={loggedInUser}
+          // loggedInUser={loggedInUser}
         />
         <ItemList
           items={searchText !== '' ? searchedItems : tabbedItems}

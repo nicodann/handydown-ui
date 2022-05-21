@@ -21,6 +21,7 @@ import ItemList from './ItemList';
 import ConversationList from './ConversationList';
 import AddItemForm from './Modals/AddItemForm';
 import LoginForm from './Modals/LoginForm';
+import RegistrationForm from './Modals/RegistrationForm';
 
 function App() {
 
@@ -31,13 +32,25 @@ function App() {
   const [tabValue, setTabValue ] = useState(0);
   const [searchText, setSearchText] = useState("");
   const [loggedInUser, setLoggedInUser] = useState();
-  const [loggedInUserID, setLoggedInUserID] = useState(3);
   const [formOpen, setFormOpen] = useState(false);
   const [loginFormOpen, setLoginFormOpen] = useState(false);
+  const [regFormOpen, setRegFormOpen] = useState(false);
+
+  const checkLoggedInUser = async () => {
+    try {
+      const response = await axios({
+        method: 'post',
+        url: 'api/users/logged_in',
+      });
+      setLoggedInUser(response.data);
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
   useEffect(() => {
-    console.log("loggedInUser:" ,loggedInUser)
-  })
+    checkLoggedInUser()
+  }, [])
 
   useEffect(() => {
     axios.get("/api/items")
@@ -47,21 +60,28 @@ function App() {
       return items.data;
     })
     .then((data) => 
-      setTabbedItems(ITEMS.filter((item) => { 
-        return item.offered === true && item.userId !== loggedInUserID; 
+      setTabbedItems(ITEMS.filter((item) => {
+        if (loggedInUser) {
+          return item.offered === true && item.userId !== loggedInUser.id; 
+        } else {
+          return item.offered === true
+        }
       }))
     )
     .catch();
   }, []);
 
   useEffect(() => {
-    axios.get(`/api/conversations/by/user/${loggedInUserID}`)
-      .then((conversations) => {
-        setConversations(conversations.data);
-        console.log("HERE ARE THE CONVERSATIONS", conversations.data)
-      })
-      .catch();
-    }, [loggedInUserID]);
+    if (loggedInUser) {
+      axios.get(`/api/conversations/by/user/${loggedInUser.id}`)
+        .then((conversations) => {
+          setConversations(conversations.data);
+          console.log("HERE ARE THE CONVERSATIONS", conversations.data)
+        })
+        .catch();
+
+    }
+    }, [loggedInUser && loggedInUser.id]);
 
   const loginUser = async (loginFormData) => {
     try {
@@ -75,6 +95,20 @@ function App() {
     } catch(error) {
       console.log(error);
     }
+  };
+
+  const registerUser = async (registrationFormData) => {
+    try {
+      const response = await axios({
+        method: 'post',
+        url: '/api/users',
+        data: registrationFormData,
+        headers: { "Content-Type": "multipart/form-data" },
+      });
+      setLoggedInUser(response.data);
+    } catch(error) {
+      console.log(error)
+    }
   }
 
   const logoutUser = async () => {
@@ -85,11 +119,13 @@ function App() {
         url: '/api/users/logout'
       })
     } catch(error) {
-      console.log(error)
+      console.log(error);
     }
 
     setLoggedInUser(prev => null);
-  }
+  };
+
+  
 
   const addItem = async (newItemFormData) => {
     try {
@@ -102,7 +138,7 @@ function App() {
       const newItem = response.data;
       if ((tabValue === 0 && newItem.offered) ||
           (tabValue === 1 && !newItem.offered) ||
-          (tabValue === 2 && newItem.userId === loggedInUserID)) {
+          (tabValue === 2 && newItem.userId === loggedInUser.id)) {
         setTabbedItems([newItem, ...tabbedItems]);
       } 
       setITEMS([newItem, ...ITEMS]);
@@ -135,14 +171,24 @@ function App() {
 
     if (currentTab === 0) {
       setTabbedItems(ITEMS.filter((item) => { 
-        return item.offered === true && item.userId !== loggedInUserID; 
+        if (loggedInUser) {
+          return item.offered === true && item.userId !== loggedInUser.id; 
+        } else {
+          return item.offered === true
+        }
       }));
     } else if (currentTab === 1) {
       setTabbedItems(ITEMS.filter((item) => {
-        return !item.offered && item.userId !== loggedInUserID; 
+        if (loggedInUser) {
+          return !item.offered && item.userId !== loggedInUser.id; 
+        } else {
+          return !item.offered
+        }
       }));
     } else if (currentTab === 2) {
-      setTabbedItems(ITEMS.filter((item) => item.userId === loggedInUserID));
+      if (loggedInUser) {
+        setTabbedItems(ITEMS.filter((item) => item.userId === loggedInUser.id));
+      } 
     }
     setTabValue(currentTab);
   };
@@ -181,14 +227,40 @@ function App() {
             <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
               HandyDown
             </Typography>
-            <IconButton sx={{mr: -1.5}}>
-              <AccountCircleIcon style={{fill: "white"}}/>
-            </IconButton>
-            <Button color="inherit" component="span">nicoDann</Button>
-            <Button color="inherit" variant="text">Logout</Button>
+            {!loggedInUser ?
+              <>
+                <Button color="inherit" variant="text" onClick={() => setLoginFormOpen(true)}>Login</Button>
+                <LoginForm 
+                  loginFormOpen={loginFormOpen}
+                  setLoginFormOpen={setLoginFormOpen}
+                  loginUser={loginUser}            
+                />
+                <Button color="inherit" variant="text" onClick={() => setRegFormOpen(true)}>Register</Button>
+                <RegistrationForm 
+                  registrationFormOpen={regFormOpen}
+                  setRegistrationFormOpen={setRegFormOpen}
+                  registerUser={registerUser}
+                />
+              
+              </>
+            :
+              <>
+                <IconButton sx={{mr: -1.5}}>
+                  <AccountCircleIcon style={{fill: "white"}}/>
+                </IconButton>
+                <Button color="inherit" component="span">{loggedInUser.username}</Button>
+                <Button color="inherit" variant="text" onClick={logoutUser}>Logout</Button>
+              
+              </>
+            }
             <Button color="warning"  variant="contained" onClick={handleFormOpen} sx={{ml: 1}}>Post Item</Button>
             <AddItemForm 
-              color="inherit" formOpen={formOpen} addItem={addItem} loggedInUserID={loggedInUserID} handleFormClose={handleFormClose} />
+              color="inherit" 
+              formOpen={formOpen} 
+              addItem={addItem} 
+              loggedInUserID={loggedInUser && loggedInUser.id} 
+              handleFormClose={handleFormClose} 
+            />
           </Toolbar>
         </AppBar>
       {/* <Grid 
@@ -265,28 +337,28 @@ function App() {
           items={searchText !== '' ? searchedItems : tabbedItems}
           tabValue={tabValue}
           tabIndex={0}
-          loggedInUserID={loggedInUserID}
+          loggedInUserID={loggedInUser && loggedInUser.id}
           deleteItem={deleteItem}
         />
         <ItemList
           items={searchText !== '' ? searchedItems : tabbedItems}
           tabValue={tabValue}
           tabIndex={1}
-          loggedInUserID={loggedInUserID}
+          loggedInUserID={loggedInUser && loggedInUser.id}
           deleteItem={deleteItem}
         />
         <ItemList
           items={searchText !== '' ? searchedItems : tabbedItems}
           tabValue={tabValue}
           tabIndex={2}
-          loggedInUserID={loggedInUserID}
+          loggedInUserID={loggedInUser && loggedInUser.id}
           deleteItem={deleteItem}
         />
         <ConversationList
           conversations={conversations}
           tabValue={tabValue}
           tabIndex={3}
-          loggedInUserID={loggedInUserID}
+          loggedInUserID={loggedInUser && loggedInUser.id}
         />
       </Container>
     </>

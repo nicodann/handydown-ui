@@ -21,6 +21,7 @@ import ItemList from './ItemList';
 import ConversationList from './ConversationList';
 import AddItemForm from './Modals/AddItemForm';
 import LoginForm from './Modals/LoginForm';
+import RegistrationForm from './Modals/RegistrationForm';
 
 function App() {
 
@@ -31,9 +32,9 @@ function App() {
   const [tabValue, setTabValue ] = useState(0);
   const [searchText, setSearchText] = useState("");
   const [loggedInUser, setLoggedInUser] = useState();
-  // const [loggedInUserID, setLoggedInUserID] = useState(3);
   const [formOpen, setFormOpen] = useState(false);
   const [loginFormOpen, setLoginFormOpen] = useState(false);
+  const [regFormOpen, setRegFormOpen] = useState(false);
 
   const checkLoggedInUser = async () => {
     try {
@@ -91,6 +92,20 @@ function App() {
       console.log(error);
     }
   };
+
+  const registerUser = async (registrationFormData) => {
+    try {
+      const response = await axios({
+        method: 'post',
+        url: '/api/users',
+        data: registrationFormData,
+        headers: { "Content-Type": "multipart/form-data" },
+      });
+      setLoggedInUser(response.data);
+    } catch(error) {
+      console.log(error)
+    }
+  }
 
   const logoutUser = async () => {
     console.log("logging out")
@@ -206,7 +221,12 @@ function App() {
                   setLoginFormOpen={setLoginFormOpen}
                   loginUser={loginUser}            
                 />
-                <Button color="inherit" variant="text">Register</Button>
+                <Button color="inherit" variant="text" onClick={() => setRegFormOpen(true)}>Register</Button>
+                <RegistrationForm 
+                  registrationFormOpen={regFormOpen}
+                  setRegistrationFormOpen={setRegFormOpen}
+                  registerUser={registerUser}
+                />
               
               </>
             :

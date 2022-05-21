@@ -5,7 +5,7 @@ const Op = db.Sequelize.Op; //maybe use if more routes
 
 exports.create = async (req,res) => {
   //validate
-  if (!req.body.username) {
+  if (!req.body.username ) {
     res.status(400).send({
       message: "User needs a username!"
     });

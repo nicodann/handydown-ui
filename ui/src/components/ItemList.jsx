@@ -42,7 +42,11 @@ function ItemList(props) {
         <Box sx={{ flexGrow: 1 }}>
           <Grid container spacing={6}>
             {tabValue === 2 && items.length === 0 ? 
-            <Box><Typography>You haven't posted anything yet!</Typography></Box> :
+            <Box>
+              <Typography>
+                You haven't posted anything yet!
+              </Typography>
+            </Box> :
             <>
             
             { items.map((item) => ( 
@@ -75,16 +79,10 @@ function ItemList(props) {
               loggedInUserID={loggedInUserID} // temporarily for ReplyForm
               tabIndex={tabIndex}
               deleteItem={deleteItem}
-<<<<<<< HEAD
               addMessage={addMessage} // for ReplyForm
               loggedInUser={loggedInUser} // for ReplyForm, among others
               setTabValue={setTabValue} // for ReplyForm
             />
-=======
-
-            /> 
-            </>}
->>>>>>> main
           </Grid>
         </Box>
       ) : (

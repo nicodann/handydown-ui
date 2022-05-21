@@ -41,22 +41,25 @@ function ItemList(props) {
         items && items.length > 0 ? (
         <Box sx={{ flexGrow: 1 }}>
           <Grid container spacing={6}>
-           
-              { items.map((item) => ( 
-                <Item
-                  key={item.id}
-                  id={item.id}
-                  offered={item.offered}
-                  name={item.name}
-                  createdAt={item.createdAt}
-                  image={item.image}
-                  description={item.description}
-                  location={item.user.location}
-                  username={item.user.username}
-                  onClick={() => openModal(item)}
-                />
-              ))}
-               <SingleItemModal
+            {tabValue === 2 && items.length === 0 ? 
+            <Box><Typography>You haven't posted anything yet!</Typography></Box> :
+            <>
+            
+            { items.map((item) => ( 
+              <Item
+                key={item.id}
+                id={item.id}
+                offered={item.offered}
+                name={item.name}
+                createdAt={item.createdAt}
+                image={item.image}
+                description={item.description}
+                location={item.user.location}
+                username={item.user.username}
+                onClick={() => openModal(item)}
+              />
+            ))}
+            <SingleItemModal
               key={modalProps.id}
               name={modalProps.name}
               description={modalProps.description}
@@ -73,7 +76,8 @@ function ItemList(props) {
               tabIndex={tabIndex}
               deleteItem={deleteItem}
 
-            />
+            /> 
+            </>}
           </Grid>
         </Box>
       ) : (

@@ -25,7 +25,7 @@ const style = {
 
 export default function SingleItemModal(props) {
 
-  const { addMessage, loggedInUser, name, description, offered, image, createdAt, itemId, creatorId, userName, location, loggedInUserID, open, handleClose, tabIndex, deleteItem } = props;
+  const { setTabValue, addMessage, loggedInUserID, loggedInUser, name, description, offered, image, createdAt, itemId, creatorId, userName, location, open, handleClose, tabIndex, deleteItem } = props;
   // console.log('SIMPROPS', props);
 
   const handleDeleteClick = async (event) => {
@@ -80,9 +80,14 @@ export default function SingleItemModal(props) {
         {loggedInUserID !== creatorId  &&  
           <ReplyForm 
             addMessage={addMessage}
-            loggedInUser={loggedInUser}
+            handleClose={handleClose}
             itemId={itemId}
-            otherUserId={creatorId}
+            name={name}
+            offered={offered}
+            loggedInUserID={loggedInUserID} // temporary until loggedInUser is up and running
+            loggedInUser={loggedInUser}
+            creatorId={creatorId}
+            setTabValue={setTabValue}
           />}
         {tabIndex === 2 && loggedInUserID === creatorId &&
           <Button

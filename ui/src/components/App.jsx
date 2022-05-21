@@ -132,13 +132,15 @@ function App() {
         data: newMessageFormData,
       });
       console.log(response.data);
-      // const returnedConversation = response.data;
-      // if conversations includes returnedConversation
-        // replace oldConversation with returnedConversation
-          // const filteredConversations = conversations.filter conversation => conversation.id !== returnedConversation.id
-          // setConversations(returnedConversation, filteredConversations)
-      // else 
-        // setConversations(returnedConversation, ...conversations)
+      const returnedConversation = response.data;
+      // setTabValue(3);
+      // if (conversations) {
+      //   // replace oldConversation with returnedConversation
+      //   // const filteredConversations = conversations.filter conversation => conversation.id !== returnedConversation.id
+      //   // setConversations(returnedConversation, filteredConversations)
+      // } else {
+      //   // setConversations(returnedConversation, ...conversations)
+      // }
     } catch(err) {
       console.log(err);
     };
@@ -287,7 +289,8 @@ function App() {
           loggedInUserID={loggedInUserID}
           deleteItem={deleteItem}
           addMessage={addMessage}
-          // loggedInUser={loggedInUser}
+          loggedInUser={loggedInUser}
+          setTabValue={setTabValue}
         />
         <ItemList
           items={searchText !== '' ? searchedItems : tabbedItems}
@@ -295,8 +298,9 @@ function App() {
           tabIndex={1}
           loggedInUserID={loggedInUserID}
           deleteItem={deleteItem}
-          addMessage={addMessage}
-          loggedInUser={loggedInUser}
+          addMessage={addMessage} // for ReplyForm
+          loggedInUser={loggedInUser} // for ReplyForm, among others
+          setTabValue={setTabValue}
         />
         <ItemList
           items={searchText !== '' ? searchedItems : tabbedItems}

@@ -181,14 +181,35 @@ function App() {
             <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
               HandyDown
             </Typography>
-            <IconButton sx={{mr: -1.5}}>
-              <AccountCircleIcon style={{fill: "white"}}/>
-            </IconButton>
-            <Button color="inherit" component="span">nicoDann</Button>
-            <Button color="inherit" variant="text">Logout</Button>
+            {!loggedInUser ?
+              <>
+                <Button color="inherit" variant="text" onClick={() => setLoginFormOpen(true)}>Login</Button>
+                <LoginForm 
+                  loginFormOpen={loginFormOpen}
+                  setLoginFormOpen={setLoginFormOpen}
+                  loginUser={loginUser}            
+                />
+                <Button color="inherit" variant="text">Register</Button>
+              
+              </>
+            :
+              <>
+                <IconButton sx={{mr: -1.5}}>
+                  <AccountCircleIcon style={{fill: "white"}}/>
+                </IconButton>
+                <Button color="inherit" component="span">{loggedInUser.username}</Button>
+                <Button color="inherit" variant="text" onClick={logoutUser}>Logout</Button>
+              
+              </>
+            }
             <Button color="warning"  variant="contained" onClick={handleFormOpen} sx={{ml: 1}}>Post Item</Button>
             <AddItemForm 
-              color="inherit" formOpen={formOpen} addItem={addItem} loggedInUserID={loggedInUserID} handleFormClose={handleFormClose} />
+              color="inherit" 
+              formOpen={formOpen} 
+              addItem={addItem} 
+              loggedInUserID={loggedInUserID} 
+              handleFormClose={handleFormClose} 
+            />
           </Toolbar>
         </AppBar>
       {/* <Grid 

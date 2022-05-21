@@ -31,7 +31,7 @@ function App() {
   const [tabValue, setTabValue ] = useState(0);
   const [searchText, setSearchText] = useState("");
   const [loggedInUser, setLoggedInUser] = useState();
-  const [loggedInUserID, setLoggedInUserID] = useState(3);
+  // const [loggedInUserID, setLoggedInUserID] = useState(3);
   const [formOpen, setFormOpen] = useState(false);
   const [loginFormOpen, setLoginFormOpen] = useState(false);
 
@@ -48,7 +48,6 @@ function App() {
   };
 
   useEffect(() => {
-    console.log("checking")
     checkLoggedInUser()
   }, [])
 
@@ -61,20 +60,23 @@ function App() {
     })
     .then((data) => 
       setTabbedItems(ITEMS.filter((item) => { 
-        return item.offered === true && item.userId !== loggedInUserID; 
+        return item.offered === true && item.userId !== loggedInUser.id; 
       }))
     )
     .catch();
   }, []);
 
   useEffect(() => {
-    axios.get(`/api/conversations/by/user/${loggedInUserID}`)
-      .then((conversations) => {
-        setConversations(conversations.data);
-        console.log("HERE ARE THE CONVERSATIONS", conversations.data)
-      })
-      .catch();
-    }, [loggedInUserID]);
+    if (loggedInUser) {
+      axios.get(`/api/conversations/by/user/${loggedInUser.id}`)
+        .then((conversations) => {
+          setConversations(conversations.data);
+          console.log("HERE ARE THE CONVERSATIONS", conversations.data)
+        })
+        .catch();
+
+    }
+    }, [loggedInUser && loggedInUser.id]);
 
   const loginUser = async (loginFormData) => {
     try {
@@ -117,7 +119,7 @@ function App() {
       const newItem = response.data;
       if ((tabValue === 0 && newItem.offered) ||
           (tabValue === 1 && !newItem.offered) ||
-          (tabValue === 2 && newItem.userId === loggedInUserID)) {
+          (tabValue === 2 && newItem.userId === loggedInUser.id)) {
         setTabbedItems([newItem, ...tabbedItems]);
       } 
       setITEMS([newItem, ...ITEMS]);
@@ -150,14 +152,14 @@ function App() {
 
     if (currentTab === 0) {
       setTabbedItems(ITEMS.filter((item) => { 
-        return item.offered === true && item.userId !== loggedInUserID; 
+        return item.offered === true && item.userId !== loggedInUser.id; 
       }));
     } else if (currentTab === 1) {
       setTabbedItems(ITEMS.filter((item) => {
-        return !item.offered && item.userId !== loggedInUserID; 
+        return !item.offered && item.userId !== loggedInUser.id; 
       }));
     } else if (currentTab === 2) {
-      setTabbedItems(ITEMS.filter((item) => item.userId === loggedInUserID));
+      setTabbedItems(ITEMS.filter((item) => item.userId === loggedInUser.id));
     }
     setTabValue(currentTab);
   };
@@ -222,7 +224,7 @@ function App() {
               color="inherit" 
               formOpen={formOpen} 
               addItem={addItem} 
-              loggedInUserID={loggedInUserID} 
+              loggedInUserID={loggedInUser && loggedInUser.id} 
               handleFormClose={handleFormClose} 
             />
           </Toolbar>
@@ -301,28 +303,28 @@ function App() {
           items={searchText !== '' ? searchedItems : tabbedItems}
           tabValue={tabValue}
           tabIndex={0}
-          loggedInUserID={loggedInUserID}
+          loggedInUserID={loggedInUser && loggedInUser.id}
           deleteItem={deleteItem}
         />
         <ItemList
           items={searchText !== '' ? searchedItems : tabbedItems}
           tabValue={tabValue}
           tabIndex={1}
-          loggedInUserID={loggedInUserID}
+          loggedInUserID={loggedInUser && loggedInUser.id}
           deleteItem={deleteItem}
         />
         <ItemList
           items={searchText !== '' ? searchedItems : tabbedItems}
           tabValue={tabValue}
           tabIndex={2}
-          loggedInUserID={loggedInUserID}
+          loggedInUserID={loggedInUser && loggedInUser.id}
           deleteItem={deleteItem}
         />
         <ConversationList
           conversations={conversations}
           tabValue={tabValue}
           tabIndex={3}
-          loggedInUserID={loggedInUserID}
+          loggedInUserID={loggedInUser && loggedInUser.id}
         />
       </Container>
     </>

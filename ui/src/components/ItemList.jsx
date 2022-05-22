@@ -9,7 +9,7 @@ import Item from './Item';
 import SingleItemModal from './Modals/SingleItemModal';
 
 function ItemList(props) {
-  const { tabValue, tabIndex, items, loggedInUserID, deleteItem } = props;
+  const { setTabValue, tabValue, tabIndex, items, addMessage, loggedInUser,loggedInUserID, deleteItem } = props;
 // console.log('tab value:', props);
   //MODAL STATE LOGIC
 
@@ -66,15 +66,17 @@ function ItemList(props) {
               createdAt={modalProps.createdAt}
               userName={modalProps.user.username}
               location={modalProps.user.location}
-              creatorId={modalProps.user.id}
-              itemId={modalProps.id}
+              creatorId={modalProps.user.id} // for ReplyForm, among others
+              itemId={modalProps.id} // for ReplyForm, among others
               open={open}
               handleClose={() => setOpen(false)}
-              loggedInUserID={loggedInUserID}
+              loggedInUserID={loggedInUserID} // temporarily for ReplyForm
               tabIndex={tabIndex}
               deleteItem={deleteItem}
-
-            /> 
+              addMessage={addMessage} // for ReplyForm
+              loggedInUser={loggedInUser} // for ReplyForm, among others
+              setTabValue={setTabValue} // for ReplyForm
+            />
           </Grid>
         </Box>
       ) : (

@@ -17,6 +17,7 @@ exports.index = async (req, res) => {
         ['id', 'DESC'],
       ]
     })
+    // setTimeout(() => res.json(items), 1000)
     res.json(items);
   } catch (err) {
     res.status(499).send({
@@ -41,7 +42,10 @@ exports.show = async (req, res) => {
 exports.create = async (req, res) => {
 
   const { name, description, userId, offered } = req.body
-  
+  console.log('name', name)
+  console.log('description', description)
+  console.log('userid', userId)
+  console.log('offered', offered)
   let imageFile;
   let uploadPath;
 
@@ -50,6 +54,7 @@ exports.create = async (req, res) => {
     uploadPath = path.join(__dirname, '..', 'assets/images', imageFile.name);
     console.log("DIRNAME:::::::::::::::::", __dirname);
     console.log("UPLOAD PATH:::::::::::::::::::::::::::::::::", uploadPath)
+    console.log('imageFile.name', imageFile.name)
     // Use the mv() method to place the file somewhere on your server
     imageFile.mv(uploadPath, function(err) {
       if (err) {

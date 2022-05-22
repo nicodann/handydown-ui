@@ -8,35 +8,62 @@ import TextField from '@mui/material/TextField';
 
 export default function ReplyForm(props) {
 
-  const { replyMessageFunction } = props;
+  const { setTabValue, addMessage, handleClose, itemId, name, offered, loggedInUserID, creatorId } = props;
 
-  const [replyMessage, setReplyMessage] = useState('');
-console.log('replyMessage!!!', replyMessage)
+  const [messageBody, setMessageBody] = useState('');
+  
+  const handleMessageBodyChange = (event) => {
+    setMessageBody(event.target.value);
+  };
+
+  const handleMessageSubmit = (event) => {
+    event.preventDefault();
+    const newMessageFormData = new FormData();
+    newMessageFormData.append("itemId", itemId);
+    newMessageFormData.append("userId", loggedInUserID);
+    newMessageFormData.append("otherUserId", creatorId);
+    newMessageFormData.append("body", messageBody);
+    addMessage(newMessageFormData);
+    setTabValue(3);
+    handleClose();
+  };
+  
   return (
     <Box sx={{mt: 3}}>
       <Box sx={{display: 'flex', justifyContent: 'space-between', alignItems: 'center'}}>
         <Typography>New Message</Typography>
-        <Typography component="span">Re: Baseball Glove - Offered</Typography>
+        <Typography component="span">Re: {name} - {offered ? "Offered" : "Wanted"}</Typography>
       </Box>
-      <TextField
-        type="text"
-        name="description"
-        label="Dear HandyDown User,"
-        multiline
-        rows={5}
-        sx={{ width: '100%'}}
-        // onChange={handleChange}
-      />
-      {/* <TextareaAutosize
-        aria-label="minimum height"
-        minRows={6}
-        placeholder="Minimum 3 rows"
-        // multiline
-        style={{ width: '100%' }}
-        value={replyMessage}
-        onChange={(e) => setReplyMessage(e.target.value) }
-      /> */}
-        <Button onClick={() => replyMessageFunction(replyMessage)} variant="outlined" sx={{mt: 2}}>Reply</Button>
+      <Box component="form" onSubmit={handleMessageSubmit} sx={{ display: "flex", flexDirection: "column"}}>
+        <TextField
+          type="text"
+          name="body"
+          placeholder="Write message here"
+          multiline
+          rows={5}
+          sx={{ width: '100%'}}
+          onChange={handleMessageBodyChange}
+        />
+        {/* <input
+          type="hidden"
+          name="itemId"
+          value={itemId}
+        />
+        <input
+          type="hidden"
+          name="userId"
+          value={loggedInUserID}
+          // value={loggedInUser.id}
+        />
+        <input
+          type="hidden"
+          name="otherUserId"
+          value={creatorId}
+        /> */}
+        <Box sx={{ display: "flex", justifyContent: "start" }}>
+          <Button type="submit" variant="contained" sx={{mt: 2}}>Reply</Button>
+        </Box>
+      </Box>
     </Box>
   );
 }

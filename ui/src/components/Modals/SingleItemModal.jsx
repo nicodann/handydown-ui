@@ -25,7 +25,7 @@ const style = {
 
 export default function SingleItemModal(props) {
 
-  const { name, description, offered, image, createdAt, itemId, creatorId, userName, location, loggedInUserID, open, handleClose, tabIndex, deleteItem } = props;
+  const { setTabValue, addMessage, loggedInUserID, loggedInUser, name, description, offered, image, createdAt, itemId, creatorId, userName, location, open, handleClose, tabIndex, deleteItem } = props;
   // console.log('SIMPROPS', props);
 
   const handleDeleteClick = async (event) => {
@@ -35,19 +35,19 @@ export default function SingleItemModal(props) {
     handleClose();
   }
 
-  const replyMessageFunction = (message) => {
-    console.log('MESSAGE', message);
-    // retrieve itemId userId
-    const data = { itemId, creatorId, loggedInUserID, message }
-    try {
-      axios.post('/api/conversations', {data} )
-        .then((response) => {
-          console.log('response', response);
-        })
-    } catch(err) {
+  // const replyMessageFunction = (message) => {
+  //   console.log('MESSAGE', message);
+  //   // retrieve itemId userId
+  //   const data = { itemId, creatorId, loggedInUserID, message }
+  //   try {
+  //     axios.post('/api/conversations', {data} )
+  //       .then((response) => {
+  //         console.log('response', response);
+  //       })
+  //   } catch(err) {
 
-    }
-  };
+  //   }
+  // };
   return (
     <Modal
       open={open}
@@ -79,7 +79,15 @@ export default function SingleItemModal(props) {
         </Typography>
         {loggedInUserID !== creatorId  &&  
           <ReplyForm 
-            replyMessageFunction={replyMessageFunction}
+            addMessage={addMessage}
+            handleClose={handleClose}
+            itemId={itemId}
+            name={name}
+            offered={offered}
+            loggedInUserID={loggedInUserID} // temporary until loggedInUser is up and running
+            loggedInUser={loggedInUser}
+            creatorId={creatorId}
+            setTabValue={setTabValue}
           />}
         {tabIndex === 2 && loggedInUserID === creatorId &&
           <Button

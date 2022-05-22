@@ -5,7 +5,7 @@ module.exports = app => {
   router.get("/by/user/:userId", conversations.getByUserId);
 
   // Create a new Conversation and its first message
-  router.post("/", conversations.create);
+  // router.post("/", conversations.create);
 
   app.use('/api/conversations', router);
 };

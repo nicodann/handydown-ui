@@ -5,6 +5,7 @@
     Modal,
     TextField,
     Typography,
+    Alert
   } from '@mui/material';
 
   function LoginForm(props) {
@@ -52,7 +53,7 @@
           p: 4, 
         }}>
           <Typography variant="h4">Login</Typography>
-            <Box component="form" onSubmit={handleSubmit} sx={{ display: "flex", flexDirection: "column"}}>
+          <Box component="form" onSubmit={handleSubmit} sx={{ display: "flex", flexDirection: "column"}}>
               <TextField
                 type="text"
                 name="username"
@@ -82,7 +83,8 @@
                   Cancel
                 </Button>
               </Box>
-            </Box>
+          </Box>
+          <Alert severity="error" sx={{marginTop: 2}}>The password entered is incorrect!</Alert>
         </Box>
       </Modal>
     )

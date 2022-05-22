@@ -13,6 +13,7 @@ export default function ReplyForm(props) {
     name,
     offered,
     creatorId,
+    receiverId,
     loggedInUser,
     addMessage,
     handleClose,
@@ -20,7 +21,11 @@ export default function ReplyForm(props) {
   } = props;
 
   const [messageBody, setMessageBody] = useState('');
-  
+
+  const findOtherUserId = () => {
+    return receiverId === null ? creatorId : (loggedInUser.id === receiverId ? creatorId : receiverId);
+  };
+
   const handleMessageBodyChange = (event) => {
     setMessageBody(event.target.value);
   };
@@ -30,7 +35,7 @@ export default function ReplyForm(props) {
     const newMessageFormData = new FormData();
     newMessageFormData.append("itemId", itemId);
     newMessageFormData.append("userId", loggedInUser.id);
-    newMessageFormData.append("otherUserId", creatorId);
+    newMessageFormData.append("otherUserId", findOtherUserId);
     newMessageFormData.append("body", messageBody);
     addMessage(newMessageFormData);
     setTabValue(3);

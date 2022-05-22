@@ -94,7 +94,7 @@ export default function ConversationList(props) {
                 image={modalProps.item.image}
                 messages={modalProps.messages}
                 creator={modalProps.creator} // ReplyForm et al.
-                receiver={modalProps.receiver}
+                receiver={modalProps.receiver} // ReplyForm et al.
                 loggedInUser={loggedInUser} // ReplyForm
                 addMessage={addMessage} // ReplyForm
                 open={open}

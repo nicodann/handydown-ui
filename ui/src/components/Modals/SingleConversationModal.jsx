@@ -74,12 +74,13 @@ export default function SingleConversationModal(props) {
         <ReplyForm
           itemId={itemId} //
           name={name}
-          offered={offered} //
+          offered={offered}
           loggedInUser={loggedInUser}
-          creatorId={creator.id} //
+          creatorId={creator.id}
+          receiverId={receiver.id}
           addMessage={addMessage}
           handleClose={handleClose}
-          setTabValue={setTabValue} //
+          setTabValue={setTabValue}
         />
       </Box>
     </Modal>

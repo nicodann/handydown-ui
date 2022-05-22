@@ -43,7 +43,6 @@ export default function SingleItemModal(props) {
 
   const handleDeleteClick = async (event) => {
     event.preventDefault();
-    console.log('delete button!!!!!!');
     deleteItem(itemId, offered);
     handleClose();
   };
@@ -77,18 +76,19 @@ export default function SingleItemModal(props) {
         <Typography id="modal-modal-description" variant="body1" sx={{ mt: 2 }}>
           {description}
         </Typography>
-        {loggedInUser.id !== creatorId  &&  
+        {loggedInUser && loggedInUser.id !== creatorId  &&  
           <ReplyForm 
             itemId={itemId}
             name={name}
             offered={offered}
             loggedInUser={loggedInUser}
             creatorId={creatorId}
+            receiverId={null}
             addMessage={addMessage}
             handleClose={handleClose}
             setTabValue={setTabValue}
           />}
-        {tabIndex === 2 && loggedInUser.id === creatorId &&
+        {loggedInUser && tabIndex === 2 && loggedInUser.id === creatorId &&
           <Button
             variant="contained"
             startIcon={<DeleteIcon />}

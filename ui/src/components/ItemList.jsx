@@ -27,7 +27,7 @@ export default function ItemList(props) {
       description: '', 
       image: '', 
       offered: true,
-      user: { username: '', location: ''}, 
+      user: { id: null, username: '', location: ''}, 
       createdAt: ''
     }
   )
@@ -69,8 +69,8 @@ export default function ItemList(props) {
               image={modalProps.image}
               offered={modalProps.offered}
               createdAt={modalProps.createdAt}
-              location={modalProps.user.location}
               creatorId={modalProps.user.id} // for ReplyForm, among others
+              location={modalProps.user.location}
               loggedInUser={loggedInUser} // for ReplyForm, among others
               open={open}
               handleClose={() => setOpen(false)}

@@ -26,13 +26,11 @@ export default function RegistrationForm(props) {
 
   const handleSubmit = async (event) => {
     event.preventDefault();
-    console.log("formValue:",formValue)
     const registrationFormData = new FormData();
     registrationFormData.append("username", formValue.username);
     registrationFormData.append("email", formValue.email);
     registrationFormData.append("password", formValue.password);
     registrationFormData.append("location", formValue.location);
-    console.log("regFormData:", registrationFormData);
     registerUser(registrationFormData);
     setRegistrationFormOpen(false);
     

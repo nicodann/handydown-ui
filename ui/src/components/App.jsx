@@ -52,8 +52,6 @@ export default function App() {
   // CHECK IF USER HAS PREVIOUSLY LOGGED IN
   useEffect(() => {
     const loggedInUser = localStorage.getItem('user');
-    console.log('LS-check-login', localStorage.getItem('user'))
-    console.log('loggedInUser', loggedInUser)
     if (loggedInUser) {
       const foundUser = JSON.parse(loggedInUser);
       setLoggedInUser(foundUser);
@@ -90,14 +88,7 @@ export default function App() {
         .catch((error) => console.log(error));
 
     }
-    // }, [loggedInUser && loggedInUser.id]);
     }, [loggedInUser]);
-  
-  // 
-  // useEffect(() => {
-  //   console.log("tabbedItems.length:",tabbedItems.length)
-  //   console.log("tabValue:", tabValue)
-  // });
 
   // LOGIN
   const loginUser = async (loginFormData) => {
@@ -108,19 +99,11 @@ export default function App() {
         data: loginFormData,
         headers: { "Content-Type": "multipart/form-data" },
       });
-      console.log('response.data after axios login', response.data)
-      console.log('LS-login before clear', localStorage.getItem('user'))
       localStorage.clear();
-      console.log('LS-login after clear', localStorage.getItem('user'))
       localStorage.setItem('user', JSON.stringify(response.data));
-      console.log('LS-login after setItem', localStorage.getItem('user'))
       setLoggedInUser(response.data);
-      // setLoggedInUser(localStorage.getItem('user'));
-      console.log('loggedInUser after login', loggedInUser)
-
       setTabValue(0);
-      console.log('loggedInUser when logging in and setTabbedItems', loggedInUser  )
-      setTabbedItems(ITEMS.filter((item) => item.offered && item.userID !== loggedInUser.id))
+      setTabbedItems(ITEMS.filter((item) => item.offered && loggedInUser && item.userID !== loggedInUser.id));
     } catch(error) {
       console.log(error);
     }
@@ -135,15 +118,9 @@ export default function App() {
         data: registrationFormData,
         headers: { "Content-Type": "multipart/form-data" },
       });
-      console.log('response.data after axios register', response.data)
       setLoggedInUser(response.data);
-      console.log('loggedInUser after register', loggedInUser)
-      console.log('LS-register before clear', localStorage.getItem('user'))
       localStorage.clear();
-      console.log('LS-register after clear', localStorage.getItem('user'))
       localStorage.setItem('user', JSON.stringify(response.data));
-      console.log('LS-register after setItem', localStorage.getItem('user'))
-
     } catch(error) {
       console.log(error)
     }
@@ -162,13 +139,7 @@ export default function App() {
     // }
 
     setLoggedInUser(null);
-
-
-    console.log('LS-logout before clear', localStorage.getItem('user'))
-
     localStorage.clear();
-    console.log('LS-logout after clear', localStorage.getItem('user'))
-
     setConversations([]);
     setTabValue(0);
     setTabbedItems(ITEMS.filter((item) => item.offered))
@@ -176,7 +147,6 @@ export default function App() {
 
   // ADD ITEM
   const addItem = async (newItemFormData) => {
-    console.log('loggedInUser just before addItem', loggedInUser.username, loggedInUser.id)
     try {
       const response = await axios({
         method: 'post',
@@ -185,7 +155,6 @@ export default function App() {
         headers: { "Content-Type": "multipart/form-data" },
       });
       const newItem = response.data;
-      
       setITEMS([newItem, ...ITEMS]);
       setTabValue(2);
       setTabbedItems([newItem, ...ITEMS.filter((item) => item.userId === loggedInUser.id)]);
@@ -198,7 +167,6 @@ export default function App() {
   const deleteItem = async (itemId, offered) => {
     try {
       const response = await axios.delete(`/api/items/${itemId}`);
-      console.log("AXIOS DELETE RESPONSE", response);
       if (tabValue === 2) {
         setTabbedItems(tabbedItems.filter((tabbedItem) => tabbedItem.id !== itemId));
       }
@@ -326,7 +294,7 @@ export default function App() {
           :
             <>
               <IconButton sx={{mr: -1.5}}>
-                <AccountCircleIcon style={{fill: "white"}}/>
+                <AccountCircleIcon style={{fill: "white", marginRight: '0'}}/>
               </IconButton>
               <Button
                 color="inherit"
@@ -356,7 +324,6 @@ export default function App() {
               color="inherit" 
               formOpen={formOpen} 
               addItem={addItem} 
-              { ...console.log('JSXJSXJSXloggedInUser inside JSX render of AddItemForm', loggedInUser)}
               loggedInUser={loggedInUser} 
               handleFormClose={() => setFormOpen(false)} 
             />

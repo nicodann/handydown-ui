@@ -13,7 +13,6 @@ import {
 
 export default function AddItemForm(props) {
   const { loggedInUser, formOpen, addItem, handleFormClose } = props;
-  console.log('loggedInUser.id for AddItemForm', loggedInUser && loggedInUser.id)
   const [formValue, setFormValue] = useState({
     name: "",
     description: "",

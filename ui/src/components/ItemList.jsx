@@ -1,4 +1,3 @@
-import React from 'react';
 import { useState } from 'react';
 import { 
   Box,
@@ -8,11 +7,18 @@ import {
 import Item from './Item';
 import SingleItemModal from './Modals/SingleItemModal';
 
-function ItemList(props) {
-  const { setTabValue, tabValue, tabIndex, items, addMessage, loggedInUser,loggedInUserID, deleteItem } = props;
-// console.log('tab value:', props);
-  //MODAL STATE LOGIC
+export default function ItemList(props) {
+  const {
+    items,
+    loggedInUser,
+    deleteItem,
+    addMessage,
+    setTabValue,
+    tabValue,
+    tabIndex
+  } = props;
 
+  //MODAL STATE LOGIC
   const [open, setOpen] = useState(false);
   const [modalProps, setModalProps] = useState(
     { 
@@ -41,40 +47,36 @@ function ItemList(props) {
         items && items.length > 0 ? (
         <Box sx={{ flexGrow: 1 }}>
           <Grid container spacing={6}>
-            
-            
             { items.map((item) => ( 
               <Item
                 key={item.id}
                 id={item.id}
-                offered={item.offered}
                 name={item.name}
-                createdAt={item.createdAt}
-                image={item.image}
                 description={item.description}
-                location={item.user.location}
+                offered={item.offered}
+                image={item.image}
+                createdAt={item.createdAt}
                 username={item.user.username}
+                location={item.user.location}
                 onClick={() => openModal(item)}
               />
             ))}
             <SingleItemModal
               key={modalProps.id}
+              itemId={modalProps.id} // for ReplyForm, among others
               name={modalProps.name}
               description={modalProps.description}
               image={modalProps.image}
               offered={modalProps.offered}
               createdAt={modalProps.createdAt}
-              userName={modalProps.user.username}
               location={modalProps.user.location}
               creatorId={modalProps.user.id} // for ReplyForm, among others
-              itemId={modalProps.id} // for ReplyForm, among others
+              loggedInUser={loggedInUser} // for ReplyForm, among others
               open={open}
               handleClose={() => setOpen(false)}
-              loggedInUserID={loggedInUserID} // temporarily for ReplyForm
-              tabIndex={tabIndex}
-              deleteItem={deleteItem}
               addMessage={addMessage} // for ReplyForm
-              loggedInUser={loggedInUser} // for ReplyForm, among others
+              deleteItem={deleteItem}
+              tabIndex={tabIndex}
               setTabValue={setTabValue} // for ReplyForm
             />
           </Grid>
@@ -90,6 +92,4 @@ function ItemList(props) {
       )}
     </div>
   );
-}
-
-export default ItemList;
+};

@@ -1,14 +1,23 @@
 import { useState } from 'react';
-
-// import TextareaAutosize from '@mui/material/TextareaAutosize';
-import Typography from '@mui/material/Typography';
-import Button from '@mui/material/Button';
-import Box from '@mui/material/Box';
-import TextField from '@mui/material/TextField';
+import {
+  Box,
+  Button,
+  TextField,
+  Typography
+ } from '@mui/material';
 
 export default function ReplyForm(props) {
 
-  const { setTabValue, addMessage, handleClose, itemId, name, offered, loggedInUserID, creatorId } = props;
+  const {
+    itemId,
+    name,
+    offered,
+    creatorId,
+    loggedInUser,
+    addMessage,
+    handleClose,
+    setTabValue
+  } = props;
 
   const [messageBody, setMessageBody] = useState('');
   
@@ -20,7 +29,7 @@ export default function ReplyForm(props) {
     event.preventDefault();
     const newMessageFormData = new FormData();
     newMessageFormData.append("itemId", itemId);
-    newMessageFormData.append("userId", loggedInUserID);
+    newMessageFormData.append("userId", loggedInUser.id);
     newMessageFormData.append("otherUserId", creatorId);
     newMessageFormData.append("body", messageBody);
     addMessage(newMessageFormData);
@@ -52,8 +61,7 @@ export default function ReplyForm(props) {
         <input
           type="hidden"
           name="userId"
-          value={loggedInUserID}
-          // value={loggedInUser.id}
+          value={loggedInUser.id}
         />
         <input
           type="hidden"
@@ -66,4 +74,4 @@ export default function ReplyForm(props) {
       </Box>
     </Box>
   );
-}
+};

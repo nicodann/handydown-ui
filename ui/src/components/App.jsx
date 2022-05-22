@@ -22,7 +22,7 @@ import AddItemForm from './Modals/AddItemForm';
 import LoginForm from './Modals/LoginForm';
 import RegistrationForm from './Modals/RegistrationForm';
 
-function App() {
+export default function App() {
 
   // STATE
   const [loggedInUser, setLoggedInUser] = useState(null);
@@ -386,7 +386,6 @@ function App() {
           items={searchText !== '' ? searchedItems : tabbedItems}
           tabValue={tabValue}
           tabIndex={0}
-          loggedInUserID={loggedInUser && loggedInUser.id}
           deleteItem={deleteItem}
           addMessage={addMessage}
           loggedInUser={loggedInUser}
@@ -396,7 +395,6 @@ function App() {
           items={searchText !== '' ? searchedItems : tabbedItems}
           tabValue={tabValue}
           tabIndex={1}
-          loggedInUserID={loggedInUser && loggedInUser.id}
           deleteItem={deleteItem}
           addMessage={addMessage} // for ReplyForm
           loggedInUser={loggedInUser} // for ReplyForm, among others
@@ -406,7 +404,6 @@ function App() {
           items={searchText !== '' ? searchedItems : tabbedItems}
           tabValue={tabValue}
           tabIndex={2}
-          loggedInUserID={loggedInUser && loggedInUser.id}
           deleteItem={deleteItem}
         />
         <ConversationList
@@ -419,5 +416,3 @@ function App() {
     </>
   ); 
 }
-
-export default App;

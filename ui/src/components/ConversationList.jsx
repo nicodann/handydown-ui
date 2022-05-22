@@ -1,3 +1,5 @@
+import { useState } from 'react';
+import { format} from 'timeago.js';
 import {
   Table,
   TableBody,
@@ -8,12 +10,10 @@ import {
   Paper,
   Checkbox 
 } from '@mui/material';
-import {React, useState} from 'react';
 import Conversation from './Conversation';
 import SingleConversationModal from './Modals/SingleConversationModal'
-import { format} from 'timeago.js';
 
-function ConversationList(props) {
+export default function ConversationList(props) {
 
   const { conversations, tabValue, tabIndex, loggedInUserID } = props;
 
@@ -101,6 +101,4 @@ function ConversationList(props) {
     </div>
   );
   
-}
-
-export default ConversationList;
+};

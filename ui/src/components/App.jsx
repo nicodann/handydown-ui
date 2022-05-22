@@ -1,3 +1,4 @@
+import React from 'react';
 import axios from 'axios';
 import { useEffect, useState } from 'react';
 import {
@@ -7,9 +8,7 @@ import {
   Button,
   Container,
   CssBaseline,
-  // Grid,
   IconButton,
-  // Stack,
   Tabs,
   Tab,
   TextField,
@@ -26,51 +25,60 @@ import RegistrationForm from './Modals/RegistrationForm';
 
 function App() {
 
+  // STATE
+  const [loggedInUser, setLoggedInUser] = useState(null);
   const [ITEMS, setITEMS] = useState(null);
-  const [conversations, setConversations] = useState([]);
   const [tabbedItems, setTabbedItems] = useState([]);
   const [searchedItems, setSearchedItems] = useState([])
+  const [conversations, setConversations] = useState([]);
   const [tabValue, setTabValue ] = useState(0);
   const [searchText, setSearchText] = useState("");
-  const [loggedInUser, setLoggedInUser] = useState();
   const [formOpen, setFormOpen] = useState(false);
   const [loginFormOpen, setLoginFormOpen] = useState(false);
   const [regFormOpen, setRegFormOpen] = useState(false);
 
-  const checkLoggedInUser = async () => {
-    try {
-      const response = await axios({
-        method: 'post',
-        url: 'api/users/logged_in',
-      });
-      setLoggedInUser(response.data);
-    } catch (error) {
-      console.log(error);
-    }
-  };
-
+  // const checkLoggedInUser = async () => {
+    //   try {
+      //     const response = await axios({
+        //       method: 'post',
+        //       url: '/api/users/logged_in',
+        //     });
+        //     setLoggedInUser(response.data);
+        //   } catch (error) {
+          //     console.log('POST /api/users/logged_in', error.response.data)
+          //     console.log(error);
+          //   }
+          // };
+          
+  // CHECK IF USER HAS PREVIOUSLY LOGGED IN
   useEffect(() => {
-    checkLoggedInUser()
+    const loggedInUser = localStorage.getItem('user');
+    if (loggedInUser) {
+      const foundUser = JSON.parse(loggedInUser);
+      setLoggedInUser(foundUser);
+    }
   }, [])
 
+  // FETCH ALL ITEMS
   useEffect(() => {
     axios.get("/api/items")
     .then((items) => {
       setITEMS(items.data);
       return items.data;
     })
-    .then((data) => 
-      setTabbedItems(ITEMS.filter((item) => {
+    .then((data) => {
+      setTabbedItems(data.filter((item) => {
         if (loggedInUser) {
           return item.offered === true && item.userId !== loggedInUser.id; 
         } else {
           return item.offered === true
         }
       }))
-    )
-    .catch();
-  }, []);
+  })
+    .catch((error) => console.log(error));
+  }, [loggedInUser]);
 
+  // FETCH ALL CONVERSATIONS BELONGING TO LOGGED IN USER
   useEffect(() => {
     if (loggedInUser) {
       axios.get(`/api/conversations/by/user/${loggedInUser.id}`)
@@ -78,16 +86,19 @@ function App() {
           setConversations(conversations.data);
           console.log("HERE ARE THE CONVERSATIONS", conversations.data)
         })
-        .catch();
+        .catch((error) => console.log(error));
 
     }
-    }, [loggedInUser && loggedInUser.id]);
+    // }, [loggedInUser && loggedInUser.id]);
+    }, [loggedInUser]);
   
-  useEffect(() => {
-    console.log("tabbedItems.length:",tabbedItems.length)
-    console.log("tabValue:", tabValue)
-  });
+  // 
+  // useEffect(() => {
+  //   console.log("tabbedItems.length:",tabbedItems.length)
+  //   console.log("tabValue:", tabValue)
+  // });
 
+  // LOGIN
   const loginUser = async (loginFormData) => {
     try {
       const response = await axios({
@@ -97,11 +108,13 @@ function App() {
         headers: { "Content-Type": "multipart/form-data" },
       });
       setLoggedInUser(response.data);
+      localStorage.setItem('user', response.data);
     } catch(error) {
       console.log(error);
     }
   };
 
+  // REGISTER
   const registerUser = async (registrationFormData) => {
     try {
       const response = await axios({
@@ -111,27 +124,29 @@ function App() {
         headers: { "Content-Type": "multipart/form-data" },
       });
       setLoggedInUser(response.data);
+      localStorage.setItem('user', response.data);
     } catch(error) {
       console.log(error)
     }
   }
 
+  // LOGOUT
   const logoutUser = async () => {
     console.log("logging out")
-    try {
-      const response = await axios({
-        method: 'post',
-        url: '/api/users/logout'
-      })
-    } catch(error) {
-      console.log(error);
-    }
+    // try {
+    //   await axios({
+    //     method: 'post',
+    //     url: '/api/users/logout'
+    //   })
+    // } catch(error) {
+    //   console.log(error);
+    // }
 
-    setLoggedInUser(prev => null);
+    setLoggedInUser(null);
+    localStorage.clear();
   };
 
-  
-
+  // ADD ITEM
   const addItem = async (newItemFormData) => {
     try {
       const response = await axios({
@@ -152,6 +167,7 @@ function App() {
     }
   };
 
+  // DELETE ITEM
   const deleteItem = async (itemId, offered) => {
     try {
       const response = await axios.delete(`/api/items/${itemId}`);
@@ -167,6 +183,7 @@ function App() {
     }
   };
 
+  // ADD MESSAGE
   const addMessage = async (newMessageFormData) => {
     try {
       const response = await axios({
@@ -206,7 +223,9 @@ function App() {
     } else if (currentTab === 2) {
       if (loggedInUser) {
         setTabbedItems(ITEMS.filter((item) => item.userId === loggedInUser.id));
-      } 
+      } else {
+        setTabbedItems([]);
+      }
     }
     setTabValue(currentTab);
   };
@@ -231,66 +250,89 @@ function App() {
     )
   }
 
-  
-
-  const handleFormOpen = () => setFormOpen(true);
-  
-  const handleFormClose = () => setFormOpen(false); 
-  
   return (
     <>
       <CssBaseline />
-      {/* NAVBAR */}
-        <AppBar position="sticky">
-          <Toolbar>
-            <IconButton
-              size="large"
-              edge="start"
-              color="inherit"
-              aria-label="menu"
-              sx={{ mr: 2 }}
+      <AppBar position="sticky">
+        <Toolbar>
+          <IconButton
+            size="large"
+            edge="start"
+            color="inherit"
+            aria-label="menu"
+            sx={{ mr: 2 }}
+          >
+            <VolunteerActivism />
+          </IconButton>
+          <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
+            HandyDown
+          </Typography>
+            
+          {!loggedInUser ?
+            <>
+              <Button 
+                color="inherit"
+                variant="text"
+                onClick={() => setLoginFormOpen(true)}
+              >
+                Login
+              </Button>
+              <LoginForm 
+                loginFormOpen={loginFormOpen}
+                setLoginFormOpen={setLoginFormOpen}
+                loginUser={loginUser}            
+              />
+              <Button 
+                color="inherit"
+                variant="text"
+                onClick={() => setRegFormOpen(true)}
+              >
+                Register
+              </Button>
+              <RegistrationForm 
+                registrationFormOpen={regFormOpen}
+                setRegistrationFormOpen={setRegFormOpen}
+                registerUser={registerUser}
+              />
+            </>
+          :
+            <>
+              <IconButton sx={{mr: -1.5}}>
+                <AccountCircleIcon style={{fill: "white"}}/>
+              </IconButton>
+              <Button
+                color="inherit"
+                component="span"
+              >
+                {loggedInUser.username}
+              </Button>
+              <Button
+                color="inherit"
+                variant="text"
+                onClick={logoutUser}
+              >
+                Logout
+              </Button>
+            </>
+          }
+
+            <Button
+              color="warning"
+              variant="contained"
+              onClick={() => setFormOpen(true)}
+              sx={{ml: 1}}
             >
-              <VolunteerActivism />
-            </IconButton>
-            <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
-              HandyDown
-            </Typography>
-            {!loggedInUser ?
-              <>
-                <Button color="inherit" variant="text" onClick={() => setLoginFormOpen(true)}>Login</Button>
-                <LoginForm 
-                  loginFormOpen={loginFormOpen}
-                  setLoginFormOpen={setLoginFormOpen}
-                  loginUser={loginUser}            
-                />
-                <Button color="inherit" variant="text" onClick={() => setRegFormOpen(true)}>Register</Button>
-                <RegistrationForm 
-                  registrationFormOpen={regFormOpen}
-                  setRegistrationFormOpen={setRegFormOpen}
-                  registerUser={registerUser}
-                />
-              
-              </>
-            :
-              <>
-                <IconButton sx={{mr: -1.5}}>
-                  <AccountCircleIcon style={{fill: "white"}}/>
-                </IconButton>
-                <Button color="inherit" component="span">{loggedInUser.username}</Button>
-                <Button color="inherit" variant="text" onClick={logoutUser}>Logout</Button>
-              
-              </>
-            }
-            <Button color="warning"  variant="contained" onClick={handleFormOpen} sx={{ml: 1}}>Post Item</Button>
+              Post Item
+            </Button>
             <AddItemForm 
               color="inherit" 
               formOpen={formOpen} 
               addItem={addItem} 
               loggedInUserID={loggedInUser && loggedInUser.id} 
-              handleFormClose={handleFormClose} 
+              handleFormClose={() => setFormOpen(false)} 
             />
-          </Toolbar>
-        </AppBar>
+        </Toolbar>
+       </AppBar>
       
       <Box display="flex" justifyContent="center" alignItems="center" sx={{ pt: 1, borderBottom: 1, borderColor: 'divider' }}>
         <Tabs value={tabValue} onChange={handleTabClick}>
@@ -300,7 +342,6 @@ function App() {
           <Tab label="My Messages" />
         </Tabs>
       </Box>
-      {/* SEARCHBAR */}
       <Box display="flex" justifyContent="center" alignItems="center" sx={{ pt: 4 }}>
         <TextField
           type="search"
@@ -308,10 +349,9 @@ function App() {
           onChange={handleSearchInput}
           id="outlined-search"
           label="Search by item name..."
-          sx={{ visibility: (tabValue !== 2 && tabbedItems.length) ? 'visible': 'hidden'}}
+          sx={{ visibility: (tabValue === 3 || tabbedItems.length === 0) ? 'hidden' : 'visible'}}
         />
       </Box>
-      {/* BODY -- ITEMS OR MESSAGES */}
       <Container maxWidth="lg" sx={{ py: 4}}>
         <ItemList 
           items={searchText !== '' ? searchedItems : tabbedItems}

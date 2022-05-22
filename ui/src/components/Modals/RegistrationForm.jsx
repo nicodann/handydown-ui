@@ -32,8 +32,8 @@
       registrationFormData.append("email", formValue.email);
       registrationFormData.append("password", formValue.password);
       registrationFormData.append("location", formValue.location);
-      console.log("regFormData:", registrationFormData)
-      registerUser(registrationFormData)
+      console.log("regFormData:", registrationFormData);
+      registerUser(registrationFormData);
       setRegistrationFormOpen(false);
       
     };

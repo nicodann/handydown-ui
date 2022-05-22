@@ -9,8 +9,8 @@ const app = express();
 
 app.use(express.static('assets'));
 app.use(morgan('dev')); // log HTTP requests and errors to console
-app.use(express.json({ extended: false })); // parse requests of content-type - application/x-www-form-urlencoded
 app.use(cookieSession({ name: 'session', keys: ['key1'] }));
+app.use(express.json({ extended: false })); // parse requests of content-type - application/x-www-form-urlencoded
 app.use(fileUpload());
 
 const db = require("./models");

@@ -17,8 +17,8 @@ exports.index = async (req, res) => {
         ['id', 'DESC'],
       ]
     })
-    setTimeout(() => res.json(items), 1000)
-    // res.json(items);
+    // setTimeout(() => res.json(items), 1000)
+    res.json(items);
   } catch (err) {
     res.status(499).send({
       message: err.message || "An error occured while retrieving items."

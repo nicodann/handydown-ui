@@ -53,21 +53,6 @@ export default function ReplyForm(props) {
           sx={{ width: '100%'}}
           onChange={handleMessageBodyChange}
         />
-        {/* <input
-          type="hidden"
-          name="itemId"
-          value={itemId}
-        />
-        <input
-          type="hidden"
-          name="userId"
-          value={loggedInUser.id}
-        />
-        <input
-          type="hidden"
-          name="otherUserId"
-          value={creatorId}
-        /> */}
         <Box sx={{ display: "flex", justifyContent: "start" }}>
           <Button type="submit" variant="contained" sx={{mt: 2}}>Reply</Button>
         </Box>

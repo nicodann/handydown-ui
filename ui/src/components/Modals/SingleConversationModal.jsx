@@ -24,13 +24,18 @@ const style = {
 
 export default function SingleConversationModal(props) {
   const {
-    name, 
+    itemId,
+    name,
+    offered, 
     image, 
     creator, 
     receiver,
     messages,
+    loggedInUser,
+    addMessage,
     open, 
-    handleClose, 
+    handleClose,
+    setTabValue 
   } = props
 
   const hiddenBodyStyle = {
@@ -66,7 +71,16 @@ export default function SingleConversationModal(props) {
           <img src={image} alt={name} width={200}/>
         </Box >
         {messagesArray}
-        <ReplyForm />
+        <ReplyForm
+          itemId={itemId} //
+          name={name}
+          offered={offered} //
+          loggedInUser={loggedInUser}
+          creatorId={creator.id} //
+          addMessage={addMessage}
+          handleClose={handleClose}
+          setTabValue={setTabValue} //
+        />
       </Box>
     </Modal>
   )

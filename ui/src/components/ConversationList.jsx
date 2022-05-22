@@ -15,27 +15,31 @@ import SingleConversationModal from './Modals/SingleConversationModal'
 
 export default function ConversationList(props) {
 
-  const { conversations, tabValue, tabIndex, loggedInUserID } = props;
+  const {
+    conversations,
+    loggedInUser,
+    addMessage,
+    tabValue,
+    setTabValue,
+    tabIndex
+  } = props;
 
-  console.log('latest conversations', conversations)
+  console.log('latest conversations', conversations);
+  
   const findLatestMessageBody = (conversation) => {
     return conversation.messages[conversation.messages.length - 1].body
   }
 
-  const findOtherPartyName = (conversation, loggedInUserID) => {
-    return loggedInUserID === conversation.receiver.id ? conversation.creator.username : conversation.receiver.username
+  const findOtherPartyName = (conversation, loggedInUser) => {
+    return loggedInUser.id === conversation.receiver.id ? conversation.creator.username : conversation.receiver.username
   }
 
   //MODAL STATE LOGIC
-  
-
   const [open, setOpen] = useState(false);
-  // const handleOpen = () => setOpen(true);
-  // const handleClose = () => setOpen(false);
   const [modalProps, setModalProps] = useState({
     creator:{id: null, username: ""},
     receiver: {id: null, username: ""},
-    item: {name: '', image: ''},
+    item: {id: null, name: '', offered: true, image: ''},
     messages: [{id: null, createdAt: null, body: ''}],
   })
 
@@ -43,19 +47,17 @@ export default function ConversationList(props) {
     setOpen(true)
     setModalProps(props)
   }
-  
 
   const conversationsArray = conversations.map((conversation) =>
       <Conversation
-      key={conversation.id}
-      id={conversation.id}
-      otherPartyName={findOtherPartyName(conversation, loggedInUserID)}
-      itemName={conversation.item.name}
-      messageBody={findLatestMessageBody(conversation)}
-      updatedAt={format(conversation.updatedAt)}
-      onClick={() => openModal(conversation)}
+        key={conversation.id}
+        id={conversation.id}
+        otherPartyName={findOtherPartyName(conversation, loggedInUser.id)}
+        itemName={conversation.item.name}
+        messageBody={findLatestMessageBody(conversation)}
+        updatedAt={format(conversation.updatedAt)}
+        onClick={() => openModal(conversation)}
       />
-
   );
 
   return (
@@ -86,13 +88,18 @@ export default function ConversationList(props) {
             <TableBody>
               {conversationsArray}
               <SingleConversationModal 
-                open={open}
-                handleClose={() => setOpen(false)}
+                itemId={modalProps.item.id} // ReplyForm
+                name={modalProps.item.name} // ReplyForm
+                offered={modalProps.item.offered} // ReplyForm
                 image={modalProps.item.image}
-                name={modalProps.item.name}
                 messages={modalProps.messages}
-                creator={modalProps.creator}
+                creator={modalProps.creator} // ReplyForm et al.
                 receiver={modalProps.receiver}
+                loggedInUser={loggedInUser} // ReplyForm
+                addMessage={addMessage} // ReplyForm
+                open={open}
+                handleClose={() => setOpen(false)} // ReplyForm et al.
+                setTabValue={setTabValue} // ReplyForm
               /> 
             </TableBody>
           </Table>

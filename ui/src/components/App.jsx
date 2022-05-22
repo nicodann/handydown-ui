@@ -408,9 +408,12 @@ export default function App() {
         />
         <ConversationList
           conversations={conversations}
+          loggedInUser={loggedInUser} // for ReplyForm, among others
+          addMessage={addMessage} // for ReplyForm
           tabValue={tabValue}
+          setTabValue={setTabValue}
           tabIndex={3}
-          loggedInUserID={loggedInUser && loggedInUser.id}
+          // loggedInUserID={loggedInUser && loggedInUser.id}
         />
       </Container>
     </>

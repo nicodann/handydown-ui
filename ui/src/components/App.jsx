@@ -1,9 +1,7 @@
-import React from 'react';
 import axios from 'axios';
 import { useEffect, useState } from 'react';
 import {
   AppBar,
-  Toolbar,
   Box,
   Button,
   Container,
@@ -12,6 +10,7 @@ import {
   Tabs,
   Tab,
   TextField,
+  Toolbar,
   Typography,
 } from '@mui/material';
 import { VolunteerActivism } from '@mui/icons-material';
@@ -26,7 +25,7 @@ import RegistrationForm from './Modals/RegistrationForm';
 function App() {
 
   // STATE
-  const [loggedInUser, setLoggedInUser] = useState(null);
+  const [loggedInUser, setLoggedInUser] = useState({});
   const [ITEMS, setITEMS] = useState(null);
   const [tabbedItems, setTabbedItems] = useState([]);
   const [searchedItems, setSearchedItems] = useState([])
@@ -53,6 +52,7 @@ function App() {
   // CHECK IF USER HAS PREVIOUSLY LOGGED IN
   useEffect(() => {
     const loggedInUser = localStorage.getItem('user');
+    console.log('LS-check-login', localStorage.getItem('user'))
     console.log('loggedInUser', loggedInUser)
     if (loggedInUser) {
       const foundUser = JSON.parse(loggedInUser);
@@ -108,11 +108,18 @@ function App() {
         data: loginFormData,
         headers: { "Content-Type": "multipart/form-data" },
       });
-      setLoggedInUser(response.data);
-      console.log('LoggedINUSER', loggedInUser)
-      // localStorage.setItem('user', response.data);
+      console.log('response.data after axios login', response.data)
+      console.log('LS-login before clear', localStorage.getItem('user'))
+      localStorage.clear();
+      console.log('LS-login after clear', localStorage.getItem('user'))
       localStorage.setItem('user', JSON.stringify(response.data));
+      console.log('LS-login after setItem', localStorage.getItem('user'))
+      setLoggedInUser(response.data);
+      // setLoggedInUser(localStorage.getItem('user'));
+      console.log('loggedInUser after login', loggedInUser)
+
       setTabValue(0);
+      console.log('loggedInUser when logging in and setTabbedItems', loggedInUser  )
       setTabbedItems(ITEMS.filter((item) => item.offered && item.userID !== loggedInUser.id))
     } catch(error) {
       console.log(error);
@@ -128,12 +135,15 @@ function App() {
         data: registrationFormData,
         headers: { "Content-Type": "multipart/form-data" },
       });
-      console.log('register returns this data:', response.data)
+      console.log('response.data after axios register', response.data)
       setLoggedInUser(response.data);
-      // localStorage.setItem('user', response.data);
+      console.log('loggedInUser after register', loggedInUser)
+      console.log('LS-register before clear', localStorage.getItem('user'))
+      localStorage.clear();
+      console.log('LS-register after clear', localStorage.getItem('user'))
       localStorage.setItem('user', JSON.stringify(response.data));
-      const getLS = localStorage.getItem('user')
-      console.log('getLS', getLS)
+      console.log('LS-register after setItem', localStorage.getItem('user'))
+
     } catch(error) {
       console.log(error)
     }
@@ -152,7 +162,13 @@ function App() {
     // }
 
     setLoggedInUser(null);
+
+
+    console.log('LS-logout before clear', localStorage.getItem('user'))
+
     localStorage.clear();
+    console.log('LS-logout after clear', localStorage.getItem('user'))
+
     setConversations([]);
     setTabValue(0);
     setTabbedItems(ITEMS.filter((item) => item.offered))
@@ -160,6 +176,7 @@ function App() {
 
   // ADD ITEM
   const addItem = async (newItemFormData) => {
+    console.log('loggedInUser just before addItem', loggedInUser.username, loggedInUser.id)
     try {
       const response = await axios({
         method: 'post',
@@ -169,8 +186,6 @@ function App() {
       });
       const newItem = response.data;
       
-      // if ((tabValue === 0 && newItem.offered) ||
-          // (tabValue === 1 && !newItem.offered) ||
       setITEMS([newItem, ...ITEMS]);
       setTabValue(2);
       setTabbedItems([newItem, ...ITEMS.filter((item) => item.userId === loggedInUser.id)]);
@@ -184,8 +199,6 @@ function App() {
     try {
       const response = await axios.delete(`/api/items/${itemId}`);
       console.log("AXIOS DELETE RESPONSE", response);
-      // if ((tabValue === 0 && offered) ||
-          // (tabValue === 1 && !offered) ||
       if (tabValue === 2) {
         setTabbedItems(tabbedItems.filter((tabbedItem) => tabbedItem.id !== itemId));
       }
@@ -254,10 +267,13 @@ function App() {
     setSearchText(keyword);
   };
 
+  // RENDER
+
   if (ITEMS === null) {
     return (
       <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100vh' }}>
       <CircularProgress size={80} />
+      <Typography>Loading...</Typography>
     </Box>
     )
   }
@@ -340,7 +356,8 @@ function App() {
               color="inherit" 
               formOpen={formOpen} 
               addItem={addItem} 
-              loggedInUserID={loggedInUser && loggedInUser.id} 
+              { ...console.log('JSXJSXJSXloggedInUser inside JSX render of AddItemForm', loggedInUser)}
+              loggedInUser={loggedInUser} 
               handleFormClose={() => setFormOpen(false)} 
             />
         </Toolbar>

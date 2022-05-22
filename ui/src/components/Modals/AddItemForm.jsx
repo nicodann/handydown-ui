@@ -12,9 +12,10 @@
   } from '@mui/material';
 
   function AddItemForm(props) {
-    const { loggedInUserID, formOpen, addItem, handleFormClose } = props;
+    const { loggedInUser, formOpen, addItem, handleFormClose } = props;
+    console.log('loggedInUser.id for AddItemForm', loggedInUser && loggedInUser.id)
     const [formValue, setFormValue] = useState({
-      userId: loggedInUserID,
+      userId: loggedInUser ? loggedInUser.id : null,
       name: "",
       description: "",
       offered: true,
@@ -39,6 +40,7 @@
       event.preventDefault();
       const newItemFormData = new FormData();
       newItemFormData.append("userId", formValue.userId);
+      console.log('newItemFormData.userId', formValue.userId)
       newItemFormData.append("name", formValue.name);
       newItemFormData.append("description", formValue.description);
       newItemFormData.append("offered", formValue.offered);

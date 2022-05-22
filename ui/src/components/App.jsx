@@ -25,7 +25,7 @@ import RegistrationForm from './Modals/RegistrationForm';
 function App() {
 
   // STATE
-  const [loggedInUser, setLoggedInUser] = useState({});
+  const [loggedInUser, setLoggedInUser] = useState(null);
   const [ITEMS, setITEMS] = useState(null);
   const [tabbedItems, setTabbedItems] = useState([]);
   const [searchedItems, setSearchedItems] = useState([])

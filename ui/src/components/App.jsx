@@ -271,9 +271,9 @@ function App() {
 
   if (ITEMS === null) {
     return (
-      <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100vh' }}>
+      <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', flexDirection: 'column', height: '100vh' }}>
       <CircularProgress size={80} />
-      <Typography>Loading...</Typography>
+      <Typography sx={{mt: 2}}>Loading...</Typography>
     </Box>
     )
   }

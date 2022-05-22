@@ -15,7 +15,6 @@
     const { loggedInUser, formOpen, addItem, handleFormClose } = props;
     console.log('loggedInUser.id for AddItemForm', loggedInUser && loggedInUser.id)
     const [formValue, setFormValue] = useState({
-      userId: loggedInUser ? loggedInUser.id : null,
       name: "",
       description: "",
       offered: true,
@@ -39,8 +38,7 @@
     const handleFormSubmit = async (event) => {
       event.preventDefault();
       const newItemFormData = new FormData();
-      newItemFormData.append("userId", formValue.userId);
-      console.log('newItemFormData.userId', formValue.userId)
+      newItemFormData.append("userId", loggedInUser.id);
       newItemFormData.append("name", formValue.name);
       newItemFormData.append("description", formValue.description);
       newItemFormData.append("offered", formValue.offered);

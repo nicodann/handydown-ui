@@ -27,8 +27,8 @@ export default function ItemList(props) {
       description: '', 
       image: '', 
       offered: true,
-      user: { id: null, username: '', location: ''}, 
-      createdAt: ''
+      createdAt: '',
+      user: { id: null, username: '', location: ''} 
     }
   )
 

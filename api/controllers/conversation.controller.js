@@ -18,6 +18,9 @@ exports.getByUserId = async (req, res) => {
         Message, 
         {model: User, as: 'creator'},
         {model: User, as: 'receiver'}
+      ],
+      order: [
+        ['updatedAt', 'DESC'],
       ]
     });
     return res.json(conversations);

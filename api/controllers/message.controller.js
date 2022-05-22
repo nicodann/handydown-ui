@@ -2,6 +2,8 @@ const { Op } = require("sequelize");
 const db = require('../models');
 const Conversation = db.conversation;
 const Message = db.message;
+const Item = db.item;
+const User = db.user;
 
 // Create a new conversation if one doesn't already exist
 // then create a new message
@@ -38,7 +40,10 @@ exports.create = async (req, res) => {
     });
     const updatedConversation = await Conversation.findByPk(conversation.id, {
       include:[
-        Message, 
+        Item,
+        Message,
+        {model: User, as: 'creator'},
+        {model: User, as: 'receiver'}
       ]
     });
     return res.json(updatedConversation);

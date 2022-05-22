@@ -63,6 +63,7 @@ export default function App() {
     axios.get("/api/items")
     .then((items) => {
       setITEMS(items.data);
+      console.log('HERE ARE THE ITEMS', items.data);
       return items.data;
     })
     .then((data) => {
@@ -166,7 +167,7 @@ export default function App() {
   // DELETE ITEM
   const deleteItem = async (itemId, offered) => {
     try {
-      const response = await axios.delete(`/api/items/${itemId}`);
+      await axios.delete(`/api/items/${itemId}`);
       if (tabValue === 2) {
         setTabbedItems(tabbedItems.filter((tabbedItem) => tabbedItem.id !== itemId));
       }
@@ -293,8 +294,8 @@ export default function App() {
             </>
           :
             <>
-              <IconButton sx={{mr: -1.5}}>
-                <AccountCircleIcon style={{fill: "white", marginRight: '0'}}/>
+              <IconButton style={{marginRight: '-26px'}}>
+                <AccountCircleIcon style={{fill: "white"}}/>
               </IconButton>
               <Button
                 color="inherit"

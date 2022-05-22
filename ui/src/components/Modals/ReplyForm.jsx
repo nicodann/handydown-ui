@@ -20,11 +20,12 @@ export default function ReplyForm(props) {
     setTabValue
   } = props;
 
+  console.log('typeof creatorId', typeof creatorId);
+  console.log('typeof receiverId', typeof receiverId);
   const [messageBody, setMessageBody] = useState('');
 
-  const findOtherUserId = () => {
-    return receiverId === null ? creatorId : (loggedInUser.id === receiverId ? creatorId : receiverId);
-  };
+  const findOtherUserId = () =>
+    receiverId === null ? creatorId : (loggedInUser.id === receiverId ? creatorId : receiverId);
 
   const handleMessageBodyChange = (event) => {
     setMessageBody(event.target.value);
@@ -35,7 +36,7 @@ export default function ReplyForm(props) {
     const newMessageFormData = new FormData();
     newMessageFormData.append("itemId", itemId);
     newMessageFormData.append("userId", loggedInUser.id);
-    newMessageFormData.append("otherUserId", findOtherUserId);
+    newMessageFormData.append("otherUserId", findOtherUserId());
     newMessageFormData.append("body", messageBody);
     addMessage(newMessageFormData);
     setTabValue(3);

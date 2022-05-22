@@ -44,7 +44,7 @@
       newItemFormData.append("offered", formValue.offered);
       const imagefile = document.querySelector("#file");
       newItemFormData.append("imageFile", imagefile.files[0]);
-      addItem(newItemFormData)
+      addItem(newItemFormData);
       handleFormClose();
     };
 

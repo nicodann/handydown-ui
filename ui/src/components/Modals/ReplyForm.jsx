@@ -8,7 +8,7 @@ import TextField from '@mui/material/TextField';
 
 export default function ReplyForm(props) {
 
-  const { setTabValue, addMessage, handleClose, itemId, name, offered, loggedInUserID, loggedInUser, creatorId } = props;
+  const { setTabValue, addMessage, handleClose, itemId, name, offered, loggedInUserID, creatorId } = props;
 
   const [messageBody, setMessageBody] = useState('');
   

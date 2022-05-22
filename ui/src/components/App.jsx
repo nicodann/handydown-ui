@@ -53,6 +53,7 @@ function App() {
   // CHECK IF USER HAS PREVIOUSLY LOGGED IN
   useEffect(() => {
     const loggedInUser = localStorage.getItem('user');
+    console.log('loggedInUser', loggedInUser)
     if (loggedInUser) {
       const foundUser = JSON.parse(loggedInUser);
       setLoggedInUser(foundUser);
@@ -108,7 +109,11 @@ function App() {
         headers: { "Content-Type": "multipart/form-data" },
       });
       setLoggedInUser(response.data);
-      localStorage.setItem('user', response.data);
+      console.log('LoggedINUSER', loggedInUser)
+      // localStorage.setItem('user', response.data);
+      localStorage.setItem('user', JSON.stringify(response.data));
+      setTabValue(0);
+      setTabbedItems(ITEMS.filter((item) => item.offered && item.userID !== loggedInUser.id))
     } catch(error) {
       console.log(error);
     }
@@ -123,8 +128,12 @@ function App() {
         data: registrationFormData,
         headers: { "Content-Type": "multipart/form-data" },
       });
+      console.log('register returns this data:', response.data)
       setLoggedInUser(response.data);
-      localStorage.setItem('user', response.data);
+      // localStorage.setItem('user', response.data);
+      localStorage.setItem('user', JSON.stringify(response.data));
+      const getLS = localStorage.getItem('user')
+      console.log('getLS', getLS)
     } catch(error) {
       console.log(error)
     }
@@ -144,6 +153,9 @@ function App() {
 
     setLoggedInUser(null);
     localStorage.clear();
+    setConversations([]);
+    setTabValue(0);
+    setTabbedItems(ITEMS.filter((item) => item.offered))
   };
 
   // ADD ITEM
@@ -156,12 +168,12 @@ function App() {
         headers: { "Content-Type": "multipart/form-data" },
       });
       const newItem = response.data;
-      if ((tabValue === 0 && newItem.offered) ||
-          (tabValue === 1 && !newItem.offered) ||
-          (tabValue === 2 && newItem.userId === loggedInUser.id)) {
-        setTabbedItems([newItem, ...tabbedItems]);
-      } 
+      
+      // if ((tabValue === 0 && newItem.offered) ||
+          // (tabValue === 1 && !newItem.offered) ||
       setITEMS([newItem, ...ITEMS]);
+      setTabValue(2);
+      setTabbedItems([newItem, ...ITEMS.filter((item) => item.userId === loggedInUser.id)]);
     } catch(error) {
       console.log(error);
     }
@@ -172,9 +184,9 @@ function App() {
     try {
       const response = await axios.delete(`/api/items/${itemId}`);
       console.log("AXIOS DELETE RESPONSE", response);
-      if ((tabValue === 0 && offered) ||
-          (tabValue === 1 && !offered) ||
-          (tabValue === 2)) {
+      // if ((tabValue === 0 && offered) ||
+          // (tabValue === 1 && !offered) ||
+      if (tabValue === 2) {
         setTabbedItems(tabbedItems.filter((tabbedItem) => tabbedItem.id !== itemId));
       }
       setITEMS(ITEMS.filter((item) => item.id !== itemId));

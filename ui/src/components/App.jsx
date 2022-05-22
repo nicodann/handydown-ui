@@ -22,7 +22,7 @@ import AddItemForm from './Modals/AddItemForm';
 import LoginForm from './Modals/LoginForm';
 import RegistrationForm from './Modals/RegistrationForm';
 
-function App() {
+export default function App() {
 
   // STATE
   const [loggedInUser, setLoggedInUser] = useState(null);
@@ -52,8 +52,6 @@ function App() {
   // CHECK IF USER HAS PREVIOUSLY LOGGED IN
   useEffect(() => {
     const loggedInUser = localStorage.getItem('user');
-    console.log('LS-check-login', localStorage.getItem('user'))
-    console.log('loggedInUser', loggedInUser)
     if (loggedInUser) {
       const foundUser = JSON.parse(loggedInUser);
       setLoggedInUser(foundUser);
@@ -65,6 +63,7 @@ function App() {
     axios.get("/api/items")
     .then((items) => {
       setITEMS(items.data);
+      console.log('HERE ARE THE ITEMS', items.data);
       return items.data;
     })
     .then((data) => {
@@ -90,14 +89,7 @@ function App() {
         .catch((error) => console.log(error));
 
     }
-    // }, [loggedInUser && loggedInUser.id]);
     }, [loggedInUser]);
-  
-  // 
-  // useEffect(() => {
-  //   console.log("tabbedItems.length:",tabbedItems.length)
-  //   console.log("tabValue:", tabValue)
-  // });
 
   // LOGIN
   const loginUser = async (loginFormData) => {
@@ -108,19 +100,11 @@ function App() {
         data: loginFormData,
         headers: { "Content-Type": "multipart/form-data" },
       });
-      console.log('response.data after axios login', response.data)
-      console.log('LS-login before clear', localStorage.getItem('user'))
       localStorage.clear();
-      console.log('LS-login after clear', localStorage.getItem('user'))
       localStorage.setItem('user', JSON.stringify(response.data));
-      console.log('LS-login after setItem', localStorage.getItem('user'))
       setLoggedInUser(response.data);
-      // setLoggedInUser(localStorage.getItem('user'));
-      console.log('loggedInUser after login', loggedInUser)
-
       setTabValue(0);
-      console.log('loggedInUser when logging in and setTabbedItems', loggedInUser  )
-      setTabbedItems(ITEMS.filter((item) => item.offered && item.userID !== loggedInUser.id))
+      setTabbedItems(ITEMS.filter((item) => item.offered && loggedInUser && item.userID !== loggedInUser.id));
     } catch(error) {
       console.log(error);
     }
@@ -135,15 +119,9 @@ function App() {
         data: registrationFormData,
         headers: { "Content-Type": "multipart/form-data" },
       });
-      console.log('response.data after axios register', response.data)
       setLoggedInUser(response.data);
-      console.log('loggedInUser after register', loggedInUser)
-      console.log('LS-register before clear', localStorage.getItem('user'))
       localStorage.clear();
-      console.log('LS-register after clear', localStorage.getItem('user'))
       localStorage.setItem('user', JSON.stringify(response.data));
-      console.log('LS-register after setItem', localStorage.getItem('user'))
-
     } catch(error) {
       console.log(error)
     }
@@ -162,13 +140,7 @@ function App() {
     // }
 
     setLoggedInUser(null);
-
-
-    console.log('LS-logout before clear', localStorage.getItem('user'))
-
     localStorage.clear();
-    console.log('LS-logout after clear', localStorage.getItem('user'))
-
     setConversations([]);
     setTabValue(0);
     setTabbedItems(ITEMS.filter((item) => item.offered))
@@ -176,7 +148,6 @@ function App() {
 
   // ADD ITEM
   const addItem = async (newItemFormData) => {
-    console.log('loggedInUser just before addItem', loggedInUser.username, loggedInUser.id)
     try {
       const response = await axios({
         method: 'post',
@@ -185,7 +156,6 @@ function App() {
         headers: { "Content-Type": "multipart/form-data" },
       });
       const newItem = response.data;
-      
       setITEMS([newItem, ...ITEMS]);
       setTabValue(2);
       setTabbedItems([newItem, ...ITEMS.filter((item) => item.userId === loggedInUser.id)]);
@@ -197,8 +167,7 @@ function App() {
   // DELETE ITEM
   const deleteItem = async (itemId, offered) => {
     try {
-      const response = await axios.delete(`/api/items/${itemId}`);
-      console.log("AXIOS DELETE RESPONSE", response);
+      await axios.delete(`/api/items/${itemId}`);
       if (tabValue === 2) {
         setTabbedItems(tabbedItems.filter((tabbedItem) => tabbedItem.id !== itemId));
       }
@@ -325,7 +294,7 @@ function App() {
             </>
           :
             <>
-              <IconButton sx={{mr: -1.5}}>
+              <IconButton style={{marginRight: '-26px'}}>
                 <AccountCircleIcon style={{fill: "white"}}/>
               </IconButton>
               <Button
@@ -356,7 +325,6 @@ function App() {
               color="inherit" 
               formOpen={formOpen} 
               addItem={addItem} 
-              { ...console.log('JSXJSXJSXloggedInUser inside JSX render of AddItemForm', loggedInUser)}
               loggedInUser={loggedInUser} 
               handleFormClose={() => setFormOpen(false)} 
             />
@@ -386,7 +354,6 @@ function App() {
           items={searchText !== '' ? searchedItems : tabbedItems}
           tabValue={tabValue}
           tabIndex={0}
-          loggedInUserID={loggedInUser && loggedInUser.id}
           deleteItem={deleteItem}
           addMessage={addMessage}
           loggedInUser={loggedInUser}
@@ -396,7 +363,6 @@ function App() {
           items={searchText !== '' ? searchedItems : tabbedItems}
           tabValue={tabValue}
           tabIndex={1}
-          loggedInUserID={loggedInUser && loggedInUser.id}
           deleteItem={deleteItem}
           addMessage={addMessage} // for ReplyForm
           loggedInUser={loggedInUser} // for ReplyForm, among others
@@ -406,18 +372,18 @@ function App() {
           items={searchText !== '' ? searchedItems : tabbedItems}
           tabValue={tabValue}
           tabIndex={2}
-          loggedInUserID={loggedInUser && loggedInUser.id}
           deleteItem={deleteItem}
         />
         <ConversationList
           conversations={conversations}
+          loggedInUser={loggedInUser} // for ReplyForm, among others
+          addMessage={addMessage} // for ReplyForm
           tabValue={tabValue}
+          setTabValue={setTabValue}
           tabIndex={3}
-          loggedInUserID={loggedInUser && loggedInUser.id}
+          // loggedInUserID={loggedInUser && loggedInUser.id}
         />
       </Container>
     </>
   ); 
 }
-
-export default App;

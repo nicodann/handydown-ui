@@ -1,5 +1,4 @@
-import React from 'react';
-import ReplyForm from './ReplyForm';
+import { format } from 'timeago.js';
 import {
   Box,
   Button,
@@ -8,8 +7,7 @@ import {
 } from '@mui/material';
 import LocationOnIcon from '@mui/icons-material/LocationOn';
 import DeleteIcon from '@mui/icons-material/Delete';
-import { format } from 'timeago.js';
-import { axios } from 'axios';
+import ReplyForm from './ReplyForm';
 
 const style = {
   position: 'absolute',
@@ -25,29 +23,30 @@ const style = {
 
 export default function SingleItemModal(props) {
 
-  const { setTabValue, addMessage, loggedInUserID, loggedInUser, name, description, offered, image, createdAt, itemId, creatorId, userName, location, open, handleClose, tabIndex, deleteItem } = props;
-  // console.log('SIMPROPS', props);
+  const {
+    itemId,
+    name,
+    description,
+    offered,
+    image,
+    createdAt,
+    creatorId,
+    location,
+    loggedInUser,
+    addMessage,
+    deleteItem,
+    open,
+    handleClose,
+    setTabValue,
+    tabIndex
+  } = props;
 
   const handleDeleteClick = async (event) => {
     event.preventDefault();
-    console.log('delete button!!!!!!');
     deleteItem(itemId, offered);
     handleClose();
-  }
+  };
 
-  // const replyMessageFunction = (message) => {
-  //   console.log('MESSAGE', message);
-  //   // retrieve itemId userId
-  //   const data = { itemId, creatorId, loggedInUserID, message }
-  //   try {
-  //     axios.post('/api/conversations', {data} )
-  //       .then((response) => {
-  //         console.log('response', response);
-  //       })
-  //   } catch(err) {
-
-  //   }
-  // };
   return (
     <Modal
       open={open}
@@ -77,19 +76,19 @@ export default function SingleItemModal(props) {
         <Typography id="modal-modal-description" variant="body1" sx={{ mt: 2 }}>
           {description}
         </Typography>
-        {loggedInUserID !== creatorId  &&  
+        {loggedInUser && loggedInUser.id !== creatorId  &&  
           <ReplyForm 
-            addMessage={addMessage}
-            handleClose={handleClose}
             itemId={itemId}
             name={name}
             offered={offered}
-            loggedInUserID={loggedInUserID} // temporary until loggedInUser is up and running
             loggedInUser={loggedInUser}
             creatorId={creatorId}
+            receiverId={null}
+            addMessage={addMessage}
+            handleClose={handleClose}
             setTabValue={setTabValue}
           />}
-        {tabIndex === 2 && loggedInUserID === creatorId &&
+        {loggedInUser && tabIndex === 2 && loggedInUser.id === creatorId &&
           <Button
             variant="contained"
             startIcon={<DeleteIcon />}
@@ -102,4 +101,4 @@ export default function SingleItemModal(props) {
       </Box>
     </Modal>
   );
-}
+};

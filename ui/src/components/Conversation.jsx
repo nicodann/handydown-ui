@@ -4,7 +4,7 @@ import {
   Checkbox
 } from '@mui/material';
 
-function Conversation(props) {
+export default function Conversation(props) {
   const {
      id, 
      otherPartyName,
@@ -42,6 +42,4 @@ function Conversation(props) {
       <TableCell align="right">{updatedAt}</TableCell>
     </TableRow>
   );
-}
-
-export default Conversation;
+};

@@ -1,3 +1,4 @@
+import { format } from 'timeago.js';
 import { 
   Button,
   Card,
@@ -9,9 +10,8 @@ import {
   Grid,
   Typography,
 } from '@mui/material';
-import { format } from 'timeago.js';
 
-function Item(props) {
+export default function Item(props) {
   
   const { offered, name, createdAt, image, description, location, username, onClick } = props;
     return (
@@ -41,6 +41,4 @@ function Item(props) {
         </Card>
     </Grid>
     );
-}
-
-export default Item;
+};

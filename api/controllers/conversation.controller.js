@@ -15,7 +15,7 @@ exports.getByUserId = async (req, res) => {
       },
       include:[
         Item, 
-        Message, 
+        Message,
         {model: User, as: 'creator'},
         {model: User, as: 'receiver'}
       ],

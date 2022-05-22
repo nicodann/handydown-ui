@@ -46,6 +46,12 @@ exports.create = async (req, res) => {
         {model: User, as: 'receiver'}
       ]
     });
+    // refresh the updatedAt field for the conversation so it shows up at the top of My Messages 
+    updatedConversation.changed('updatedAt', true);
+    await updatedConversation.update({
+      updatedAt: new Date() 
+    });
+    
     return res.json(updatedConversation);
   } catch(err) {
     console.log(err);

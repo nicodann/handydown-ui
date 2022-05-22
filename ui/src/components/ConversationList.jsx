@@ -24,8 +24,6 @@ export default function ConversationList(props) {
     tabIndex
   } = props;
 
-  console.log('latest conversations', conversations);
-  
   const findLatestMessageBody = (conversation) => {
     return conversation.messages[conversation.messages.length - 1].body
   }

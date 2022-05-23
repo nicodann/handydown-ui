@@ -1,17 +1,32 @@
 import { useState } from 'react';
-
-// import TextareaAutosize from '@mui/material/TextareaAutosize';
-import Typography from '@mui/material/Typography';
-import Button from '@mui/material/Button';
-import Box from '@mui/material/Box';
-import TextField from '@mui/material/TextField';
+import {
+  Box,
+  Button,
+  TextField,
+  Typography
+ } from '@mui/material';
 
 export default function ReplyForm(props) {
 
-  const { setTabValue, addMessage, handleClose, itemId, name, offered, loggedInUserID, creatorId } = props;
+  const {
+    itemId,
+    name,
+    offered,
+    creatorId,
+    receiverId,
+    loggedInUser,
+    addMessage,
+    handleClose,
+    setTabValue
+  } = props;
 
+  console.log('typeof creatorId', typeof creatorId);
+  console.log('typeof receiverId', typeof receiverId);
   const [messageBody, setMessageBody] = useState('');
-  
+
+  const findOtherUserId = () =>
+    receiverId === null ? creatorId : (loggedInUser.id === receiverId ? creatorId : receiverId);
+
   const handleMessageBodyChange = (event) => {
     setMessageBody(event.target.value);
   };
@@ -20,8 +35,8 @@ export default function ReplyForm(props) {
     event.preventDefault();
     const newMessageFormData = new FormData();
     newMessageFormData.append("itemId", itemId);
-    newMessageFormData.append("userId", loggedInUserID);
-    newMessageFormData.append("otherUserId", creatorId);
+    newMessageFormData.append("userId", loggedInUser.id);
+    newMessageFormData.append("otherUserId", findOtherUserId());
     newMessageFormData.append("body", messageBody);
     addMessage(newMessageFormData);
     setTabValue(3);
@@ -44,26 +59,10 @@ export default function ReplyForm(props) {
           sx={{ width: '100%'}}
           onChange={handleMessageBodyChange}
         />
-        {/* <input
-          type="hidden"
-          name="itemId"
-          value={itemId}
-        />
-        <input
-          type="hidden"
-          name="userId"
-          value={loggedInUserID}
-          // value={loggedInUser.id}
-        />
-        <input
-          type="hidden"
-          name="otherUserId"
-          value={creatorId}
-        /> */}
         <Box sx={{ display: "flex", justifyContent: "start" }}>
           <Button type="submit" variant="contained" sx={{mt: 2}}>Reply</Button>
         </Box>
       </Box>
     </Box>
   );
-}
+};

@@ -1,9 +1,8 @@
-// import ReplyForm from './ReplyForm';
+import { format } from 'timeago.js';
 import {
   Divider,
   Typography,
   Box } from '@mui/material';
-import { format } from 'timeago.js';
 
 export default function Message(props) {
   const {user, createdAt, body, style } = props;
@@ -15,7 +14,6 @@ export default function Message(props) {
         <Typography variant="body1">{format(createdAt)}</Typography>
       </Box>
       <Typography variant="body2" gutterBottom sx={style}>{body}</Typography>
-      
     </>
   )
 };

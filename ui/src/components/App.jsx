@@ -305,7 +305,7 @@ export default function App() {
             </>
           :
             <>
-              <IconButton style={{marginRight: '-26px'}}>
+              <IconButton style={{marginRight: '-10px'}}>
                 <AccountCircleIcon style={{fill: "white"}}/>
               </IconButton>
               <Button

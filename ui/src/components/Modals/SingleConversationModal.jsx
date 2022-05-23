@@ -1,13 +1,14 @@
+import { format } from 'timeago.js';
 import {
+  Box,
+  CardHeader ,
+  Divider,
   Modal,
   Typography,
-  Box,
-  Divider,
-  CardHeader } from '@mui/material';
-import Message from './Message';
-import { format } from 'timeago.js';
-import ReplyForm from './ReplyForm';
+} from '@mui/material';
 import { flexbox } from '@mui/system';
+import Message from './Message';
+import ReplyForm from './ReplyForm';
 
 const style = {
   position: 'absolute',
@@ -23,13 +24,18 @@ const style = {
 
 export default function SingleConversationModal(props) {
   const {
-    open, 
-    handleClose, 
+    itemId,
+    name,
+    offered, 
     image, 
-    name, 
-    messages, 
     creator, 
-    receiver
+    receiver,
+    messages,
+    loggedInUser,
+    addMessage,
+    open, 
+    handleClose,
+    setTabValue 
   } = props
 
   const hiddenBodyStyle = {
@@ -37,7 +43,7 @@ export default function SingleConversationModal(props) {
     overflow:'hidden', 
     textOverflow: 'ellipsis', 
     whiteSpace: 'nowrap'
-  }
+  };
 
   const messagesArray = messages.map((message, index) => {
     const bodyStyle = (index === messages.length - 1) ? {...hiddenBodyStyle, ...{ height: 'auto', overflow: 'visible', whiteSpace: 'wrap' } } : hiddenBodyStyle;
@@ -50,9 +56,7 @@ export default function SingleConversationModal(props) {
           style={bodyStyle}
         />
     )
-  })
-
-  
+  });
 
   return (
     <Modal
@@ -67,10 +71,18 @@ export default function SingleConversationModal(props) {
           <img src={image} alt={name} width={200}/>
         </Box >
         {messagesArray}
-        <ReplyForm />
+        <ReplyForm
+          itemId={itemId} //
+          name={name}
+          offered={offered}
+          loggedInUser={loggedInUser}
+          creatorId={creator.id}
+          receiverId={receiver.id}
+          addMessage={addMessage}
+          handleClose={handleClose}
+          setTabValue={setTabValue}
+        />
       </Box>
-      
-      
     </Modal>
   )
-} 
+};

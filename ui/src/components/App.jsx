@@ -384,6 +384,8 @@ export default function App() {
           tabValue={tabValue}
           tabIndex={2}
           deleteItem={deleteItem}
+          loggedInUser={loggedInUser} // for ReplyForm, among others
+          setTabValue={setTabValue}
         />
         <ConversationList
           conversations={conversations}

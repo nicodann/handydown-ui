@@ -25,8 +25,6 @@ export default function ConversationList(props) {
     markAsRead
   } = props;
 
-  console.log("loggedInUser",loggedInUser )
-
   const findLatestMessageBody = (conversation) => {
     return conversation.messages[conversation.messages.length - 1].body
   }

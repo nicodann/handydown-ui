@@ -3,6 +3,7 @@ import {
   TableCell,
   Checkbox
 } from '@mui/material';
+import { useState } from 'react';
 
 export default function Conversation(props) {
   const {
@@ -15,18 +16,21 @@ export default function Conversation(props) {
      read
     } = props;
 
-  console.log("read:",read)
+  const [isRead, setIsRead] = useState(read)
     
-  const ConvBackCol = read ? "lightgrey" : "white";
+  const ConvBackCol = isRead ? "lightgrey" : "white";
 
-  console.log(ConvBackCol)
+  const handleClick = () => {
+    onClick();
+    setIsRead(true);
+  }
 
   return (
     
     <TableRow
       key={id}
       sx={{background: ConvBackCol, '&:last-child td, &:last-child th': { border: 0 } }}
-      onClick={onClick}
+      onClick={handleClick}
     >
       <TableCell>
         <Checkbox color="primary" />

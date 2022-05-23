@@ -238,9 +238,9 @@ export default function App() {
   };
 
   //MARK CONVO AS READ
-  const markAsRead = (conversationId) => {
+  const markAsRead =  async (conversationId) => {
     try {
-      await axios.put(`/api/conversations/${conversationId}`);
+       await axios.put(`/api/conversations/${conversationId}`);
     } catch(err) {
       console.log(err);
     }

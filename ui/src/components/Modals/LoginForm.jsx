@@ -28,7 +28,11 @@
       const loginFormData = new FormData();
       loginFormData.append("username", formValue.username);
       loginFormData.append("password", formValue.password);
-      loginUser(loginFormData)
+      try {
+        loginUser(loginFormData)
+      } catch (err) {
+        
+      }
       setLoginFormOpen(false);
       
     };

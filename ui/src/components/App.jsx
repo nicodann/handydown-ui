@@ -108,21 +108,21 @@ function App() {
         data: loginFormData,
         headers: { "Content-Type": "multipart/form-data" },
       });
-      console.log('response.data after axios login', response.data)
-      console.log('LS-login before clear', localStorage.getItem('user'))
+      // console.log('response.data after axios login', response.data)
+      // console.log('LS-login before clear', localStorage.getItem('user'))
       localStorage.clear();
-      console.log('LS-login after clear', localStorage.getItem('user'))
+      // console.log('LS-login after clear', localStorage.getItem('user'))
       localStorage.setItem('user', JSON.stringify(response.data));
-      console.log('LS-login after setItem', localStorage.getItem('user'))
+      // console.log('LS-login after setItem', localStorage.getItem('user'))
       setLoggedInUser(response.data);
       // setLoggedInUser(localStorage.getItem('user'));
-      console.log('loggedInUser after login', loggedInUser)
+      // console.log('loggedInUser after login', loggedInUser)
 
       setTabValue(0);
-      console.log('loggedInUser when logging in and setTabbedItems', loggedInUser  )
+      // console.log('loggedInUser when logging in and setTabbedItems', loggedInUser  )
       setTabbedItems(ITEMS.filter((item) => item.offered && item.userID !== loggedInUser.id))
     } catch(error) {
-      console.log(error);
+      console.log("error:",error.response.data);
     }
   };
 

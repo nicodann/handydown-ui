@@ -106,7 +106,8 @@ export default function App() {
       setTabValue(0);
       setTabbedItems(ITEMS.filter((item) => item.offered && loggedInUser && item.userID !== loggedInUser.id));
     } catch(error) {
-      console.log(error);
+      const message = error.response.data;
+      return message;
     }
   };
 

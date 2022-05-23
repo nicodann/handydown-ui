@@ -1,11 +1,12 @@
-import { useState } from 'react';
-import {
-  Box,
-  Button,
-  Modal,
-  TextField,
-  Typography,
-} from '@mui/material';
+  import { useState } from 'react';
+  import {
+    Box,
+    Button,
+    Modal,
+    TextField,
+    Typography,
+    Alert
+  } from '@mui/material';
 
 export default function LoginForm(props) {
   const { loginFormOpen, setLoginFormOpen, loginUser } = props;
@@ -20,7 +21,15 @@ export default function LoginForm(props) {
       ...formValue,
       [event.target.name]: event.target.value
     });
+    setAlertDisplay("none");
   };
+  const[alertDisplay, setAlertDisplay] = useState("none")
+  const [errorMessage, setErrorMessage] = useState('')
+
+  const alertStyles = {
+    marginTop: 2, 
+    display: alertDisplay
+  }
 
   const handleSubmit = async (event) => {
     event.preventDefault();
@@ -28,7 +37,15 @@ export default function LoginForm(props) {
     loginFormData.append("username", formValue.username);
     loginFormData.append("password", formValue.password);
     loginUser(loginFormData)
-    setLoginFormOpen(false);
+      .then(message => {
+        if (message.includes("password") || (message.includes("username"))) {
+          setErrorMessage(message);
+          setAlertDisplay("flex")
+        } else {
+          setLoginFormOpen(false);
+        }
+      })
+      .catch(err => console.log(err))
     
   };
 
@@ -67,6 +84,7 @@ export default function LoginForm(props) {
               sx={{mt:1}}
               onChange={handleChange}
             />
+            <Alert severity="error" sx={alertStyles}>{errorMessage}</Alert>
             <Box sx={{ display: "flex", justifyContent: "start", mt: 2 }}>
               <Button
                 type="submit"

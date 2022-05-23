@@ -24,12 +24,14 @@ export default function ConversationList(props) {
     tabIndex
   } = props;
 
+  console.log("loggedInUser",loggedInUser )
+
   const findLatestMessageBody = (conversation) => {
     return conversation.messages[conversation.messages.length - 1].body
   }
 
-  const findOtherPartyName = (conversation, loggedInUser) => {
-    return loggedInUser.id === conversation.receiver.id ? conversation.creator.username : conversation.receiver.username
+  const findOtherPartyName = (conversation, loggedInUserID) => {
+    return loggedInUserID === conversation.receiver.id ? conversation.creator.username : conversation.receiver.username
   }
 
   //MODAL STATE LOGIC
@@ -46,16 +48,16 @@ export default function ConversationList(props) {
     setModalProps(props)
   }
 
-  const conversationsArray = conversations.map((conversation) =>
-      <Conversation
-        key={conversation.id}
-        id={conversation.id}
-        otherPartyName={findOtherPartyName(conversation, loggedInUser.id)}
-        itemName={conversation.item.name}
-        messageBody={findLatestMessageBody(conversation)}
-        updatedAt={format(conversation.updatedAt)}
-        onClick={() => openModal(conversation)}
-      />
+  const conversationsArray = conversations.map((conversation) => 
+    <Conversation
+      key={conversation.id}
+      id={conversation.id}
+      otherPartyName={findOtherPartyName(conversation, loggedInUser.id)}
+      itemName={conversation.item.name}
+      messageBody={findLatestMessageBody(conversation)}
+      updatedAt={format(conversation.updatedAt)}
+      onClick={() => openModal(conversation)}
+    />
   );
 
   return (

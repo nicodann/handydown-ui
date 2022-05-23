@@ -19,6 +19,8 @@ export default function AddItemForm(props) {
     offered: true,
   });
 
+  const [myImage, setMyImage] = useState(null);
+
   const str2bool = (value) => {
     if (value && typeof value === "string") {
           if (value.toLowerCase() === "true") return true;
@@ -34,6 +36,11 @@ export default function AddItemForm(props) {
     });
   };
 
+  const newHandleFormClose = () => {
+    handleFormClose();
+    setMyImage(null);
+  }
+
   const handleFormSubmit = async (event) => {
     event.preventDefault();
     const newItemFormData = new FormData();
@@ -44,9 +51,12 @@ export default function AddItemForm(props) {
     const imagefile = document.querySelector("#file");
     newItemFormData.append("imageFile", imagefile.files[0]);
     addItem(newItemFormData);
-    handleFormClose();
+    newHandleFormClose();
   };
 
+  const handleImageAddition = (event) => {
+    setMyImage(URL.createObjectURL(event.target.files[0]))
+  }
   return (
     <Modal
       open={formOpen}
@@ -98,19 +108,32 @@ export default function AddItemForm(props) {
               onChange={handleFormChange}
             />
             <Button
-          component="label"
-          variant="outlined"
-          sx={{mt: 2}}
-        >
-          Add an Image
-          <input
-            type="file"
-            name="imageFile"
-            accept="image/*"
-            hidden
-            id="file"
-          />
-        </Button>
+              component="label"
+              variant="outlined"
+              sx={{mt: 2}}
+            >
+              Add an Image
+              <input
+                type="file"
+                name="imageFile"
+                accept="image/*"
+                hidden
+                id="file"
+                onChange={handleImageAddition}
+              />
+            </Button>
+            <Box sx={{display: 'flex', justifyContent: 'start', alignItems: 'center', mt: 2}}>
+              <Box
+                component="img"
+                sx={{
+                  height: 100,
+                  width: 100,
+                  display: myImage === null ? 'none' : 'block'
+                }}
+                alt="Image to Upload"
+                src={myImage}
+              />
+            </Box>
             <Box sx={{ display: "flex", justifyContent: "start", mt: 2 }}>
               <Button
                 type="submit"
@@ -121,7 +144,7 @@ export default function AddItemForm(props) {
               <Button
                 variant="outlined" 
                 sx={{ml:1}}
-                onClick={handleFormClose}
+                onClick={newHandleFormClose}
               >
                 Cancel
               </Button>

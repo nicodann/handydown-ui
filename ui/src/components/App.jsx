@@ -327,7 +327,8 @@ export default function App() {
             <Button
               color="warning"
               variant="contained"
-              onClick={() => setFormOpen(true)}
+              // onClick={() => setFormOpen(true)}
+              onClick={loggedInUser ? () => setFormOpen(true) : () => setLoginFormOpen(true)}
               sx={{ml: 1}}
             >
               Post Item

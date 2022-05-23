@@ -42,7 +42,8 @@ export default function SingleConversationModal(props) {
     height: '20px',
     overflow:'hidden', 
     textOverflow: 'ellipsis', 
-    whiteSpace: 'nowrap'
+    whiteSpace: 'nowrap',
+    marginTop: 2
   };
 
   const messagesArray = messages.map((message, index) => {
@@ -51,6 +52,7 @@ export default function SingleConversationModal(props) {
         <Message
           key={message.id}
           user={creator.id === message.userId ? creator.username : receiver.username}
+          aligned={creator.id === message.userId ? "left" : "right"}
           createdAt={message.createdAt}
           body={message.body}
           style={bodyStyle}

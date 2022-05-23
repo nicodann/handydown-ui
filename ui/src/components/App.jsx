@@ -237,6 +237,16 @@ export default function App() {
     setSearchText(keyword);
   };
 
+  //MARK CONVO AS READ
+  const markAsRead = (conversationId) => {
+    try {
+      await axios.put(`/api/conversations/${conversationId}`);
+    } catch(err) {
+      console.log(err);
+    }
+    
+  }
+
   // RENDER
 
   if (ITEMS === null) {
@@ -382,6 +392,7 @@ export default function App() {
           tabValue={tabValue}
           setTabValue={setTabValue}
           tabIndex={3}
+          markAsRead={markAsRead}
           // loggedInUserID={loggedInUser && loggedInUser.id}
         />
       </Container>

@@ -11,14 +11,21 @@ export default function Conversation(props) {
      itemName,
      messageBody,
      updatedAt,
-     onClick
-   } = props;
+     onClick,
+     read
+    } = props;
+
+  console.log("read:",read)
+    
+  const ConvBackCol = read ? "lightgrey" : "white";
+
+  console.log(ConvBackCol)
 
   return (
     
     <TableRow
       key={id}
-      sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
+      sx={{background: ConvBackCol, '&:last-child td, &:last-child th': { border: 0 } }}
       onClick={onClick}
     >
       <TableCell>

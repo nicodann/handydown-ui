@@ -29,3 +29,17 @@ exports.getByUserId = async (req, res) => {
     res.status(500).send(err); 
   }
 };
+
+exports.markAsRead = async (req,res) => {
+  const convId = req.params.conversationId;
+  try {
+    const result = await Conversation.update(
+      {read: true},
+      {where: {id: convId}}
+    )
+    res.json(result)
+  } catch (err) {
+    console.log(err)
+    res.status(500).send(err)
+  }
+}

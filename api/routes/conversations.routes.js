@@ -4,6 +4,9 @@ module.exports = app => {
   // Retrieve all conversations belonging to a User
   router.get("/by/user/:userId", conversations.getByUserId);
 
+  //Mark a convo as 'read' (read = true)
+  router.put("/:conversationId", conversations.markAsRead);
+
   // Create a new Conversation and its first message
   // router.post("/", conversations.create);
 

@@ -21,7 +21,8 @@ export default function ConversationList(props) {
     addMessage,
     tabValue,
     setTabValue,
-    tabIndex
+    tabIndex,
+    markAsRead
   } = props;
 
   console.log("loggedInUser",loggedInUser )
@@ -43,9 +44,10 @@ export default function ConversationList(props) {
     messages: [{id: null, createdAt: null, body: ''}],
   })
 
-  const openModal = (props) => {
+  const handleClick = (conversation) => {
     setOpen(true)
-    setModalProps(props)
+    setModalProps(conversation)
+    markAsRead(conversation.id)
   }
 
   const conversationsArray = conversations.map((conversation) => 
@@ -56,7 +58,8 @@ export default function ConversationList(props) {
       itemName={conversation.item.name}
       messageBody={findLatestMessageBody(conversation)}
       updatedAt={format(conversation.updatedAt)}
-      onClick={() => openModal(conversation)}
+      onClick={() => handleClick(conversation)}
+      read={conversation.read}
     />
   );
 

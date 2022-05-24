@@ -191,7 +191,7 @@ export default function App() {
       const filteredConversations= conversations.filter(conversation => conversation.id !== returnedConversation.id);
       setConversations([returnedConversation, ...filteredConversations]);
       console.log('returnedConversation - last message:', returnedConversation.messages[-1]);
-      return returnedConversation.messages[-1];
+      // return returnedConversation.messages[-1];
     } catch(err) {
       console.log(err);
     };

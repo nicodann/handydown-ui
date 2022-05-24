@@ -72,7 +72,9 @@ export default function SingleItemModal(props) {
             <Typography display="block">{location}</Typography>
           </Box>
         </Box>
-        <img alt={name} src={image} style={{height: '100%', maxHeight: '350px', width: '100%', objectFit: 'cover', paddingTop: '16px'}} />
+        <Box style={{display: 'flex', justifyContent: 'center'}}> 
+          <img alt={name} src={image} style={{maxHeight: '350px', paddingTop: '16px'}} />
+        </Box>
         <Typography id="modal-modal-description" variant="body1" sx={{ mt: 2 }}>
           {description}
         </Typography>

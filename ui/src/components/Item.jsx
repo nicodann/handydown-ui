@@ -32,7 +32,8 @@ export default function Item(props) {
           />
           <CardMedia
             component="img"
-            height="200"
+            // height="200"
+            width="100%"
             src={image}
             alt={name}
           />

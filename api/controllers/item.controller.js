@@ -74,8 +74,7 @@ exports.create = async (req, res) => {
     description,
     userId,
     offered,
-    image: imageFile ? `http://localhost:8080/images/${imageFile.name}` : `http://localhost:8080/images/glove2.jpg`
-  };
+    image: imageFile ? `http://localhost:8080/images/${imageFile.name}` : (offered ? `http://localhost:8080/images/balls-in-a-bin` : `http://localhost:8080/images/wanted-adTwo.jpg`)  };
   console.log(Item)
   //save
   try {

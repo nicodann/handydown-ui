@@ -64,6 +64,7 @@ export default function SingleConversationModal(props) {
     )
   });
   
+  // console.log('messages in SingleConversationModal', messages)
   if (itemId === null) {return}
   return (
     <Modal

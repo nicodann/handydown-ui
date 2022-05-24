@@ -186,11 +186,11 @@ export default function App() {
         url: '/api/messages',
         data: newMessageFormData,
       });
-      // console.log('returned conversation', response.data);
+      console.log('returned conversation', response.data);
       const returnedConversation = response.data;
       const filteredConversations= conversations.filter(conversation => conversation.id !== returnedConversation.id);
       setConversations([returnedConversation, ...filteredConversations]);
-      console.log('returnedConversation', returnedConversation)
+      // console.log('returnedConversation', returnedConversation)
       return returnedConversation;
     } catch(err) {
       console.log(err);

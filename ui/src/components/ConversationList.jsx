@@ -61,7 +61,7 @@ export default function ConversationList(props) {
       read={conversation.read}
     />
   );
-  console.log('modalProps from inside', modalProps)
+  console.log('modalProps.messages in ConversationList', modalProps.messages)
   return (
     <div 
       role="tabpanel"

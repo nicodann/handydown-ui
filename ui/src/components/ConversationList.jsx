@@ -61,7 +61,7 @@ export default function ConversationList(props) {
       read={conversation.read}
     />
   );
-
+  console.log('modalProps from inside', modalProps)
   return (
     <div 
       role="tabpanel"
@@ -89,7 +89,7 @@ export default function ConversationList(props) {
             </TableHead>
             <TableBody>
               {conversationsArray}
-              <SingleConversationModal 
+              <SingleConversationModal
                 itemId={modalProps.item.id} // ReplyForm
                 name={modalProps.item.name} // ReplyForm
                 offered={modalProps.item.offered} // ReplyForm
@@ -102,6 +102,8 @@ export default function ConversationList(props) {
                 open={open}
                 handleClose={() => setOpen(false)} // ReplyForm et al.
                 setTabValue={setTabValue} // ReplyForm
+                setModalProps={setModalProps}
+                modalProps={modalProps}
               /> 
             </TableBody>
           </Table>

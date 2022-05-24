@@ -36,12 +36,12 @@ export default function SingleConversationModal(props) {
     addMessage,
     open, 
     handleClose,
-    setTabValue 
+    setTabValue,
+    setModalProps,
+    modalProps
   } = props
 
-  console.log('messages', messages)
-  const [myMessages, setMyMessages] = useState(messages);
-
+  console.log('modalProps', modalProps)
   const hiddenBodyStyle = {
     height: '20px',
     overflow:'hidden', 
@@ -50,11 +50,9 @@ export default function SingleConversationModal(props) {
     marginTop: 2
   };
 
-  console.log('myMessages', myMessages)
-  const messagesArray = myMessages.map((message, index) => {
-    const bodyStyle = (index === myMessages.length - 1) ? {...hiddenBodyStyle, ...{ height: 'auto', overflow: 'visible', whiteSpace: 'wrap' } } : hiddenBodyStyle;
+  const messagesArray = messages.map((message, index) => {
+    const bodyStyle = (index === messages.length - 1) ? {...hiddenBodyStyle, ...{ height: 'auto', overflow: 'visible', whiteSpace: 'wrap' } } : hiddenBodyStyle;
     console.log("loggedInUser:",loggedInUser.id)
-    console.log('message.body', message.body)
     return (
         <Message
           key={message.id}
@@ -66,7 +64,8 @@ export default function SingleConversationModal(props) {
         />
     )
   });
-
+  
+  if (itemId === null) {return}
   return (
     <Modal
       open={open}
@@ -90,9 +89,10 @@ export default function SingleConversationModal(props) {
           addMessage={addMessage}
           handleClose={handleClose}
           setTabValue={setTabValue}
-          myMessages={myMessages}
-          setMyMessages={setMyMessages}
           isSingleConversationModal={true}
+          setModalProps={setModalProps}
+          modalProps={modalProps}
+
         />
       </Box>
     </Modal>

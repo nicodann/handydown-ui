@@ -52,12 +52,11 @@ export default function SingleConversationModal(props) {
 
   const messagesArray = messages.map((message, index) => {
     const bodyStyle = (index === messages.length - 1) ? {...hiddenBodyStyle, ...{ height: 'auto', overflow: 'visible', whiteSpace: 'wrap' } } : hiddenBodyStyle;
-    console.log("loggedInUser:",loggedInUser.id)
     return (
         <Message
           key={message.id}
           user={creator.id === message.userId ? creator.username : receiver.username}
-          aligned={loggedInUser.id === message.userId ? "right" : "left"}
+          aligned={loggedInUser && loggedInUser.id === message.userId ? "right" : "left"}
           createdAt={message.createdAt}
           body={message.body}
           style={bodyStyle}

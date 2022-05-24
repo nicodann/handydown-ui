@@ -11,7 +11,7 @@ module.exports = app => {
   // Create a new Item
   router.post("/", items.create);
 
-  // Update a Item with id
+  // Update Item with id
   router.put("/:id", items.update);
 
   // Delete a Item with id

@@ -13,7 +13,16 @@ import {
 
 export default function Item(props) {
   
-  const { offered, name, createdAt, image, description, location, username, onClick } = props;
+  const { 
+    offered, 
+    name, 
+    createdAt, 
+    image, 
+    description, 
+    location, 
+    username, 
+    onClick
+  } = props;
     return (
     <Grid item style={{display: 'flex'}} xs={4} >
       <Card style={{height: '100%'}} onClick={onClick}>

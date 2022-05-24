@@ -21,6 +21,7 @@ import ConversationList from './ConversationList';
 import AddItemForm from './Modals/AddItemForm';
 import LoginForm from './Modals/LoginForm';
 import RegistrationForm from './Modals/RegistrationForm';
+import EditItemForm from './Modals/EditItemForm';
 
 export default function App() {
 
@@ -35,6 +36,18 @@ export default function App() {
   const [formOpen, setFormOpen] = useState(false);
   const [loginFormOpen, setLoginFormOpen] = useState(false);
   const [regFormOpen, setRegFormOpen] = useState(false);
+  const [editItemFormOpen, setEditItemFormOpen] = useState(false);
+  const [editItemProps, setEditItemProps] = useState(
+    { 
+      id: null,
+      name: '', 
+      description: '', 
+      image: '', 
+      offered: true,
+      createdAt: '',
+      user: { id: null, username: '', location: ''} 
+    }
+  )
 
   // const checkLoggedInUser = async () => {
     //   try {
@@ -177,6 +190,24 @@ export default function App() {
       console.log(err);
     }
   };
+
+  // EDIT ITEM
+  const editItem = async (editItemFormData) => {
+    try {
+      const response = await axios({
+        method: 'put',
+        url: `/api/items/${editItemFormData.id}`,
+        data: editItemFormData,
+        headers: { "Content-Type": "multipart/form-data" },
+      });
+      const newItem = response.data;
+      setITEMS([newItem, ...ITEMS]);
+      setTabValue(2);
+      setTabbedItems([newItem, ...ITEMS.filter((item) => item.userId === loggedInUser.id)]);
+    } catch(error) {
+      console.log(error);
+    }
+  }
 
   // ADD MESSAGE
   const addMessage = async (newMessageFormData) => {
@@ -387,6 +418,16 @@ export default function App() {
           deleteItem={deleteItem}
           loggedInUser={loggedInUser} // for ReplyForm, among others
           setTabValue={setTabValue}
+          setEditItemFormOpen={setEditItemFormOpen}
+          setEditItemProps={setEditItemProps}
+        />
+        <EditItemForm 
+          color="inherit" 
+          formOpen={editItemFormOpen} 
+          editItem={editItem} 
+          loggedInUser={loggedInUser} 
+          handleFormClose={() => setEditItemFormOpen(false)}
+          item={editItemProps}
         />
         <ConversationList
           conversations={conversations}

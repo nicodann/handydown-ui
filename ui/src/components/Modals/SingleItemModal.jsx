@@ -38,7 +38,9 @@ export default function SingleItemModal(props) {
     open,
     handleClose,
     setTabValue,
-    tabIndex
+    tabIndex,
+    handleEditClick,
+    item
   } = props;
 
   const handleDeleteClick = async (event) => {
@@ -89,16 +91,26 @@ export default function SingleItemModal(props) {
             setTabValue={setTabValue}
           />}
         {loggedInUser && tabIndex === 2 && loggedInUser.id === creatorId &&
-          <Button
+          <Box>
+            <Button
+              variant="contained"
+              startIcon={<DeleteIcon />}
+              sx={{mt: 3}}
+              onClick={handleDeleteClick}
+            >
+              Delete
+            </Button>
+            <Button
             variant="contained"
             startIcon={<DeleteIcon />}
             sx={{mt: 3}}
-            onClick={handleDeleteClick}
-          >
-            Delete
-          </Button>
-        }
-      </Box>
+            onClick={() => handleEditClick(item)}
+            >
+              Edit
+            </Button>
+          </Box>
+          }
+        </Box>
     </Modal>
   );
 };

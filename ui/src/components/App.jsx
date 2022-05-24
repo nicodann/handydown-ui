@@ -190,6 +190,8 @@ export default function App() {
       const returnedConversation = response.data;
       const filteredConversations= conversations.filter(conversation => conversation.id !== returnedConversation.id);
       setConversations([returnedConversation, ...filteredConversations]);
+      console.log('returnedConversation - last message:', returnedConversation.messages[-1]);
+      return returnedConversation.messages[-1];
     } catch(err) {
       console.log(err);
     };

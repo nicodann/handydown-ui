@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import { format } from 'timeago.js';
 import {
   Box,
@@ -38,6 +39,8 @@ export default function SingleConversationModal(props) {
     setTabValue 
   } = props
 
+  const [myMessages, setMyMessages] = useState(messages);
+
   const hiddenBodyStyle = {
     height: '20px',
     overflow:'hidden', 
@@ -46,7 +49,7 @@ export default function SingleConversationModal(props) {
     marginTop: 2
   };
 
-  const messagesArray = messages.map((message, index) => {
+  const messagesArray = myMessages.map((message, index) => {
     const bodyStyle = (index === messages.length - 1) ? {...hiddenBodyStyle, ...{ height: 'auto', overflow: 'visible', whiteSpace: 'wrap' } } : hiddenBodyStyle;
     console.log("loggedInUser:",loggedInUser.id)
     return (
@@ -84,6 +87,9 @@ export default function SingleConversationModal(props) {
           addMessage={addMessage}
           handleClose={handleClose}
           setTabValue={setTabValue}
+          myMessages={myMessages}
+          setMyMessages={setMyMessages}
+          isSingleConversationModal={true}
         />
       </Box>
     </Modal>

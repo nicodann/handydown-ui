@@ -17,7 +17,10 @@ export default function ReplyForm(props) {
     loggedInUser,
     addMessage,
     handleClose,
-    setTabValue
+    setTabValue,
+    isSingleConversationModal,
+    setMyMessages,
+    myMessages
   } = props;
 
   console.log('typeof creatorId', typeof creatorId);
@@ -38,9 +41,13 @@ export default function ReplyForm(props) {
     newMessageFormData.append("userId", loggedInUser.id);
     newMessageFormData.append("otherUserId", findOtherUserId());
     newMessageFormData.append("body", messageBody);
-    addMessage(newMessageFormData);
-    setTabValue(3);
-    handleClose();
+    const newMessage = addMessage(newMessageFormData);
+    if (isSingleConversationModal) {
+      setMyMessages([...myMessages, newMessage ])
+    } else {
+      setTabValue(3);
+      handleClose();
+    }
   };
   
   return (

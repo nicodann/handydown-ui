@@ -87,6 +87,9 @@ export default function SingleItemModal(props) {
             addMessage={addMessage}
             handleClose={handleClose}
             setTabValue={setTabValue}
+            isSingleConversationModal={false}
+            setMyMessages={null}
+            myMessages={null}
           />}
         {loggedInUser && tabIndex === 2 && loggedInUser.id === creatorId &&
           <Button

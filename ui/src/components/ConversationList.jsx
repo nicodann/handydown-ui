@@ -26,6 +26,7 @@ export default function ConversationList(props) {
   } = props;
 
   const findLatestMessageBody = (conversation) => {
+    console.log('conversation.messages[conversation.messages.length - 1].body', conversation.messages[conversation.messages.length - 1].body)
     return conversation.messages[conversation.messages.length - 1].body
   }
 
@@ -54,7 +55,7 @@ export default function ConversationList(props) {
       id={conversation.id}
       otherPartyName={findOtherPartyName(conversation, loggedInUser.id)}
       itemName={conversation.item.name}
-      messageBody={findLatestMessageBody(conversation)}
+      // messageBody={findLatestMessageBody(conversation)}
       updatedAt={format(conversation.updatedAt)}
       onClick={() => handleClick(conversation)}
       read={conversation.read}

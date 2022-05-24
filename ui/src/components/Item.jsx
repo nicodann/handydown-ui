@@ -14,14 +14,20 @@ import {
 export default function Item(props) {
   
   const { offered, name, createdAt, image, description, location, username, onClick } = props;
+  const subheader = 
+    <>
+      {format(createdAt)}
+      {offered ? <Button component="div" color="primary">Offered</Button> : <Button component="div" color="warning">Wanted</Button>}
+    </>
     return (
     <Grid item style={{display: 'flex'}} xs={4} >
-      <Card style={{height: '100%'}} onClick={onClick}>
+      <Card style={{height: '100%', width: '%25'}} onClick={onClick}>
         <CardActionArea style={{display: 'flex', flexDirection: 'column', alignItems: 'start', width: '100%', height: '100%'}} > 
           <CardHeader
             style={{justifyContent: 'space-between', width: '100%', minWidth: '350px', minHeight: '120px', alignItems: 'flex-start'}}
             title={name}
-            subheader={format(createdAt)}
+            subheader={format(createdAt) }
+            // subheader={subheader}
             action={ offered ? <Button component="div" color="primary">Offered</Button> : <Button component="div" color="warning">Wanted</Button>}
           />
           <CardMedia

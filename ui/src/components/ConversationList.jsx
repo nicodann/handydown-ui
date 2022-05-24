@@ -26,9 +26,9 @@ export default function ConversationList(props) {
   } = props;
 
   const findLatestMessageBody = (conversation) => {
-    return conversation.messages[conversation.messages.length - 1].body
+    return conversation.messages[conversation.messages.length -1].body
   }
-
+  
   const findOtherPartyName = (conversation, loggedInUserID) => {
     return loggedInUserID === conversation.receiver.id ? conversation.creator.username : conversation.receiver.username
   }
@@ -45,6 +45,7 @@ export default function ConversationList(props) {
   const handleClick = (conversation) => {
     setOpen(true)
     setModalProps(conversation)
+    console.log('modalProps.messages', modalProps.messages)
     markAsRead(conversation.id)
   }
 
@@ -60,7 +61,7 @@ export default function ConversationList(props) {
       read={conversation.read}
     />
   );
-
+  console.log('modalProps.messages in ConversationList', modalProps.messages)
   return (
     <div 
       role="tabpanel"
@@ -88,7 +89,7 @@ export default function ConversationList(props) {
             </TableHead>
             <TableBody>
               {conversationsArray}
-              <SingleConversationModal 
+              <SingleConversationModal
                 itemId={modalProps.item.id} // ReplyForm
                 name={modalProps.item.name} // ReplyForm
                 offered={modalProps.item.offered} // ReplyForm
@@ -101,6 +102,8 @@ export default function ConversationList(props) {
                 open={open}
                 handleClose={() => setOpen(false)} // ReplyForm et al.
                 setTabValue={setTabValue} // ReplyForm
+                setModalProps={setModalProps}
+                modalProps={modalProps}
               /> 
             </TableBody>
           </Table>

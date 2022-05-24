@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import { format } from 'timeago.js';
 import {
   Box,
@@ -35,9 +36,12 @@ export default function SingleConversationModal(props) {
     addMessage,
     open, 
     handleClose,
-    setTabValue 
+    setTabValue,
+    setModalProps,
+    modalProps
   } = props
 
+  console.log('modalProps', modalProps)
   const hiddenBodyStyle = {
     height: '20px',
     overflow:'hidden', 
@@ -60,7 +64,9 @@ export default function SingleConversationModal(props) {
         />
     )
   });
-
+  
+  // console.log('messages in SingleConversationModal', messages)
+  if (itemId === null) {return}
   return (
     <Modal
       open={open}
@@ -84,6 +90,9 @@ export default function SingleConversationModal(props) {
           addMessage={addMessage}
           handleClose={handleClose}
           setTabValue={setTabValue}
+          isSingleConversationModal={true}
+          setModalProps={setModalProps}
+          modalProps={modalProps}
         />
       </Box>
     </Modal>

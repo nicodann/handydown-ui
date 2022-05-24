@@ -26,14 +26,10 @@ export default function ConversationList(props) {
   } = props;
 
   const findLatestMessageBody = (conversation) => {
-    console.log('conversation in findLatestMessageBody', conversation)
-    console.log('messages in findLatestMessageBody', conversation.messages)
-    console.log('last message', conversation.messages[conversation.messages.length -1])
     return conversation.messages[conversation.messages.length -1].body
   }
   
   const findOtherPartyName = (conversation, loggedInUserID) => {
-    // console.log('conversation.messages[conversation.messages.length - 1].body', conversation.messages[conversation.messages.length - 1].body)
     return loggedInUserID === conversation.receiver.id ? conversation.creator.username : conversation.receiver.username
   }
 
@@ -49,6 +45,7 @@ export default function ConversationList(props) {
   const handleClick = (conversation) => {
     setOpen(true)
     setModalProps(conversation)
+    console.log('modalProps.messages', modalProps.messages)
     markAsRead(conversation.id)
   }
 

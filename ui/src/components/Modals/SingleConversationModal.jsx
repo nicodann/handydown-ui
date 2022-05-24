@@ -39,6 +39,7 @@ export default function SingleConversationModal(props) {
     setTabValue 
   } = props
 
+  console.log('messages', messages)
   const [myMessages, setMyMessages] = useState(messages);
 
   const hiddenBodyStyle = {
@@ -49,9 +50,11 @@ export default function SingleConversationModal(props) {
     marginTop: 2
   };
 
+  console.log('myMessages', myMessages)
   const messagesArray = myMessages.map((message, index) => {
-    const bodyStyle = (index === messages.length - 1) ? {...hiddenBodyStyle, ...{ height: 'auto', overflow: 'visible', whiteSpace: 'wrap' } } : hiddenBodyStyle;
+    const bodyStyle = (index === myMessages.length - 1) ? {...hiddenBodyStyle, ...{ height: 'auto', overflow: 'visible', whiteSpace: 'wrap' } } : hiddenBodyStyle;
     console.log("loggedInUser:",loggedInUser.id)
+    console.log('message.body', message.body)
     return (
         <Message
           key={message.id}

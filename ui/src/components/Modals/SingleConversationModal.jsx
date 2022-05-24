@@ -52,6 +52,7 @@ export default function SingleConversationModal(props) {
 
   const messagesArray = messages.map((message, index) => {
     const bodyStyle = (index === messages.length - 1) ? {...hiddenBodyStyle, ...{ height: 'auto', overflow: 'visible', whiteSpace: 'wrap' } } : hiddenBodyStyle;
+    // console.log("loggedInUser:", loggedInUser && loggedInUser.id)
     return (
         <Message
           key={message.id}
@@ -92,7 +93,6 @@ export default function SingleConversationModal(props) {
           isSingleConversationModal={true}
           setModalProps={setModalProps}
           modalProps={modalProps}
-
         />
       </Box>
     </Modal>

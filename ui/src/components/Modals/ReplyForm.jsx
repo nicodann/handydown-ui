@@ -55,7 +55,8 @@ export default function ReplyForm(props) {
           updateAt: new Date(),
         } 
       ];
-      setModalProps({...modalProps, messages: newMessages })
+      setModalProps({...modalProps, messages: newMessages });
+      setMessageBody('');
       addMessage(newMessageFormData);
     } else {
       addMessage(newMessageFormData);
@@ -75,6 +76,7 @@ export default function ReplyForm(props) {
           type="text"
           name="body"
           placeholder="Write message here"
+          value={messageBody}
           multiline
           rows={5}
           sx={{ width: '100%'}}

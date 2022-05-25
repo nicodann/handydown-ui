@@ -9,7 +9,7 @@
   } from '@mui/material';
 
 export default function LoginForm(props) {
-  const { loginFormOpen, setLoginFormOpen, loginUser } = props;
+  const { loginFormOpen, setLoginFormOpen, loginUser, setJustLoggedIn } = props;
 
   const [formValue, setFormValue] = useState({
     username: '',
@@ -43,6 +43,10 @@ export default function LoginForm(props) {
           setAlertDisplay("flex")
         } else {
           setLoginFormOpen(false);
+          setJustLoggedIn(true);
+          setTimeout(() => {
+            setJustLoggedIn(false);
+          }, 2000);
         }
       })
       .catch(err => console.log(err))

@@ -35,6 +35,7 @@ export default function App() {
   const [formOpen, setFormOpen] = useState(false);
   const [loginFormOpen, setLoginFormOpen] = useState(false);
   const [regFormOpen, setRegFormOpen] = useState(false);
+  const [justLoggedIn, setJustLoggedIn] = useState(false);
 
   // const checkLoggedInUser = async () => {
     //   try {
@@ -251,16 +252,16 @@ export default function App() {
 
   // RENDER
 
-  if (ITEMS === null) {
+  if (ITEMS === null || ITEMS && justLoggedIn) {
     return (
       <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', flexDirection: 'column', height: '100vh' }}>
       <CircularProgress size={80} />
       <Typography sx={{mt: 2}}>Loading...</Typography>
     </Box>
     )
-  }
+  } else {
 
-  return (
+    return (
     <>
       <CssBaseline />
       <AppBar position="sticky">
@@ -290,7 +291,8 @@ export default function App() {
               <LoginForm 
                 loginFormOpen={loginFormOpen}
                 setLoginFormOpen={setLoginFormOpen}
-                loginUser={loginUser}            
+                loginUser={loginUser}
+                setJustLoggedIn={setJustLoggedIn}            
               />
               <Button 
                 color="inherit"
@@ -403,4 +405,5 @@ export default function App() {
       </Container>
     </>
   ); 
+}
 }

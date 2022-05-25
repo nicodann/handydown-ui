@@ -1,13 +1,8 @@
-import { useState } from 'react';
-import { format } from 'timeago.js';
 import {
   Box,
-  CardHeader ,
-  Divider,
   Modal,
   Typography,
 } from '@mui/material';
-import { flexbox } from '@mui/system';
 import Message from './Message';
 import ReplyForm from './ReplyForm';
 
@@ -41,7 +36,6 @@ export default function SingleConversationModal(props) {
     modalProps
   } = props
 
-  console.log('modalProps', modalProps)
   const hiddenBodyStyle = {
     height: '20px',
     overflow:'hidden', 
@@ -51,8 +45,11 @@ export default function SingleConversationModal(props) {
   };
 
   const messagesArray = messages.map((message, index) => {
-    const bodyStyle = (index === messages.length - 1) ? {...hiddenBodyStyle, ...{ height: 'auto', overflow: 'visible', whiteSpace: 'wrap' } } : hiddenBodyStyle;
-    // console.log("loggedInUser:", loggedInUser && loggedInUser.id)
+    const bodyStyle = 
+      (index === messages.length - 1) ? 
+      {...hiddenBodyStyle, ...{ height: 'auto', overflow: 'visible', whiteSpace: 'wrap' } } :
+      hiddenBodyStyle;
+
     return (
         <Message
           key={message.id}
@@ -65,7 +62,6 @@ export default function SingleConversationModal(props) {
     )
   });
   
-  // console.log('messages in SingleConversationModal', messages)
   if (itemId === null) {return}
   return (
     <Modal
@@ -75,8 +71,10 @@ export default function SingleConversationModal(props) {
       aria-describedby="modal-modal-description"
     >
       <Box sx={style}>
-        <Box sx={{display:"flex", justifyContent:"space-between", marginBottom: '30px'}}>
-          <Typography variant="h5">{name}</Typography>
+        <Box
+          sx={{display:"flex", justifyContent:"space-between", marginBottom: '30px'}}
+        >
+          <Typography id="modal-modal-title" variant="h4">{name}</Typography>
           <img src={image} alt={name} width={200}/>
         </Box >
         {messagesArray}

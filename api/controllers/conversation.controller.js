@@ -13,22 +13,18 @@ exports.getByUserId = async (req, res) => {
       where: {
         [Op.or]: [ { creatorId: userId }, { receiverId: userId }],
       },
-      include: [
+      
 
-        Item,
-        { model: Message, order: [ [Message, "id", "DESC"] ] },
-        { model: User, as: 'creator' },
-        { model: User, as: 'receiver' }
+      include:[
+        Item, 
+        Message,
+        {model: User, as: 'creator'},
+        {model: User, as: 'receiver'}
       ],
-
-      // include:[
-      //   Item, 
-      //   Message,
-      //   {model: User, as: 'creator'},
-      //   {model: User, as: 'receiver'}
-      // ],
+      
       order: [
         ['updatedAt', 'DESC'],
+        [Message, 'id', 'ASC']
       ]
     });
     return res.json(conversations);

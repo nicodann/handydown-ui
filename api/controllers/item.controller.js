@@ -81,12 +81,12 @@ exports.create = async (req, res) => {
   console.log('imageFile?', imageFile, typeof imageFile)
   console.log('offered?', offered, typeof offered)
   let image;
-  if (imageFile === undefined && offered === true) {
+  if (  imageFile === undefined && offered === true) {
     image = `http://localhost:8080/images/balls-in-a-bin.jpg`;
   } else if (imageFile === undefined && offered === false) {
     image = `http://localhost:8080/images/wanted-adTwo.png`;
-  } else if (imageFile) {
-    `http://localhost:8080/images/${imageFile.name}`
+  } else {
+    image = `http://localhost:8080/images/${imageFile.name}`
   }
   const item = {
     name,

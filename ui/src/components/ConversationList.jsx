@@ -88,6 +88,15 @@ export default function ConversationList(props) {
                   Message
                 </TableCell>
                 <TableCell align="right">Latest Message Date/Time</TableCell> */}
+                <TableCell ></TableCell>
+                <TableCell ></TableCell>
+                <TableCell sx={{
+                  width: 'auto', 
+                  height: 'inherit'
+                }}>
+                  
+                </TableCell>
+                <TableCell align="right"></TableCell>
               </TableRow>
             </TableHead>
             <TableBody>

@@ -49,7 +49,6 @@ export default function ConversationList(props) {
   const handleClick = (conversation, userID) => {
     setOpen(true)
     setModalProps(conversation)
-    console.log('modalProps.messages', modalProps.messages)
     markAsRead(conversation.id, readByWhom(conversation, userID))
   }
 
@@ -62,7 +61,7 @@ export default function ConversationList(props) {
       messageBody={findLatestMessageBody(conversation)}
       updatedAt={format(conversation.updatedAt)}
       onClick={() => handleClick(conversation, loggedInUser.id)}
-      // read={conversation.read}
+      read={loggedInUser.id === conversation.creatorId ? conversation.readByCreator : conversation.readByReceiver}
     />
   );
   console.log('modalProps.messages in ConversationList', modalProps.messages)
@@ -80,7 +79,7 @@ export default function ConversationList(props) {
                 <TableCell sx={{width: 50}}>
                   <Checkbox color="primary" />
                 </TableCell>
-                <TableCell >Other Party</TableCell>
+                {/* <TableCell >Other Party</TableCell>
                 <TableCell >Subject/Item</TableCell>
                 <TableCell sx={{
                   width: 'auto', 
@@ -88,7 +87,7 @@ export default function ConversationList(props) {
                 }}>
                   Message
                 </TableCell>
-                <TableCell align="right">Latest Message Date/Time</TableCell>
+                <TableCell align="right">Latest Message Date/Time</TableCell> */}
               </TableRow>
             </TableHead>
             <TableBody>

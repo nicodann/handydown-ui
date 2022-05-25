@@ -88,7 +88,9 @@ export default function ConversationList(props) {
                   Message
                 </TableCell>
                 <TableCell align="right">Latest Message Date/Time</TableCell> */}
-                <TableCell ></TableCell>
+                <TableCell >
+                  {conversationsArray.length === 0 && "No communication detected"}
+                </TableCell>
                 <TableCell ></TableCell>
                 <TableCell sx={{
                   width: 'auto', 

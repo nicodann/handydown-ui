@@ -33,6 +33,10 @@ export default function ConversationList(props) {
     return loggedInUserID === conversation.receiver.id ? conversation.creator.username : conversation.receiver.username
   }
 
+  const readByWhom = (conversation, loggedInUserID) => {
+    return conversation.creator.id === loggedInUserID ? "readByCreator" : "readByReciever";
+  }
+
   //MODAL STATE LOGIC
   const [open, setOpen] = useState(false);
   const [modalProps, setModalProps] = useState({
@@ -42,11 +46,10 @@ export default function ConversationList(props) {
     messages: [{id: null, createdAt: null, body: ''}],
   })
 
-  const handleClick = (conversation) => {
+  const handleClick = (conversation, userID) => {
     setOpen(true)
     setModalProps(conversation)
-    console.log('modalProps.messages', modalProps.messages)
-    markAsRead(conversation.id)
+    markAsRead(conversation.id, readByWhom(conversation, userID))
   }
 
   const conversationsArray = conversations.map((conversation) => 
@@ -57,8 +60,8 @@ export default function ConversationList(props) {
       itemName={conversation.item.name}
       messageBody={findLatestMessageBody(conversation)}
       updatedAt={format(conversation.updatedAt)}
-      onClick={() => handleClick(conversation)}
-      read={conversation.read}
+      onClick={() => handleClick(conversation, loggedInUser.id)}
+      read={loggedInUser.id === conversation.creatorId ? conversation.readByCreator : conversation.readByReceiver}
     />
   );
   console.log('modalProps.messages in ConversationList', modalProps.messages)
@@ -76,7 +79,7 @@ export default function ConversationList(props) {
                 <TableCell sx={{width: 50}}>
                   <Checkbox color="primary" />
                 </TableCell>
-                <TableCell >Other Party</TableCell>
+                {/* <TableCell >Other Party</TableCell>
                 <TableCell >Subject/Item</TableCell>
                 <TableCell sx={{
                   width: 'auto', 
@@ -84,7 +87,7 @@ export default function ConversationList(props) {
                 }}>
                   Message
                 </TableCell>
-                <TableCell align="right">Latest Message Date/Time</TableCell>
+                <TableCell align="right">Latest Message Date/Time</TableCell> */}
               </TableRow>
             </TableHead>
             <TableBody>

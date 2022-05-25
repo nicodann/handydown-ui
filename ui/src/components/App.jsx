@@ -7,6 +7,7 @@ import {
   Container,
   CssBaseline,
   IconButton,
+  Link,
   Tabs,
   Tab,
   TextField,
@@ -271,14 +272,16 @@ export default function App() {
             edge="start"
             color="inherit"
             aria-label="menu"
-            sx={{ mr: 2 }}
+            // sx={{ mr: 2 }}
+            onClick={() => window.location.replace("http://localhost:3000")}
           >
             <VolunteerActivism />
           </IconButton>
-          <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
-            HandyDown
-          </Typography>
-            
+          <Link sx={{ flexGrow: 1 }} href="http://localhost:3000" underline="none" color="inherit">
+            <Typography variant="h6">
+              HandyDown
+            </Typography>
+          </Link>
           {!loggedInUser ?
             <>
               <Button 
@@ -362,7 +365,7 @@ export default function App() {
           onChange={handleSearchInput}
           id="outlined-search"
           label="Search by item name..."
-          sx={{ visibility: (tabValue === 3 || tabbedItems.length === 0) ? 'hidden' : 'visible'}}
+          sx={{ background: "white", visibility: (tabValue === 3 || tabbedItems.length === 0) ? 'hidden' : 'visible'}}
         />
       </Box>
       <Container maxWidth="lg" sx={{ py: 4}}>

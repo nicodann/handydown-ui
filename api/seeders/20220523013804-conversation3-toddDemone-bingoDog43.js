@@ -6,6 +6,7 @@ module.exports = {
       creatorId: 4,
       receiverId: 2,
       itemId: 3,
+      readByReceiver: true,
       createdAt: new Date(),
       updatedAt: new Date()
     }]);

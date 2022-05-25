@@ -18,7 +18,24 @@ export default function Conversation(props) {
 
   const [isRead, setIsRead] = useState(read)
     
-  const ConvBackCol = isRead ? "lightgrey" : "white";
+  // const style = {
+  //   background: isRead ? "lightgrey" : "white"
+  // }
+
+  const rowStyle = isRead ? {
+    background: "#F2F5F5CC"
+  } : {
+    background: 'white',
+    // fontWeight: 'bold',
+    
+  };
+
+  const cellStyle = isRead ? {
+
+  } : {
+    fontWeight: 'bold'
+  }
+  
 
   const handleClick = () => {
     onClick();
@@ -29,18 +46,19 @@ export default function Conversation(props) {
     
     <TableRow
       key={id}
-      sx={{background: ConvBackCol, '&:last-child td, &:last-child th': { border: 0 } }}
+      // sx={{background: ConvBackCol, '&:last-child td, &:last-child th': { border: 0 } }}
+      sx={{...rowStyle,'&:last-child td, &:last-child th': { border: 0 } }}
       onClick={handleClick}
     >
       <TableCell>
         <Checkbox color="primary" />
       </TableCell>
-      <TableCell component="th" scope="row" >
+      <TableCell component="th" scope="row" sx={{...cellStyle}}>
         {otherPartyName}
       </TableCell>
-      <TableCell>{itemName}</TableCell>
+      <TableCell sx={{...cellStyle}}>{itemName}</TableCell>
       <TableCell sx={{
-        // display: 'table-cell',
+        ...cellStyle,
         width: 'auto',
         whiteSpace: 'nowrap',
         overflow: 'hidden',
@@ -50,7 +68,7 @@ export default function Conversation(props) {
           {messageBody}
              
       </TableCell>
-      <TableCell align="right">{updatedAt}</TableCell>
+      <TableCell align="right" sx={{...cellStyle}}>{updatedAt}</TableCell>
     </TableRow>
   );
 };

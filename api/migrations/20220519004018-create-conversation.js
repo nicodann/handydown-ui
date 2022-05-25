@@ -9,7 +9,11 @@ module.exports = {
         primaryKey: true,
         type: Sequelize.INTEGER
       },
-      read: {
+      readByCreator: {
+        type: Sequelize.BOOLEAN,
+        defaultValue: true
+      },
+      readByReceiver: {
         type: Sequelize.BOOLEAN,
         defaultValue: false
       },

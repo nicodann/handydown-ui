@@ -58,7 +58,7 @@ export default function SingleItemModal(props) {
         <Box
           sx={{display: 'flex', justifyContent: 'space-between'}}
         >
-          <Typography id="modal-modal-title" variant="h4" component="h2">
+          <Typography id="modal-modal-title" variant="h4" >
             {name}
           </Typography>
           {offered ? <Button component="div" color="success" sx={{mr: -1}}>Offered</Button> : <Button component="div" color="error" sx={{mr: -1}}>Wanted</Button>}

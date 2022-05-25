@@ -65,7 +65,7 @@ export default function ReplyForm(props) {
   };
   
   return (
-    <Box sx={{mt: 3}}>
+    <Box sx={{mt: 4}}>
       <Box sx={{display: 'flex', justifyContent: 'space-between', alignItems: 'center'}}>
         <Typography>New Message</Typography>
         <Typography component="span">Re: {name} - {offered ? "Offered" : "Wanted"}</Typography>

@@ -90,6 +90,7 @@ exports.create = async (req, res) => {
 };
 
 exports.update = async (req,res) => {
+  console.log("req.body", req.body)
   const id = req.params.id;
   try {
     const num = await Item.update({

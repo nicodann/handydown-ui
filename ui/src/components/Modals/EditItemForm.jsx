@@ -14,8 +14,7 @@ import {
 export default function EditItemForm(props) {
   const { 
     loggedInUser, 
-    formOpen, 
-    addItem, 
+    formOpen,
     handleFormClose,
     item,
     editItem
@@ -50,6 +49,8 @@ export default function EditItemForm(props) {
 
   const handleFormSubmit = async (event) => {
     event.preventDefault();
+    console.log("item:", item)
+    console.log("formValue", formValue)
     const editItemFormData = new FormData();
     editItemFormData.append("id", item.id);
     editItemFormData.append("userId", loggedInUser.id);
@@ -58,6 +59,7 @@ export default function EditItemForm(props) {
     editItemFormData.append("offered", formValue.offered);
     const imagefile = document.querySelector("#file");
     editItemFormData.append("imageFile", imagefile.files[0]);
+    console.log("editItemFromData:", editItemFormData)
     editItem(editItemFormData);
     newHandleFormClose();
   };

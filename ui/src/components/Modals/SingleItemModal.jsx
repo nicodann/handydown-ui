@@ -8,6 +8,8 @@ import {
 import LocationOnIcon from '@mui/icons-material/LocationOn';
 import DeleteIcon from '@mui/icons-material/Delete';
 import ReplyForm from './ReplyForm';
+import EditItemForm from './EditItemForm';
+import { useState } from 'react';
 
 const style = {
   position: 'absolute',
@@ -39,15 +41,21 @@ export default function SingleItemModal(props) {
     handleClose,
     setTabValue,
     tabIndex,
-    handleEditClick,
-    item
+    item,
+    editItem
   } = props;
+
+  const [editItemFormOpen, setEditItemFormOpen] = useState()
 
   const handleDeleteClick = async (event) => {
     event.preventDefault();
     deleteItem(itemId, offered);
     handleClose();
   };
+
+  // const handleEditClick = async (item) => {
+  //   setEditItemFormOpen(true);
+  // }
 
   return (
     <Modal
@@ -104,10 +112,17 @@ export default function SingleItemModal(props) {
             variant="contained"
             startIcon={<DeleteIcon />}
             sx={{mt: 3}}
-            onClick={() => handleEditClick(item)}
+            onClick={() => setEditItemFormOpen(true)}
             >
               Edit
             </Button>
+            <EditItemForm 
+              loggedInUser={loggedInUser}
+              formOpen={editItemFormOpen}
+              handleFormClose={() => setEditItemFormOpen(false)}
+              item={item}
+              editItem={editItem}
+            />
           </Box>
           }
         </Box>

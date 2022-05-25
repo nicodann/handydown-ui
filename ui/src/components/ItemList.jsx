@@ -16,8 +16,7 @@ export default function ItemList(props) {
     setTabValue,
     tabValue,
     tabIndex,
-    setEditItemFormOpen,
-    setEditItemProps
+    editItem
   } = props;
 
   //MODAL STATE LOGIC
@@ -39,10 +38,7 @@ export default function ItemList(props) {
     setOpen(true)
   }
 
-  const handleEditClick = async (item) => {
-    setEditItemFormOpen(true);
-    setEditItemProps(item)
-  }
+  
 
   return (
     <div 
@@ -83,10 +79,9 @@ export default function ItemList(props) {
               handleClose={() => setOpen(false)}
               addMessage={addMessage} // for ReplyForm
               deleteItem={deleteItem}
+              editItem={editItem}
               tabIndex={tabIndex}
               setTabValue={setTabValue} // for ReplyForm
-              setEditItemFormOpen={setEditItemFormOpen}
-              handleEditClick={handleEditClick}
               item={modalProps}
             />
           </Grid>

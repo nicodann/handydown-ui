@@ -21,7 +21,6 @@ import ConversationList from './ConversationList';
 import AddItemForm from './Modals/AddItemForm';
 import LoginForm from './Modals/LoginForm';
 import RegistrationForm from './Modals/RegistrationForm';
-import EditItemForm from './Modals/EditItemForm';
 
 export default function App() {
 
@@ -36,18 +35,6 @@ export default function App() {
   const [formOpen, setFormOpen] = useState(false);
   const [loginFormOpen, setLoginFormOpen] = useState(false);
   const [regFormOpen, setRegFormOpen] = useState(false);
-  const [editItemFormOpen, setEditItemFormOpen] = useState(false);
-  const [editItemProps, setEditItemProps] = useState(
-    { 
-      id: null,
-      name: '', 
-      description: '', 
-      image: '', 
-      offered: true,
-      createdAt: '',
-      user: { id: null, username: '', location: ''} 
-    }
-  )
 
   // const checkLoggedInUser = async () => {
     //   try {
@@ -194,19 +181,11 @@ export default function App() {
   // EDIT ITEM
   const editItem = async (editItemFormData) => {
     try {
-      const response = await axios({
-        method: 'put',
-        url: `/api/items/${editItemFormData.id}`,
-        data: editItemFormData,
-        headers: { "Content-Type": "multipart/form-data" },
-      });
-      const newItem = response.data;
-      setITEMS([newItem, ...ITEMS]);
-      setTabValue(2);
-      setTabbedItems([newItem, ...ITEMS.filter((item) => item.userId === loggedInUser.id)]);
-    } catch(error) {
-      console.log(error);
-    }
+      await axios.put(`/api/items/${editItemFormData.id}`, {editItemFormData: editItemFormData});
+   } catch(err) {
+     console.log(err);
+   }
+   
   }
 
   // ADD MESSAGE
@@ -221,6 +200,8 @@ export default function App() {
       const returnedConversation = response.data;
       const filteredConversations= conversations.filter(conversation => conversation.id !== returnedConversation.id);
       setConversations([returnedConversation, ...filteredConversations]);
+      // console.log('returnedConversation', returnedConversation)
+      return returnedConversation;
     } catch(err) {
       console.log(err);
     };
@@ -269,9 +250,9 @@ export default function App() {
   };
 
   //MARK CONVO AS READ
-  const markAsRead =  async (conversationId) => {
+  const markAsRead =  async (conversationId, readByWhom) => {
     try {
-       await axios.put(`/api/conversations/${conversationId}`);
+       await axios.put(`/api/conversations/${conversationId}`, {readByWhom: readByWhom});
     } catch(err) {
       console.log(err);
     }
@@ -416,18 +397,9 @@ export default function App() {
           tabValue={tabValue}
           tabIndex={2}
           deleteItem={deleteItem}
+          editItem={editItem}
           loggedInUser={loggedInUser} // for ReplyForm, among others
           setTabValue={setTabValue}
-          setEditItemFormOpen={setEditItemFormOpen}
-          setEditItemProps={setEditItemProps}
-        />
-        <EditItemForm 
-          color="inherit" 
-          formOpen={editItemFormOpen} 
-          editItem={editItem} 
-          loggedInUser={loggedInUser} 
-          handleFormClose={() => setEditItemFormOpen(false)}
-          item={editItemProps}
         />
         <ConversationList
           conversations={conversations}

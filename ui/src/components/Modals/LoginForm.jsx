@@ -9,7 +9,13 @@
   } from '@mui/material';
 
 export default function LoginForm(props) {
-  const { loginFormOpen, setLoginFormOpen, loginUser, setTransition } = props;
+  const { 
+    loginFormOpen,
+    setLoginFormOpen,
+    loginUser,
+    setTransition,
+    setTransitionPhrase
+  } = props;
 
   const [formValue, setFormValue] = useState({
     username: '',
@@ -43,9 +49,11 @@ export default function LoginForm(props) {
           setAlertDisplay("flex")
         } else {
           setLoginFormOpen(false);
+          setTransitionPhrase('Logging In...')
           setTransition(true);
           setTimeout(() => {
             setTransition(false);
+            setTransitionPhrase('Loading...')
           }, 2000);
         }
       })

@@ -38,11 +38,14 @@ export default function App() {
   const [loginFormOpen, setLoginFormOpen] = useState(false);
   const [regFormOpen, setRegFormOpen] = useState(false);
   const [transition, setTransition] = useState(false);
+  const [transitionPhrase, setTransitionPhrase] = useState('Loading...')
 
   const handleTransition = () => {
+    setTransitionPhrase('Logging Out...')
     setTransition(true);
           setTimeout(() => {
             setTransition(false);
+            setTransitionPhrase('Loading...')
           }, 1000);
   }
   // const checkLoggedInUser = async () => {
@@ -274,7 +277,7 @@ export default function App() {
     return (
       <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', flexDirection: 'column', height: '100vh' }}>
       <CircularProgress size={80} />
-      <Typography sx={{mt: 2}}>Loading...</Typography>
+      <Typography sx={{mt: 2}}>{transitionPhrase}</Typography>
     </Box>
     )
   } else {
@@ -312,7 +315,8 @@ export default function App() {
                 loginFormOpen={loginFormOpen}
                 setLoginFormOpen={setLoginFormOpen}
                 loginUser={loginUser}
-                setTransition={setTransition}            
+                setTransition={setTransition}
+                setTransitionPhrase={setTransitionPhrase}            
               />
               <Button 
                 color="inherit"

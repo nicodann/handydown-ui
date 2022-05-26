@@ -118,11 +118,11 @@ exports.update = async (req,res) => {
   // console.log("req.body", req.body)
   // console.log("offered", req.body.offered, typeof req.body.offered)
   const { id, name, description, userId } = req.body
-  // const offered = str2bool(req.body.offered);
-  // console.log('offered after str2bool', offered, typeof offered)
-  console.log('name', name)
-  console.log('description', description)
-  console.log('userid', userId)
+  const offered = str2bool(req.body.offered);
+  console.log('offered after str2bool', offered, typeof offered)
+  // console.log('name', name)
+  // console.log('description', description)
+  // console.log('userid', userId)
   let imageFile;
   let uploadPath;
 
@@ -140,20 +140,28 @@ exports.update = async (req,res) => {
     }); 
   }
   
-  //validate
-  if (!name) {
-    res.status(400).send({
-      message: "Item needs a name!"
-    });
-    return;
-  }
-  //create
-  console.log('imageFile?', imageFile, typeof imageFile)
+  // validate
+  // if (!name) {
+  //   res.status(400).send({
+  //     message: "Item needs a name!"
+  //   });
+  //   return;
+  // }
+  //update
+  // console.log('imageFile?', imageFile, typeof imageFile)
   // console.log('offered?', offered, typeof offered)
   const image = imageFile ? `http://localhost:8080/images/${imageFile.name}` : null;
 
-  const itemUpdates = {...req.body};
-  image && (itemUpdates.image = image)
+  const itemUpdates = {
+    id,
+    name,
+    description,
+    offered,
+    image
+  }
+
+  // const itemUpdates = {...req.body, offered: offered};
+  // image && (itemUpdates.image = image)
   console.log("itemUpdates:", itemUpdates)
 
 

@@ -14,11 +14,8 @@ import {
 export default function Item(props) {
   
   const { offered, name, createdAt, image, description, location, username, onClick } = props;
-  const subheader = 
-    <>
-      {format(createdAt)}
-      {offered ? <Button component="div" color="primary">Offered</Button> : <Button component="div" color="warning">Wanted</Button>}
-    </>
+  const subheader = {format(createdAt)}
+    
     return (
     <Grid item style={{display: 'flex'}} xs={4} >
       <Card style={{height: '100%', width: '%25'}} onClick={onClick}>

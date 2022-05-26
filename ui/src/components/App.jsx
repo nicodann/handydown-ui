@@ -203,13 +203,14 @@ export default function App() {
   };
 
   // EDIT ITEM
-  const editItem = async (editItemFormData) => {
+  const editItem = async (editItemFormData, id) => {
     // try {
     //   await axios.put(`/api/items/${editItemFormData.id}`, {editItemFormData: editItemFormData});
+    console.log("editItemFormData.id:", editItemFormData.id)
     try {
       const response = await axios({
         method: 'put',
-        url: `/api/items/${editItemFormData.id}`,
+        url: `/api/items/${id}`,
         data: editItemFormData,
         headers: { "Content-Type": "multipart/form-data" },
       });

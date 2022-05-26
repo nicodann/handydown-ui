@@ -60,7 +60,7 @@ export default function EditItemForm(props) {
     const imagefile = document.querySelector("#file");
     editItemFormData.append("imageFile", imagefile.files[0]);
     console.log("editItemFromData:", editItemFormData)
-    editItem(editItemFormData);
+    editItem(editItemFormData, item.id);
     newHandleFormClose();
   };
 

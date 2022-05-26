@@ -20,8 +20,8 @@ export default function EditItemForm(props) {
     editItem
   } = props;
   const [formValue, setFormValue] = useState({
-    name: "",
-    description: "",
+    name: item.name,
+    description: item.description,
     offered: true,
   });
 

@@ -14,7 +14,6 @@ import {
 export default function Item(props) {
   
   const { offered, name, createdAt, image, description, location, username, onClick } = props;
-  const subheader = {format(createdAt)}
     
     return (
     <Grid item style={{display: 'flex'}} xs={4} >
@@ -23,8 +22,7 @@ export default function Item(props) {
           <CardHeader
             style={{justifyContent: 'space-between', width: '100%', minWidth: '350px', minHeight: '120px', alignItems: 'flex-start'}}
             title={name}
-            // subheader={format(createdAt) }
-            subheader={subheader}
+            subheader={format(createdAt) }
             action={ offered ? <Button component="div" color="primary">Offered</Button> : <Button component="div" color="warning">Wanted</Button>}
           />
           <CardMedia

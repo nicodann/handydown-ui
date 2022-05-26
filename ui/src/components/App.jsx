@@ -292,7 +292,7 @@ export default function App() {
     return (
     <>
       <CssBaseline />
-      <AppBar position="sticky">
+      <AppBar position="sticky" elevation="0">
         <Toolbar>
           <IconButton
             size="large"
@@ -379,16 +379,20 @@ export default function App() {
       
       <Box display="flex" justifyContent="center" alignItems="center" sx={{ pt: 1, borderBottom: 1, borderColor: 'divider', background: '#42A5F5' }}>
         <Tabs value={tabValue} onChange={handleTabClick}>
-          <Tab label="Offers" />
-          <Tab label="Wanted" />
+          <Tab label="Offers" sx={{color: 'white'}}/>
+          <Tab label="Wanted" sx={{color: 'white'}}/>
           {/* <Tab label="My Items" />
           <Tab label="My Messages" /> */}
-          <Tab label="My Items" 
+          <Tab 
+            label="My Items"
+            sx={{color: 'white'}} 
             style={
               loggedInUser ? { display: "inline-flex" } : {display: "none"} 
             } 
           />
-          <Tab label="My Messages" 
+          <Tab 
+            label="My Messages"
+            sx={{color: 'white'}} 
             style={
               loggedInUser ? { display: "inline-flex" } : {display: "none"} 
             } 

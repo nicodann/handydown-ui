@@ -188,6 +188,7 @@ export default function App() {
   const deleteItem = async (itemId, offered) => {
     try {
       await axios.delete(`/api/items/${itemId}`);
+      handleTransition();
       if (tabValue === 2) {
         setTabbedItems(tabbedItems.filter((tabbedItem) => tabbedItem.id !== itemId));
       }

@@ -3,6 +3,7 @@ import {
   Box,
   Grid,
   Typography,
+  Card
 } from '@mui/material';
 import Item from './Item';
 import SingleItemModal from './Modals/SingleItemModal';
@@ -89,8 +90,12 @@ export default function ItemList(props) {
       ) : (
         <Box display='flex' justifyContent='center'>
           {tabIndex === 2 ?
-            <Typography variant="body2">You haven't posted anything yet!</Typography> :
-            <Typography variant="body2">No results found!</Typography>
+            <Card variant="outlined" sx={{padding: 4}}>
+              <Typography variant="h5" sx={{display:'inline'}}>You haven't posted anything yet!</Typography> 
+            </Card> :
+            <Card variant="outlined" sx={{padding: 4}}>
+              <Typography variant="h5" sx={{display:'inline'}}>No results found!</Typography>
+            </Card>
           }
         </Box>
       )

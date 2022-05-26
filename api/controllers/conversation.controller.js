@@ -13,14 +13,18 @@ exports.getByUserId = async (req, res) => {
       where: {
         [Op.or]: [ { creatorId: userId }, { receiverId: userId }],
       },
+      
+
       include:[
         Item, 
         Message,
         {model: User, as: 'creator'},
         {model: User, as: 'receiver'}
       ],
+      
       order: [
         ['updatedAt', 'DESC'],
+        [Message, 'id', 'ASC']
       ]
     });
     return res.json(conversations);
@@ -32,9 +36,13 @@ exports.getByUserId = async (req, res) => {
 
 exports.markAsRead = async (req,res) => {
   const convId = req.params.conversationId;
+  console.log("req.body", req.body)
+  const columnToUpdate = {}
+  columnToUpdate[req.body.readByWhom] = true;
+  console.log("columnToUpdate", columnToUpdate)
   try {
     const result = await Conversation.update(
-      {read: true},
+      columnToUpdate,
       {where: {id: convId}}
     )
     res.json(result)

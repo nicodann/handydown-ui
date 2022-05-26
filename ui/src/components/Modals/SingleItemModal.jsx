@@ -68,7 +68,7 @@ export default function SingleItemModal(props) {
         <Box
           sx={{display: 'flex', justifyContent: 'space-between'}}
         >
-          <Typography id="modal-modal-title" variant="h4" component="h2">
+          <Typography id="modal-modal-title" variant="h4" >
             {name}
           </Typography>
           {offered ? <Button component="div" color="success" sx={{mr: -1}}>Offered</Button> : <Button component="div" color="error" sx={{mr: -1}}>Wanted</Button>}
@@ -82,7 +82,9 @@ export default function SingleItemModal(props) {
             <Typography display="block">{location}</Typography>
           </Box>
         </Box>
-        <img alt={name} src={image} style={{height: '100%', maxHeight: '350px', width: '100%', objectFit: 'cover', paddingTop: '16px'}} />
+        <Box style={{display: 'flex', justifyContent: 'center'}}> 
+          <img alt={name} src={image} style={{maxHeight: '350px', paddingTop: '16px'}} />
+        </Box>
         <Typography id="modal-modal-description" variant="body1" sx={{ mt: 2 }}>
           {description}
         </Typography>
@@ -97,6 +99,9 @@ export default function SingleItemModal(props) {
             addMessage={addMessage}
             handleClose={handleClose}
             setTabValue={setTabValue}
+            isSingleConversationModal={false}
+            setMyMessages={null}
+            myMessages={null}
           />}
         {loggedInUser && tabIndex === 2 && loggedInUser.id === creatorId &&
           <Box>

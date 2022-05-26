@@ -1,12 +1,8 @@
-import { format } from 'timeago.js';
 import {
   Box,
-  CardHeader ,
-  Divider,
   Modal,
   Typography,
 } from '@mui/material';
-import { flexbox } from '@mui/system';
 import Message from './Message';
 import ReplyForm from './ReplyForm';
 
@@ -35,7 +31,9 @@ export default function SingleConversationModal(props) {
     addMessage,
     open, 
     handleClose,
-    setTabValue 
+    setTabValue,
+    setModalProps,
+    modalProps
   } = props
 
   const hiddenBodyStyle = {
@@ -47,20 +45,24 @@ export default function SingleConversationModal(props) {
   };
 
   const messagesArray = messages.map((message, index) => {
-    const bodyStyle = (index === messages.length - 1) ? {...hiddenBodyStyle, ...{ height: 'auto', overflow: 'visible', whiteSpace: 'wrap' } } : hiddenBodyStyle;
-    console.log("loggedInUser:",loggedInUser.id)
+    const bodyStyle = 
+      (index === messages.length - 1) ? 
+      {...hiddenBodyStyle, ...{ height: 'auto', overflow: 'visible', whiteSpace: 'wrap' } } :
+      hiddenBodyStyle;
+
     return (
         <Message
           key={message.id}
           user={creator.id === message.userId ? creator.username : receiver.username}
-          aligned={loggedInUser.id === message.userId ? "right" : "left"}
+          aligned={loggedInUser && loggedInUser.id === message.userId ? "right" : "left"}
           createdAt={message.createdAt}
           body={message.body}
           style={bodyStyle}
         />
     )
   });
-
+  
+  if (itemId === null) {return}
   return (
     <Modal
       open={open}
@@ -69,8 +71,10 @@ export default function SingleConversationModal(props) {
       aria-describedby="modal-modal-description"
     >
       <Box sx={style}>
-        <Box sx={{display:"flex", justifyContent:"space-between", marginBottom: '30px'}}>
-          <Typography variant="h5">{name}</Typography>
+        <Box
+          sx={{display:"flex", justifyContent:"space-between", marginBottom: '30px'}}
+        >
+          <Typography id="modal-modal-title" variant="h4">{name}</Typography>
           <img src={image} alt={name} width={200}/>
         </Box >
         {messagesArray}
@@ -84,6 +88,9 @@ export default function SingleConversationModal(props) {
           addMessage={addMessage}
           handleClose={handleClose}
           setTabValue={setTabValue}
+          isSingleConversationModal={true}
+          setModalProps={setModalProps}
+          modalProps={modalProps}
         />
       </Box>
     </Modal>

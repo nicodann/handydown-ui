@@ -14,22 +14,26 @@ export default function Message(props) {
     aligned } = props;
 
   const style = {
-    padding: 1
+    padding: 1.5,
+    marginBottom: 2
   }
   
-  const newStyle = aligned === "left" ? {...style, ...{marginRight: 50, background: "lightblue"}} : {...style,...{marginLeft: 50, background: "lightgreen"}}  
+  const newStyle = 
+    aligned === "left" ? 
+    {...style, ...{marginRight: 50, background: "lightblue"}} :
+    {...style,...{marginLeft: 50, background: "lightgreen"}};
 
   return (
     <Card sx={newStyle}>
-      {/* <Divider /> */}
       <Box sx={{
         display:"flex", 
-        justifyContent:"space-between"
+        justifyContent:"space-between",
+        paddingBottom: 1.25
       }}>
         <Typography variant="body1">{user}</Typography>
         <Typography variant="body1">{format(createdAt)}</Typography>
       </Box>
-      <Typography variant="body2" gutterBottom sx={bodyStyle}>{body}</Typography>
+      <Typography variant="body2" sx={bodyStyle}>{body}</Typography>
     </Card>
   )
 };

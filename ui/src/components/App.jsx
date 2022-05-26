@@ -1,5 +1,6 @@
 import axios from 'axios';
 import { useEffect, useState } from 'react';
+import '../App.css'
 import {
   AppBar,
   Box,
@@ -7,6 +8,7 @@ import {
   Container,
   CssBaseline,
   IconButton,
+  Link,
   Tabs,
   Tab,
   TextField,
@@ -35,6 +37,7 @@ export default function App() {
   const [formOpen, setFormOpen] = useState(false);
   const [loginFormOpen, setLoginFormOpen] = useState(false);
   const [regFormOpen, setRegFormOpen] = useState(false);
+  const [justLoggedIn, setJustLoggedIn] = useState(false);
 
   // const checkLoggedInUser = async () => {
     //   try {
@@ -50,6 +53,14 @@ export default function App() {
           // };
           
   // CHECK IF USER HAS PREVIOUSLY LOGGED IN
+  useEffect(() => {
+
+    // 👇️ set style on body element
+    // document.body.style.backgroundColor = '#bbdefb';
+    document.body.style.backgroundColor = '#f5f5f5';
+
+    
+  }, []);
   useEffect(() => {
     const loggedInUser = localStorage.getItem('user');
     if (loggedInUser) {
@@ -261,16 +272,16 @@ export default function App() {
 
   // RENDER
 
-  if (ITEMS === null) {
+  if (ITEMS === null || ITEMS && justLoggedIn) {
     return (
       <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', flexDirection: 'column', height: '100vh' }}>
       <CircularProgress size={80} />
       <Typography sx={{mt: 2}}>Loading...</Typography>
     </Box>
     )
-  }
+  } else {
 
-  return (
+    return (
     <>
       <CssBaseline />
       <AppBar position="sticky">
@@ -280,14 +291,16 @@ export default function App() {
             edge="start"
             color="inherit"
             aria-label="menu"
-            sx={{ mr: 2 }}
+            // sx={{ mr: 2 }}
+            onClick={() => window.location.replace("http://localhost:3000")}
           >
             <VolunteerActivism />
           </IconButton>
-          <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
-            HandyDown
-          </Typography>
-            
+          <Link sx={{ flexGrow: 1 }} href="http://localhost:3000" underline="none" color="inherit">
+            <Typography variant="h6">
+              HandyDown
+            </Typography>
+          </Link>
           {!loggedInUser ?
             <>
               <Button 
@@ -300,7 +313,8 @@ export default function App() {
               <LoginForm 
                 loginFormOpen={loginFormOpen}
                 setLoginFormOpen={setLoginFormOpen}
-                loginUser={loginUser}            
+                loginUser={loginUser}
+                setJustLoggedIn={setJustLoggedIn}            
               />
               <Button 
                 color="inherit"
@@ -343,7 +357,7 @@ export default function App() {
               onClick={loggedInUser ? () => setFormOpen(true) : () => setLoginFormOpen(true)}
               sx={{ml: 1}}
             >
-              Post Item
+              Make A Post
             </Button>
             <AddItemForm 
               color="inherit" 
@@ -353,9 +367,9 @@ export default function App() {
               handleFormClose={() => setFormOpen(false)} 
             />
         </Toolbar>
-       </AppBar>
+      </AppBar>
       
-      <Box display="flex" justifyContent="center" alignItems="center" sx={{ pt: 1, borderBottom: 1, borderColor: 'divider' }}>
+      <Box display="flex" justifyContent="center" alignItems="center" sx={{ pt: 1, borderBottom: 1, borderColor: 'divider', background: '#42A5F5' }}>
         <Tabs value={tabValue} onChange={handleTabClick}>
           <Tab label="Offers" />
           <Tab label="Wanted" />
@@ -363,6 +377,7 @@ export default function App() {
           <Tab label="My Messages" />
         </Tabs>
       </Box>
+
       <Box display="flex" justifyContent="center" alignItems="center" sx={{ pt: 4 }}>
         <TextField
           type="search"
@@ -370,7 +385,7 @@ export default function App() {
           onChange={handleSearchInput}
           id="outlined-search"
           label="Search by item name..."
-          sx={{ visibility: (tabValue === 3 || tabbedItems.length === 0) ? 'hidden' : 'visible'}}
+          sx={{ background: "white", visibility: (tabValue === 3 || tabbedItems.length === 0) ? 'hidden' : 'visible'}}
         />
       </Box>
       <Container maxWidth="lg" sx={{ py: 4}}>
@@ -414,4 +429,5 @@ export default function App() {
       </Container>
     </>
   ); 
+}
 }

@@ -3,13 +3,16 @@ import { format} from 'timeago.js';
 import {
   Table,
   TableBody,
-  TableCell,
   TableContainer,
   TableHead,
   TableRow,
+  TableCell,
   Paper,
-  Checkbox 
+  Checkbox,
+  Typography
 } from '@mui/material';
+// import TableCell, { tableCellClasses } from "@mui/material/TableCell";
+import RefreshIcon from '@mui/icons-material/Refresh';
 import Conversation from './Conversation';
 import SingleConversationModal from './Modals/SingleConversationModal'
 
@@ -26,11 +29,15 @@ export default function ConversationList(props) {
   } = props;
 
   const findLatestMessageBody = (conversation) => {
-    return conversation.messages[conversation.messages.length - 1].body
+    return conversation.messages[conversation.messages.length -1].body
   }
-
+  
   const findOtherPartyName = (conversation, loggedInUserID) => {
     return loggedInUserID === conversation.receiver.id ? conversation.creator.username : conversation.receiver.username
+  }
+
+  const readByWhom = (conversation, loggedInUserID) => {
+    return conversation.creator.id === loggedInUserID ? "readByCreator" : "readByReciever";
   }
 
   //MODAL STATE LOGIC
@@ -42,10 +49,10 @@ export default function ConversationList(props) {
     messages: [{id: null, createdAt: null, body: ''}],
   })
 
-  const handleClick = (conversation) => {
+  const handleClick = (conversation, userID) => {
     setOpen(true)
     setModalProps(conversation)
-    markAsRead(conversation.id)
+    markAsRead(conversation.id, readByWhom(conversation, userID))
   }
 
   const conversationsArray = conversations.map((conversation) => 
@@ -56,11 +63,11 @@ export default function ConversationList(props) {
       itemName={conversation.item.name}
       messageBody={findLatestMessageBody(conversation)}
       updatedAt={format(conversation.updatedAt)}
-      onClick={() => handleClick(conversation)}
-      read={conversation.read}
+      onClick={() => handleClick(conversation, loggedInUser.id)}
+      read={loggedInUser.id === conversation.creatorId ? conversation.readByCreator : conversation.readByReceiver}
     />
   );
-
+  console.log('modalProps.messages in ConversationList', modalProps.messages)
   return (
     <div 
       role="tabpanel"
@@ -68,14 +75,38 @@ export default function ConversationList(props) {
       id={`simple-tabpanel-${tabIndex}`}
     >
       {tabValue === tabIndex && (
-        <TableContainer component={Paper}>
-          <Table sx={{ pt: 2, minWidth: 650, tableLayout: 'fixed' }} aria-label="simple table">
-            <TableHead>
-              <TableRow>
-                <TableCell sx={{width: 50}}>
+        <>
+        
+        <TableContainer>
+          <Table sx={{ pt: 2, minWidth: 650, tableLayout: 'fixed', borderLeft: 'none' }} aria-label="simple table">
+          <TableHead>
+            <TableRow sx={{background:'#f5f5f5'}}>
+              {conversationsArray.length !== 0 && 
+              <>
+                <TableCell sx={{width: 65}}>
                   <Checkbox color="primary" />
                 </TableCell>
-                <TableCell >Other Party</TableCell>
+                <TableCell sx={{width: 50, paddingTop: 3}}>
+                  <RefreshIcon />
+                </TableCell>
+              
+              </>
+              }
+              <TableCell >
+                {conversationsArray.length === 0 && <Typography variant="h5" sx={{display:'inline'}}>No Messages</Typography>}
+              </TableCell>
+            </TableRow>
+          </TableHead>
+          </Table>
+        </TableContainer>
+        <TableContainer component={Paper}>
+          <Table sx={{ pt: 2, minWidth: 650, tableLayout: 'fixed' }} aria-label="simple table">
+            {/* <TableHead> */}
+              {/* <TableRow>
+                <TableCell sx={{width: 50}}>
+                  <Checkbox color="primary" />
+                </TableCell> */}
+                {/* <TableCell >Other Party</TableCell>
                 <TableCell >Subject/Item</TableCell>
                 <TableCell sx={{
                   width: 'auto', 
@@ -83,12 +114,23 @@ export default function ConversationList(props) {
                 }}>
                   Message
                 </TableCell>
-                <TableCell align="right">Latest Message Date/Time</TableCell>
-              </TableRow>
-            </TableHead>
+                <TableCell align="right">Latest Message Date/Time</TableCell> */}
+                {/* <TableCell >
+                  {conversationsArray.length === 0 && <Typography variant="h5" sx={{display:'inline'}}>No communication detected</Typography>}
+                </TableCell> */}
+                {/* <TableCell ></TableCell>
+                <TableCell sx={{
+                  width: 'auto', 
+                  height: 'inherit'
+                }}>
+                  
+                </TableCell>
+                <TableCell align="right"></TableCell> */}
+              {/* </TableRow>
+            </TableHead> */}
             <TableBody>
               {conversationsArray}
-              <SingleConversationModal 
+              <SingleConversationModal
                 itemId={modalProps.item.id} // ReplyForm
                 name={modalProps.item.name} // ReplyForm
                 offered={modalProps.item.offered} // ReplyForm
@@ -101,10 +143,13 @@ export default function ConversationList(props) {
                 open={open}
                 handleClose={() => setOpen(false)} // ReplyForm et al.
                 setTabValue={setTabValue} // ReplyForm
+                setModalProps={setModalProps}
+                modalProps={modalProps}
               /> 
             </TableBody>
           </Table>
         </TableContainer>
+        </>
       )}
     </div>
   );

@@ -30,6 +30,7 @@ export default function AddItemForm(props) {
   };
 
   const handleFormChange = (event) => {
+    console.log('formValue', formValue)
     setFormValue({
       ...formValue,
       [event.target.name]: str2bool(event.target.value)
@@ -38,6 +39,11 @@ export default function AddItemForm(props) {
 
   const newHandleFormClose = () => {
     handleFormClose();
+    setFormValue({
+      name: "",
+      description: "",
+      offered: true,
+    });
     setMyImage(null);
   }
 

@@ -4,6 +4,14 @@ const Item = db.item;
 const User = db.user;
 const Op = db.Sequelize.Op;
 
+const str2bool = (value) => {
+  if (value && typeof value === "string") {
+        if (value.toLowerCase() === "true") return true;
+        if (value.toLowerCase() === "false") return false;
+  }
+  return value;
+};
+
 //Retrieve all Items from the db or search by name
 exports.index = async (req, res) => {
   const name = req.body.name;
@@ -39,11 +47,12 @@ exports.show = async (req, res) => {
 };
 
 exports.create = async (req, res) => {
-  const { name, description, userId, offered } = req.body
+  const { name, description, userId } = req.body
+  const offered = str2bool(req.body.offered);
+  console.log('offered after str2bool', offered, typeof offered)
   console.log('name', name)
   console.log('description', description)
   console.log('userid', userId)
-  console.log('offered', offered)
   let imageFile;
   let uploadPath;
 
@@ -69,14 +78,30 @@ exports.create = async (req, res) => {
     return;
   }
   //create
+  console.log('imageFile?', imageFile, typeof imageFile)
+  console.log('offered?', offered, typeof offered)
+  let image;
+  if (  imageFile === undefined && offered === true) {
+    image = `http://localhost:8080/images/balls-in-a-bin.jpg`;
+  } else if (imageFile === undefined && offered === false) {
+    image = `http://localhost:8080/images/wanted-adTwo.png`;
+  } else {
+    image = `http://localhost:8080/images/${imageFile.name}`
+  }
   const item = {
     name,
     description,
     userId,
     offered,
-    image: imageFile ? `http://localhost:8080/images/${imageFile.name}` : `http://localhost:8080/images/glove2.jpg`
+    image
+    // image: imageFile === undefined ?
+    // (offered ?
+    // `http://localhost:8080/images/balls-in-a-bin.jpg` :
+    // `http://localhost:8080/images/wanted-adTwo.png`
+    // ) :
+    // `http://localhost:8080/images/${imageFile.name}`
   };
-  console.log(Item)
+  // console.log(Item)
   //save
   try {
     data = await Item.create(item);

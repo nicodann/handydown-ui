@@ -14,9 +14,13 @@ module.exports = (sequelize, DataTypes) => {
     }
   }
   Conversation.init({
-    read: {
+    readByReceiver: {
       type: DataTypes.BOOLEAN,
       defaultValue: false
+    },
+    readByCreator: {
+      type: DataTypes.BOOLEAN,
+      defaultValue: true
     }
   }, {
     sequelize,

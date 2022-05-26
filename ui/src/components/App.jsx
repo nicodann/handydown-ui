@@ -351,9 +351,9 @@ export default function App() {
               handleFormClose={() => setFormOpen(false)} 
             />
         </Toolbar>
-       </AppBar>
+      </AppBar>
       
-      <Box display="flex" justifyContent="center" alignItems="center" sx={{ pt: 1, borderBottom: 1, borderColor: 'divider' }}>
+      <Box display="flex" justifyContent="center" alignItems="center" sx={{ pt: 1, borderBottom: 1, borderColor: 'divider', background: '#42A5F5' }}>
         <Tabs value={tabValue} onChange={handleTabClick}>
           <Tab label="Offers" />
           <Tab label="Wanted" />
@@ -361,6 +361,7 @@ export default function App() {
           <Tab label="My Messages" />
         </Tabs>
       </Box>
+
       <Box display="flex" justifyContent="center" alignItems="center" sx={{ pt: 4 }}>
         <TextField
           type="search"

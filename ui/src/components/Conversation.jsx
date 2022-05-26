@@ -50,7 +50,7 @@ export default function Conversation(props) {
       sx={{...rowStyle,'&:last-child td, &:last-child th': { border: 0 } }}
       onClick={handleClick}
     >
-      <TableCell>
+      <TableCell sx={{width: 70}}>
         <Checkbox color="primary" />
       </TableCell>
       <TableCell component="th" scope="row" sx={{...cellStyle}}>

@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import { format } from 'timeago.js';
 import {
   Box,
@@ -7,9 +8,9 @@ import {
 } from '@mui/material';
 import LocationOnIcon from '@mui/icons-material/LocationOn';
 import DeleteIcon from '@mui/icons-material/Delete';
+import CircularProgress from '@mui/material/CircularProgress';
 import ReplyForm from './ReplyForm';
 import EditItemForm from './EditItemForm';
-import { useState } from 'react';
 
 const style = {
   position: 'absolute',
@@ -46,17 +47,55 @@ export default function SingleItemModal(props) {
   } = props;
 
   const [editItemFormOpen, setEditItemFormOpen] = useState(false)
+  const [transition, setTransition] = useState(false);
+  const [transitionPhrase, setTransitionPhrase] = useState('');
 
   const handleDeleteClick = async (event) => {
     event.preventDefault();
-    deleteItem(itemId, offered);
-    handleClose();
+    setTransition(true);
+    setTransitionPhrase('Deleting Item...');
+    setTimeout(() => {
+      setTransition(false);
+      deleteItem(itemId, offered);
+      handleClose();
+    }, 1000)
   };
 
   // const handleEditClick = async (item) => {
   //   setEditItemFormOpen(true);
   // }
 
+  if (transition) {
+    return (
+      <Modal
+        open={open}
+        onClose={handleClose}
+        aria-labelledby="modal-modal-title"
+        aria-describedby="modal-modal-description"
+      >
+        <Box sx={{ 
+           position: 'absolute',
+           top: '50%',
+           left: '50%',
+           transform: 'translate(-50%, -50%)',
+           width: 800,
+           height: 600,
+           bgcolor: 'background.paper',
+           border: '2px solid #000',
+           boxShadow: 24,
+           p: 4,
+          
+          display: 'flex', 
+          justifyContent: 'center', 
+          alignItems: 'center', 
+          flexDirection: 'column'
+        } }>
+          <CircularProgress size={80} />
+          <Typography sx={{mt: 2}}>{transitionPhrase}</Typography>
+        </Box>
+      </Modal>
+    )
+  } else {
   return (
     <Modal
       open={open}
@@ -132,5 +171,6 @@ export default function SingleItemModal(props) {
           }
         </Box>
     </Modal>
-  );
+  )
+  }
 };

@@ -2,13 +2,11 @@ import { useState } from 'react';
 import { format} from 'timeago.js';
 import {
   Table,
-  tableClasses,
   TableBody,
   TableContainer,
   TableHead,
   TableRow,
   TableCell,
-  tableCellClasses,
   Paper,
   Checkbox,
   Typography
@@ -80,18 +78,9 @@ export default function ConversationList(props) {
         <>
         
         <TableContainer>
-          {/* <Table sx={{ pt: 2, minWidth: 650, tableLayout: 'fixed', [`& .${tableCellClasses.root}`]: {
-            borderRight: "none",
-            borderLeft: "none",
-            borderBottom: 'none'
-          } }} aria-label="simple table"> */}
-          <Table sx={{ pt: 2, minWidth: 650, tableLayout: 'fixed', borderLeft: 'none', [`& .${tableClasses.root}`]: {
-            borderRight: "none",
-            borderLeft: "none",
-            borderBottom: 'none'
-          } }} aria-label="simple table">
+          <Table sx={{ pt: 2, minWidth: 650, tableLayout: 'fixed', borderLeft: 'none' }} aria-label="simple table">
           <TableHead>
-            <TableRow sx={{background:'#BBDEFB'}}>
+            <TableRow sx={{background:'#f5f5f5'}}>
               {conversationsArray.length !== 0 && 
               <>
                 <TableCell sx={{width: 65}}>

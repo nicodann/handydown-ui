@@ -54,7 +54,8 @@ export default function App() {
   useEffect(() => {
 
     // 👇️ set style on body element
-    document.body.style.backgroundColor = '#bbdefb';
+    // document.body.style.backgroundColor = '#bbdefb';
+    document.body.style.backgroundColor = '#f5f5f5';
 
     
   }, []);

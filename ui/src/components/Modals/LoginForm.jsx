@@ -9,7 +9,7 @@
   } from '@mui/material';
 
 export default function LoginForm(props) {
-  const { loginFormOpen, setLoginFormOpen, loginUser, setJustLoggedIn } = props;
+  const { loginFormOpen, setLoginFormOpen, loginUser, setTransition } = props;
 
   const [formValue, setFormValue] = useState({
     username: '',
@@ -38,14 +38,14 @@ export default function LoginForm(props) {
     loginFormData.append("password", formValue.password);
     loginUser(loginFormData)
       .then(message => {
-        if (message && message.includes("password") || (message && message.includes("username"))) {
+        if ((message && message.includes("password")) || (message && message.includes("username"))) {
           setErrorMessage(message);
           setAlertDisplay("flex")
         } else {
           setLoginFormOpen(false);
-          setJustLoggedIn(true);
+          setTransition(true);
           setTimeout(() => {
-            setJustLoggedIn(false);
+            setTransition(false);
           }, 2000);
         }
       })

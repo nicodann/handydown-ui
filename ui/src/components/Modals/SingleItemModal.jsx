@@ -104,7 +104,7 @@ export default function SingleItemModal(props) {
             myMessages={null}
           />}
         {loggedInUser && tabIndex === 2 && loggedInUser.id === creatorId &&
-          <Box>
+          <Box >
             <Button
               variant="contained"
               startIcon={<DeleteIcon />}
@@ -116,7 +116,7 @@ export default function SingleItemModal(props) {
             <Button
             variant="contained"
             startIcon={<DeleteIcon />}
-            sx={{mt: 3}}
+            sx={{mt: 3, ml: 2}}
             onClick={() => setEditItemFormOpen(true)}
             >
               Edit

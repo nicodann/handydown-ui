@@ -176,7 +176,6 @@ export default function App() {
       });
       const newItem = response.data;
       setITEMS([newItem, ...ITEMS]);
-      handleTransition();
       setTabValue(2);
       setTabbedItems([newItem, ...ITEMS.filter((item) => item.userId === loggedInUser.id)]);
     } catch(error) {
@@ -188,7 +187,7 @@ export default function App() {
   const deleteItem = async (itemId, offered) => {
     try {
       await axios.delete(`/api/items/${itemId}`);
-      handleTransition();
+      // handleTransition();
       if (tabValue === 2) {
         setTabbedItems(tabbedItems.filter((tabbedItem) => tabbedItem.id !== itemId));
       }

@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { useEffect, useState } from 'react';
+import { useEffect, useInsertionEffect, useState } from 'react';
 import '../App.css'
 import {
   AppBar,
@@ -38,6 +38,11 @@ export default function App() {
   const [loginFormOpen, setLoginFormOpen] = useState(false);
   const [regFormOpen, setRegFormOpen] = useState(false);
   const [transition, setTransition] = useState(false);
+
+//   useEffect(() => {
+//     console.log("tabbedItems:",tabbedItems);
+//     console.log("ITEMS:", ITEMS)
+// }, [tabbedItems, ITEMS])
 
   const handleTransition = () => {
     setTransition(true);
@@ -209,10 +214,13 @@ export default function App() {
         headers: { "Content-Type": "multipart/form-data" },
       });
       const updatedItem = response.data;
-      setITEMS([ ...ITEMS, updatedItem]);
+      const filteredItems = ITEMS.filter(item => item.id !== updatedItem.id)
+      console.log("filteredItems", filteredItems)
+      setITEMS([ updatedItem, ...filteredItems]);
       handleTransition();
       setTabValue(2);
-      setTabbedItems([updatedItem, ...ITEMS.filter((item) => item.userId === loggedInUser.id)]);
+      setTabbedItems([updatedItem, ...ITEMS.filter((item) => item.userId === loggedInUser.id && item.id !== updatedItem.id)]);
+      console.log("tabbedItems:",tabbedItems);
     } catch(err) {
       console.log(err);
     }

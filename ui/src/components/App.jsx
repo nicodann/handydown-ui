@@ -37,8 +37,14 @@ export default function App() {
   const [formOpen, setFormOpen] = useState(false);
   const [loginFormOpen, setLoginFormOpen] = useState(false);
   const [regFormOpen, setRegFormOpen] = useState(false);
-  const [justLoggedIn, setJustLoggedIn] = useState(false);
+  const [transition, setTransition] = useState(false);
 
+  const handleTransition = () => {
+    setTransition(true);
+          setTimeout(() => {
+            setTransition(false);
+          }, 1000);
+  }
   // const checkLoggedInUser = async () => {
     //   try {
       //     const response = await axios({
@@ -154,6 +160,7 @@ export default function App() {
     setLoggedInUser(null);
     localStorage.clear();
     setConversations([]);
+    handleTransition();
     setTabValue(0);
     setTabbedItems(ITEMS.filter((item) => item.offered))
   };
@@ -169,6 +176,7 @@ export default function App() {
       });
       const newItem = response.data;
       setITEMS([newItem, ...ITEMS]);
+      handleTransition();
       setTabValue(2);
       setTabbedItems([newItem, ...ITEMS.filter((item) => item.userId === loggedInUser.id)]);
     } catch(error) {
@@ -262,7 +270,7 @@ export default function App() {
 
   // RENDER
 
-  if (ITEMS === null || ITEMS && justLoggedIn) {
+  if ((ITEMS === null) || (ITEMS && transition)) {
     return (
       <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', flexDirection: 'column', height: '100vh' }}>
       <CircularProgress size={80} />
@@ -304,7 +312,7 @@ export default function App() {
                 loginFormOpen={loginFormOpen}
                 setLoginFormOpen={setLoginFormOpen}
                 loginUser={loginUser}
-                setJustLoggedIn={setJustLoggedIn}            
+                setTransition={setTransition}            
               />
               <Button 
                 color="inherit"
@@ -363,8 +371,18 @@ export default function App() {
         <Tabs value={tabValue} onChange={handleTabClick}>
           <Tab label="Offers" />
           <Tab label="Wanted" />
-          <Tab label="My Items" />
-          <Tab label="My Messages" />
+          {/* <Tab label="My Items" />
+          <Tab label="My Messages" /> */}
+          <Tab label="My Items" 
+            style={
+              loggedInUser ? { display: "inline-flex" } : {display: "none"} 
+            } 
+          />
+          <Tab label="My Messages" 
+            style={
+              loggedInUser ? { display: "inline-flex" } : {display: "none"} 
+            } 
+          />
         </Tabs>
       </Box>
 

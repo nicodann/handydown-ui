@@ -139,25 +139,19 @@ exports.update = async (req,res) => {
       // res.send('File uploaded!');
     }); 
   }
-  
-  // validate
-  // if (!name) {
-  //   res.status(400).send({
-  //     message: "Item needs a name!"
-  //   });
-  //   return;
-  // }
-  //update
+
+  //UPDATE
   // console.log('imageFile?', imageFile, typeof imageFile)
   // console.log('offered?', offered, typeof offered)
   const image = imageFile ? `http://localhost:8080/images/${imageFile.name}` : null;
+  console.log("image:", image)
 
   const itemUpdates = {
     id,
     name,
     description,
     offered,
-    image
+    ...(image && {image: image})
   }
 
   // const itemUpdates = {...req.body, offered: offered};
@@ -169,7 +163,7 @@ exports.update = async (req,res) => {
 
   try {
     const responseArray = await Item.update({
-        ...req.body,
+        ...itemUpdates,
       }, {
         where: { id: id },
         returning: true

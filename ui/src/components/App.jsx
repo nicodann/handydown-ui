@@ -1,5 +1,6 @@
 import axios from 'axios';
 import { useEffect, useState } from 'react';
+import '../App.css'
 import {
   AppBar,
   Box,
@@ -52,6 +53,14 @@ export default function App() {
           // };
           
   // CHECK IF USER HAS PREVIOUSLY LOGGED IN
+  useEffect(() => {
+
+    // 👇️ set style on body element
+    // document.body.style.backgroundColor = '#bbdefb';
+    document.body.style.backgroundColor = '#f5f5f5';
+
+    
+  }, []);
   useEffect(() => {
     const loggedInUser = localStorage.getItem('user');
     if (loggedInUser) {
@@ -338,7 +347,7 @@ export default function App() {
               onClick={loggedInUser ? () => setFormOpen(true) : () => setLoginFormOpen(true)}
               sx={{ml: 1}}
             >
-              Post Item
+              Make A Post
             </Button>
             <AddItemForm 
               color="inherit" 
@@ -348,9 +357,9 @@ export default function App() {
               handleFormClose={() => setFormOpen(false)} 
             />
         </Toolbar>
-       </AppBar>
+      </AppBar>
       
-      <Box display="flex" justifyContent="center" alignItems="center" sx={{ pt: 1, borderBottom: 1, borderColor: 'divider' }}>
+      <Box display="flex" justifyContent="center" alignItems="center" sx={{ pt: 1, borderBottom: 1, borderColor: 'divider', background: '#42A5F5' }}>
         <Tabs value={tabValue} onChange={handleTabClick}>
           <Tab label="Offers" />
           <Tab label="Wanted" />
@@ -358,6 +367,7 @@ export default function App() {
           <Tab label="My Messages" />
         </Tabs>
       </Box>
+
       <Box display="flex" justifyContent="center" alignItems="center" sx={{ pt: 4 }}>
         <TextField
           type="search"

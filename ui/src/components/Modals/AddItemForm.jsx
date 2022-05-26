@@ -30,7 +30,6 @@ export default function AddItemForm(props) {
   };
 
   const handleFormChange = (event) => {
-    console.log('formValue', formValue)
     setFormValue({
       ...formValue,
       [event.target.name]: str2bool(event.target.value)
@@ -56,6 +55,7 @@ export default function AddItemForm(props) {
     newItemFormData.append("offered", formValue.offered);
     const imagefile = document.querySelector("#file");
     newItemFormData.append("imageFile", imagefile.files[0]);
+    console.log("addItemFormData:", newItemFormData)
     addItem(newItemFormData);
     newHandleFormClose();
   };

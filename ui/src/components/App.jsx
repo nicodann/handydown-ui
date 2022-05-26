@@ -199,11 +199,23 @@ export default function App() {
 
   // EDIT ITEM
   const editItem = async (editItemFormData) => {
+    // try {
+    //   await axios.put(`/api/items/${editItemFormData.id}`, {editItemFormData: editItemFormData});
     try {
-      await axios.put(`/api/items/${editItemFormData.id}`, {editItemFormData: editItemFormData});
-   } catch(err) {
-     console.log(err);
-   }
+      const response = await axios({
+        method: 'put',
+        url: `/api/items/${editItemFormData.id}`,
+        data: editItemFormData,
+        headers: { "Content-Type": "multipart/form-data" },
+      });
+      const updatedItem = response.data;
+      setITEMS([updatedItem, ...ITEMS]);
+      handleTransition();
+      setTabValue(2);
+      setTabbedItems([updatedItem, ...ITEMS.filter((item) => item.userId === loggedInUser.id)]);
+    } catch(err) {
+      console.log(err);
+    }
    
   }
 
@@ -292,7 +304,7 @@ export default function App() {
     return (
     <>
       <CssBaseline />
-      <AppBar position="sticky" elevation="0">
+      <AppBar position="sticky" elevation={0}>
         <Toolbar>
           <IconButton
             size="large"

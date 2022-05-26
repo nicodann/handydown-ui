@@ -60,8 +60,8 @@ export default function ItemList(props) {
                 offered={item.offered}
                 image={item.image}
                 createdAt={item.createdAt}
-                username={item.user.username}
-                location={item.user.location}
+                username={item.user && item.user.username}
+                location={item.user && item.user.location}
                 onClick={() => openModal(item)}
               />
             ))}

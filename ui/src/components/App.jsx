@@ -282,7 +282,7 @@ export default function App() {
     return (
     <>
       <CssBaseline />
-      <AppBar position="sticky">
+      <AppBar position="sticky" elevation="0">
         <Toolbar>
           <IconButton
             size="large"

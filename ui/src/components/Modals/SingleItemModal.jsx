@@ -45,7 +45,7 @@ export default function SingleItemModal(props) {
     editItem
   } = props;
 
-  const [editItemFormOpen, setEditItemFormOpen] = useState()
+  const [editItemFormOpen, setEditItemFormOpen] = useState(false)
 
   const handleDeleteClick = async (event) => {
     event.preventDefault();

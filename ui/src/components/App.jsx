@@ -209,7 +209,7 @@ export default function App() {
         headers: { "Content-Type": "multipart/form-data" },
       });
       const updatedItem = response.data;
-      setITEMS([updatedItem, ...ITEMS]);
+      setITEMS([ ...ITEMS, updatedItem]);
       handleTransition();
       setTabValue(2);
       setTabbedItems([updatedItem, ...ITEMS.filter((item) => item.userId === loggedInUser.id)]);

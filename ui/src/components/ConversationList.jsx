@@ -2,14 +2,19 @@ import { useState } from 'react';
 import { format} from 'timeago.js';
 import {
   Table,
+  tableClasses,
   TableBody,
-  TableCell,
   TableContainer,
   TableHead,
   TableRow,
+  TableCell,
+  tableCellClasses,
   Paper,
-  Checkbox 
+  Checkbox,
+  Typography
 } from '@mui/material';
+// import TableCell, { tableCellClasses } from "@mui/material/TableCell";
+import RefreshIcon from '@mui/icons-material/Refresh';
 import Conversation from './Conversation';
 import SingleConversationModal from './Modals/SingleConversationModal'
 
@@ -72,13 +77,46 @@ export default function ConversationList(props) {
       id={`simple-tabpanel-${tabIndex}`}
     >
       {tabValue === tabIndex && (
-        <TableContainer component={Paper}>
-          <Table sx={{ pt: 2, minWidth: 650, tableLayout: 'fixed' }} aria-label="simple table">
-            <TableHead>
-              <TableRow>
-                <TableCell sx={{width: 50}}>
+        <>
+        
+        <TableContainer>
+          {/* <Table sx={{ pt: 2, minWidth: 650, tableLayout: 'fixed', [`& .${tableCellClasses.root}`]: {
+            borderRight: "none",
+            borderLeft: "none",
+            borderBottom: 'none'
+          } }} aria-label="simple table"> */}
+          <Table sx={{ pt: 2, minWidth: 650, tableLayout: 'fixed', borderLeft: 'none', [`& .${tableClasses.root}`]: {
+            borderRight: "none",
+            borderLeft: "none",
+            borderBottom: 'none'
+          } }} aria-label="simple table">
+          <TableHead>
+            <TableRow sx={{background:'#BBDEFB'}}>
+              {conversationsArray.length !== 0 && 
+              <>
+                <TableCell sx={{width: 65}}>
                   <Checkbox color="primary" />
                 </TableCell>
+                <TableCell sx={{width: 50, paddingTop: 3}}>
+                  <RefreshIcon />
+                </TableCell>
+              
+              </>
+              }
+              <TableCell >
+                {conversationsArray.length === 0 && <Typography variant="h5" sx={{display:'inline'}}>No Messages</Typography>}
+              </TableCell>
+            </TableRow>
+          </TableHead>
+          </Table>
+        </TableContainer>
+        <TableContainer component={Paper}>
+          <Table sx={{ pt: 2, minWidth: 650, tableLayout: 'fixed' }} aria-label="simple table">
+            {/* <TableHead> */}
+              {/* <TableRow>
+                <TableCell sx={{width: 50}}>
+                  <Checkbox color="primary" />
+                </TableCell> */}
                 {/* <TableCell >Other Party</TableCell>
                 <TableCell >Subject/Item</TableCell>
                 <TableCell sx={{
@@ -88,19 +126,19 @@ export default function ConversationList(props) {
                   Message
                 </TableCell>
                 <TableCell align="right">Latest Message Date/Time</TableCell> */}
-                <TableCell >
-                  {conversationsArray.length === 0 && "No communication detected"}
-                </TableCell>
-                <TableCell ></TableCell>
+                {/* <TableCell >
+                  {conversationsArray.length === 0 && <Typography variant="h5" sx={{display:'inline'}}>No communication detected</Typography>}
+                </TableCell> */}
+                {/* <TableCell ></TableCell>
                 <TableCell sx={{
                   width: 'auto', 
                   height: 'inherit'
                 }}>
                   
                 </TableCell>
-                <TableCell align="right"></TableCell>
-              </TableRow>
-            </TableHead>
+                <TableCell align="right"></TableCell> */}
+              {/* </TableRow>
+            </TableHead> */}
             <TableBody>
               {conversationsArray}
               <SingleConversationModal
@@ -122,6 +160,7 @@ export default function ConversationList(props) {
             </TableBody>
           </Table>
         </TableContainer>
+        </>
       )}
     </div>
   );

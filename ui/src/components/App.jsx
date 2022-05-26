@@ -1,5 +1,6 @@
 import axios from 'axios';
 import { useEffect, useState } from 'react';
+import '../App.css'
 import {
   AppBar,
   Box,
@@ -50,6 +51,13 @@ export default function App() {
           // };
           
   // CHECK IF USER HAS PREVIOUSLY LOGGED IN
+  useEffect(() => {
+
+    // 👇️ set style on body element
+    document.body.style.backgroundColor = '#bbdefb';
+
+    
+  }, []);
   useEffect(() => {
     const loggedInUser = localStorage.getItem('user');
     if (loggedInUser) {
@@ -333,7 +341,7 @@ export default function App() {
               onClick={loggedInUser ? () => setFormOpen(true) : () => setLoginFormOpen(true)}
               sx={{ml: 1}}
             >
-              Post Item
+              Make A Post
             </Button>
             <AddItemForm 
               color="inherit" 

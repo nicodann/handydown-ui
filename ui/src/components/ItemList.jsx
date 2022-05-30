@@ -16,7 +16,8 @@ export default function ItemList(props) {
     addMessage,
     setTabValue,
     tabValue,
-    tabIndex
+    tabIndex,
+    editItem
   } = props;
 
   //MODAL STATE LOGIC
@@ -38,6 +39,8 @@ export default function ItemList(props) {
     setOpen(true)
   }
 
+  
+
   return (
     <div 
       role="tabpanel"
@@ -57,8 +60,8 @@ export default function ItemList(props) {
                 offered={item.offered}
                 image={item.image}
                 createdAt={item.createdAt}
-                username={item.user.username}
-                location={item.user.location}
+                username={item.user && item.user.username}
+                location={item.user && item.user.location}
                 onClick={() => openModal(item)}
               />
             ))}
@@ -77,8 +80,10 @@ export default function ItemList(props) {
               handleClose={() => setOpen(false)}
               addMessage={addMessage} // for ReplyForm
               deleteItem={deleteItem}
+              editItem={editItem}
               tabIndex={tabIndex}
               setTabValue={setTabValue} // for ReplyForm
+              item={modalProps}
             />
           </Grid>
         </Box>

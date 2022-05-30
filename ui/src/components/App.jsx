@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { useEffect, useState } from 'react';
+import { useEffect, useInsertionEffect, useState } from 'react';
 import '../App.css'
 import {
   AppBar,
@@ -40,8 +40,13 @@ export default function App() {
   const [transition, setTransition] = useState(false);
   const [transitionPhrase, setTransitionPhrase] = useState('Loading...')
 
-  const handleTransition = () => {
-    setTransitionPhrase('Logging Out...')
+//   useEffect(() => {
+//     console.log("tabbedItems:",tabbedItems);
+//     console.log("ITEMS:", ITEMS)
+// }, [tabbedItems, ITEMS])
+
+  const handleTransition = (phrase) => {
+    setTransitionPhrase(phrase)
     setTransition(true);
           setTimeout(() => {
             setTransition(false);
@@ -163,7 +168,7 @@ export default function App() {
     setLoggedInUser(null);
     localStorage.clear();
     setConversations([]);
-    handleTransition();
+    handleTransition("Logging Out...");
     setTabValue(0);
     setTabbedItems(ITEMS.filter((item) => item.offered))
   };
@@ -190,7 +195,6 @@ export default function App() {
   const deleteItem = async (itemId, offered) => {
     try {
       await axios.delete(`/api/items/${itemId}`);
-      // handleTransition();
       if (tabValue === 2) {
         setTabbedItems(tabbedItems.filter((tabbedItem) => tabbedItem.id !== itemId));
       }
@@ -199,6 +203,32 @@ export default function App() {
       console.log(err);
     }
   };
+
+  // EDIT ITEM
+  const editItem = async (editItemFormData, id) => {
+    // try {
+    //   await axios.put(`/api/items/${editItemFormData.id}`, {editItemFormData: editItemFormData});
+    console.log("editItemFormData.id:", editItemFormData.id)
+    try {
+      const response = await axios({
+        method: 'put',
+        url: `/api/items/${id}`,
+        data: editItemFormData,
+        headers: { "Content-Type": "multipart/form-data" },
+      });
+      const updatedItem = response.data;
+      const filteredItems = ITEMS.filter(item => item.id !== updatedItem.id)
+      console.log("filteredItems", filteredItems)
+      setITEMS([ updatedItem, ...filteredItems]);
+      handleTransition("Updating Item...");
+      setTabValue(2);
+      setTabbedItems([updatedItem, ...ITEMS.filter((item) => item.userId === loggedInUser.id && item.id !== updatedItem.id)]);
+      console.log("tabbedItems:",tabbedItems);
+    } catch(err) {
+      console.log(err);
+    }
+   
+  }
 
   // ADD MESSAGE
   const addMessage = async (newMessageFormData) => {
@@ -264,7 +294,7 @@ export default function App() {
   //MARK CONVO AS READ
   const markAsRead =  async (conversationId, readByWhom) => {
     try {
-       await axios.put(`/api/conversations/${conversationId}`, {creatorOrReceiverId: readByWhom});
+       await axios.put(`/api/conversations/${conversationId}`, {readByWhom: readByWhom});
     } catch(err) {
       console.log(err);
     }
@@ -428,6 +458,7 @@ export default function App() {
           tabValue={tabValue}
           tabIndex={2}
           deleteItem={deleteItem}
+          editItem={editItem}
           loggedInUser={loggedInUser} // for ReplyForm, among others
           setTabValue={setTabValue}
         />

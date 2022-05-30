@@ -49,10 +49,10 @@ exports.show = async (req, res) => {
 exports.create = async (req, res) => {
   const { name, description, userId } = req.body
   const offered = str2bool(req.body.offered);
-  console.log('offered after str2bool', offered, typeof offered)
-  console.log('name', name)
-  console.log('description', description)
-  console.log('userid', userId)
+  // console.log('offered after str2bool', offered, typeof offered)
+  // console.log('name', name)
+  // console.log('description', description)
+  // console.log('userid', userId)
   let imageFile;
   let uploadPath;
 
@@ -115,17 +115,67 @@ exports.create = async (req, res) => {
 };
 
 exports.update = async (req,res) => {
-  const id = req.params.id;
+  // console.log("req.body", req.body)
+  // console.log("offered", req.body.offered, typeof req.body.offered)
+  const { id, name, description, userId } = req.body
+  const offered = str2bool(req.body.offered);
+  console.log('offered after str2bool', offered, typeof offered)
+  // console.log('name', name)
+  // console.log('description', description)
+  // console.log('userid', userId)
+  let imageFile;
+  let uploadPath;
+
+  if (req.files) {
+    imageFile = req.files.imageFile;
+    uploadPath = path.join(__dirname, '..', 'assets/images', imageFile.name);
+    // Use the mv() method to place the file somewhere on your server
+    imageFile.mv(uploadPath, function(err) {
+      if (err) {
+        // return res.status(500).send(err);
+        console.log(err);
+      }
+        console.log("imageFile.name", imageFile.name);
+      // res.send('File uploaded!');
+    }); 
+  }
+
+  //UPDATE
+  // console.log('imageFile?', imageFile, typeof imageFile)
+  // console.log('offered?', offered, typeof offered)
+  const image = imageFile ? `http://localhost:8080/images/${imageFile.name}` : null;
+  console.log("image:", image)
+
+  const itemUpdates = {
+    id,
+    name,
+    description,
+    offered,
+    ...(image && {image: image})
+  }
+
+  // const itemUpdates = {...req.body, offered: offered};
+  // image && (itemUpdates.image = image)
+  console.log("itemUpdates:", itemUpdates)
+
+
+
+
   try {
-    const num = await Item.update({
-        ...req.body
+    const responseArray = await Item.update({
+        ...itemUpdates,
       }, {
-        where: { id: id }
+        where: { id: id },
+        returning: true
       })
-    if (num == 1) {
-      res.send({
-        message: "Item was update successfully."
-      });
+    if (responseArray[0] == 1) {
+      const data = responseArray[1][0].dataValues
+      const itemPlusUser = await Item.findByPk(data.id, { include: User });
+      res.json(itemPlusUser);
+      
+      // res.send({
+      //   message: "Item was updated successfully."
+      // });
     } else {
       res.send({
         message: `Cannot update Item with id=${id}. Maybe Item was not found or req.body is empty!`

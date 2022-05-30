@@ -67,7 +67,6 @@ export default function ConversationList(props) {
       read={loggedInUser.id === conversation.creatorId ? conversation.readByCreator : conversation.readByReceiver}
     />
   );
-  console.log('modalProps.messages in ConversationList', modalProps.messages)
   return (
     <div 
       role="tabpanel"

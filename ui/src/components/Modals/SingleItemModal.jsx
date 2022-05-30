@@ -10,6 +10,7 @@ import LocationOnIcon from '@mui/icons-material/LocationOn';
 import DeleteIcon from '@mui/icons-material/Delete';
 import CircularProgress from '@mui/material/CircularProgress';
 import ReplyForm from './ReplyForm';
+import EditItemForm from './EditItemForm';
 
 const style = {
   position: 'absolute',
@@ -40,9 +41,12 @@ export default function SingleItemModal(props) {
     open,
     handleClose,
     setTabValue,
-    tabIndex
+    tabIndex,
+    item,
+    editItem
   } = props;
 
+  const [editItemFormOpen, setEditItemFormOpen] = useState(false)
   const [transition, setTransition] = useState(false);
   const [transitionPhrase, setTransitionPhrase] = useState('');
 
@@ -56,6 +60,10 @@ export default function SingleItemModal(props) {
       handleClose();
     }, 1000)
   };
+
+  // const handleEditClick = async (item) => {
+  //   setEditItemFormOpen(true);
+  // }
 
   if (transition) {
     return (
@@ -135,16 +143,33 @@ export default function SingleItemModal(props) {
             myMessages={null}
           />}
         {loggedInUser && tabIndex === 2 && loggedInUser.id === creatorId &&
-          <Button
+          <Box >
+            <Button
+              variant="contained"
+              startIcon={<DeleteIcon />}
+              sx={{mt: 3}}
+              onClick={handleDeleteClick}
+            >
+              Delete
+            </Button>
+            <Button
             variant="contained"
             startIcon={<DeleteIcon />}
-            sx={{mt: 3}}
-            onClick={handleDeleteClick}
-          >
-            Delete
-          </Button>
-        }
-      </Box>
+            sx={{mt: 3, ml: 2}}
+            onClick={() => setEditItemFormOpen(true)}
+            >
+              Edit
+            </Button>
+            <EditItemForm 
+              loggedInUser={loggedInUser}
+              formOpen={editItemFormOpen}
+              handleFormClose={() => setEditItemFormOpen(false)}
+              item={item}
+              editItem={editItem}
+            />
+          </Box>
+          }
+        </Box>
     </Modal>
   )
   }

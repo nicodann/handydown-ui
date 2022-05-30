@@ -33,7 +33,6 @@ export default function AddItemForm(props) {
   };
 
   const handleFormChange = (event) => {
-    console.log('formValue', formValue)
     setFormValue({
       ...formValue,
       [event.target.name]: str2bool(event.target.value)

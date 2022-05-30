@@ -1,23 +1,17 @@
 import axios from 'axios';
-import { useEffect, useInsertionEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import '../App.css'
 import {
-  AppBar,
   Box,
-  Button,
   Container,
   CssBaseline,
-  IconButton,
-  Link,
   Tabs,
   Tab,
   TextField,
-  Toolbar,
   Typography,
 } from '@mui/material';
-import { VolunteerActivism } from '@mui/icons-material';
-import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import CircularProgress from '@mui/material/CircularProgress';
+import Navbar from './Navbar';
 import ItemList from './ItemList';
 import ConversationList from './ConversationList';
 import AddItemForm from './Modals/AddItemForm';
@@ -315,92 +309,24 @@ export default function App() {
     return (
     <>
       <CssBaseline />
-      <AppBar position="sticky" elevation={0}>
-        <Toolbar>
-          <IconButton
-            size="large"
-            edge="start"
-            color="inherit"
-            aria-label="menu"
-            // sx={{ mr: 2 }}
-            onClick={() => window.location.replace("http://localhost:3000")}
-          >
-            <VolunteerActivism />
-          </IconButton>
-          <Link sx={{ flexGrow: 1 }} href="http://localhost:3000" underline="none" color="inherit">
-            <Typography variant="h6">
-              HandyDown
-            </Typography>
-          </Link>
-          {!loggedInUser ?
-            <>
-              <Button 
-                color="inherit"
-                variant="text"
-                onClick={() => setLoginFormOpen(true)}
-              >
-                Login
-              </Button>
-              <LoginForm 
-                loginFormOpen={loginFormOpen}
-                setLoginFormOpen={setLoginFormOpen}
-                loginUser={loginUser}
-                setTransition={setTransition}
-                setTransitionPhrase={setTransitionPhrase}            
-              />
-              <Button 
-                color="inherit"
-                variant="text"
-                onClick={() => setRegFormOpen(true)}
-              >
-                Register
-              </Button>
-              <RegistrationForm 
-                registrationFormOpen={regFormOpen}
-                setRegistrationFormOpen={setRegFormOpen}
-                registerUser={registerUser}
-              />
-            </>
-          :
-            <>
-              <IconButton style={{marginRight: '-10px'}}>
-                <AccountCircleIcon style={{fill: "white"}}/>
-              </IconButton>
-              <Button
-                color="inherit"
-                component="span"
-              >
-                {loggedInUser.username}
-              </Button>
-              <Button
-                color="inherit"
-                variant="text"
-                onClick={logoutUser}
-              >
-                Logout
-              </Button>
-            </>
-          }
-
-            <Button
-              color="warning"
-              variant="contained"
-              // onClick={() => setFormOpen(true)}
-              onClick={loggedInUser ? () => setFormOpen(true) : () => setLoginFormOpen(true)}
-              sx={{ml: 1}}
-            >
-              Make A Post
-            </Button>
-            <AddItemForm 
-              color="inherit" 
-              formOpen={formOpen} 
-              addItem={addItem} 
-              loggedInUser={loggedInUser} 
-              handleFormClose={() => setFormOpen(false)} 
-            />
-        </Toolbar>
-      </AppBar>
-      
+      <Navbar 
+        LoginForm={LoginForm}
+        loggedInUser={loggedInUser}
+        loginFormOpen={loginFormOpen}
+        setLoginFormOpen={setLoginFormOpen}
+        RegistrationForm={RegistrationForm}
+        regFormOpen={regFormOpen}
+        setRegFormOpen={setRegFormOpen}
+        formOpen={formOpen}
+        setFormOpen={setFormOpen}
+        setTransition={setTransition}
+        setTransitionPhrase={setTransitionPhrase}
+        registerUser={registerUser}
+        loginUser={loginUser}
+        logoutUser={logoutUser}
+        addItem={addItem}
+        AddItemForm={AddItemForm}
+      />
       <Box display="flex" justifyContent="center" alignItems="center" sx={{ pt: 1, borderBottom: 1, borderColor: 'divider', background: '#42A5F5' }}>
         <Tabs value={tabValue} onChange={handleTabClick}>
           <Tab label="Offers" sx={{color: 'white'}}/>

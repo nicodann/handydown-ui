@@ -11,7 +11,20 @@ Node, Express, Sequelize, Postgres
 - install dependencies with npm install in /ui directory
 - install dependencies with npm install in /api directory
 
-## running Webpack Development Server
+## Running Webpack Development Server
 
 - run api with "npm run local" from within /api
 - run client with "npm start" from within /ui
+
+## Screenshots
+
+### Main Page
+![Main Page](https://github.com/nicodann/handydown/blob/main/ui/public/screenshots/Handydown_MainPage.png)
+### Wanted Ads
+![Wanted Ads](https://github.com/nicodann/handydown/blob/main/ui/public/screenshots/Handydown_WantedAds.png)
+### Post Item Form
+![Post Item Form](https://github.com/nicodann/handydown/blob/main/ui/public/screenshots/Handydown_PostItemForm.png)
+### Edit Item Form
+![Edit Item Form](https://github.com/nicodann/handydown/blob/main/ui/public/screenshots/Handydown_EditItemForm.png)
+### My Messages
+![My Messages](https://github.com/nicodann/handydown/blob/main/ui/public/screenshots/Handydown_MyMessages.png)

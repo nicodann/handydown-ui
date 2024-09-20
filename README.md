@@ -1,45 +1,70 @@
-# HandyDown
+# Getting Started with Create React App
 
-A Full-Stack CRUD App for donating used youth athletic equipment that your family has outgrown. Like a buy-and-sell without the money.
+This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
-React | MUI | Node | Express | Sequelize | Postgres
+## Available Scripts
 
-## Installation
+In the project directory, you can run:
 
-- Fork and Clone repo
-- install dependencies with npm install in /ui directory
-- install dependencies with npm install in /api directory
+### `npm start`
 
-## Postgres
+Runs the app in the development mode.\
+Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
 
-- Create a database with the name 'handydown'
+The page will reload when you make changes.\
+You may also see any lint errors in the console.
 
-## Running Webpack Development Server
+### `npm test`
 
-- run api with "npm run local" from within /api
-  - this will run all the migrations and create the tables
-  - run
-    `npx sequelize-cli db:seed:all` to seed database
-- run client with "npm start" from within /ui
+Launches the test runner in the interactive watch mode.\
+See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
 
-## Screenshots
+### `npm run build`
 
-### Main Page
+Builds the app for production to the `build` folder.\
+It correctly bundles React in production mode and optimizes the build for the best performance.
 
-![Main Page](https://github.com/nicodann/handydown/blob/main/ui/public/screenshots/Handydown_MainPage.png)
+The build is minified and the filenames include the hashes.\
+Your app is ready to be deployed!
 
-### Wanted Ads
+See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
 
-![Wanted Ads](https://github.com/nicodann/handydown/blob/main/ui/public/screenshots/Handydown_WantedAds.png)
+### `npm run eject`
 
-### Post Item Form
+**Note: this is a one-way operation. Once you `eject`, you can't go back!**
 
-![Post Item Form](https://github.com/nicodann/handydown/blob/main/ui/public/screenshots/Handydown_PostItemForm.png)
+If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
 
-### Edit Item Form
+Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
 
-![Edit Item Form](https://github.com/nicodann/handydown/blob/main/ui/public/screenshots/Handydown_EditItemForm.png)
+You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
 
-### My Messages
+## Learn More
 
-![My Messages](https://github.com/nicodann/handydown/blob/main/ui/public/screenshots/Handydown_MyMessages.png)
+You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+
+To learn React, check out the [React documentation](https://reactjs.org/).
+
+### Code Splitting
+
+This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
+
+### Analyzing the Bundle Size
+
+This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
+
+### Making a Progressive Web App
+
+This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
+
+### Advanced Configuration
+
+This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
+
+### Deployment
+
+This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
+
+### `npm run build` fails to minify
+
+This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)

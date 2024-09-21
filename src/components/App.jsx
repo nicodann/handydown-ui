@@ -77,9 +77,12 @@ export default function App() {
     }
   }, [])
 
+  const apiURL = process.env.NODE_ENV === 'development' ? '' : process.env.API_URL
+
   // FETCH ALL ITEMS
   useEffect(() => {
-    axios.get("/api/items")
+    // axios.get(apiURL + "/api/items")
+    axios.get("https://handydown-25f36d6492d1.herokuapp.com/api/items")
     .then((items) => {
       setITEMS(items.data);
       console.log('HERE ARE THE ITEMS', items.data);
@@ -95,7 +98,7 @@ export default function App() {
       }))
   })
     .catch((error) => console.log(error));
-  }, [loggedInUser]);
+  }, [loggedInUser, apiURL]);
 
   // FETCH ALL CONVERSATIONS BELONGING TO LOGGED IN USER
   useEffect(() => {

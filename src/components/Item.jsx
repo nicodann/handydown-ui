@@ -29,7 +29,7 @@ export default function Item(props) {
             component="img"
             // height="200"
             width="100%"
-            src={image}
+            src={process.env.REACT_APP_API_URL + image}
             alt={name}
           />
           <CardContent style={{flexGrow: 1, width: '100%' }}>

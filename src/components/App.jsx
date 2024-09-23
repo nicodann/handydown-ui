@@ -1,3 +1,4 @@
+// import dotenv from 'dotenv';
 import axios from 'axios';
 import { useEffect, useState } from 'react';
 import '../App.css'
@@ -17,6 +18,8 @@ import ConversationList from './ConversationList';
 import AddItemForm from './Modals/AddItemForm';
 import LoginForm from './Modals/LoginForm';
 import RegistrationForm from './Modals/RegistrationForm';
+
+// dotenv.config();
 
 export default function App() {
 
@@ -62,13 +65,12 @@ export default function App() {
           
   // CHECK IF USER HAS PREVIOUSLY LOGGED IN
   useEffect(() => {
-
     // 👇️ set style on body element
-    // document.body.style.backgroundColor = '#bbdefb';
     document.body.style.backgroundColor = '#f5f5f5';
-
     
   }, []);
+
+  // CHECK IF USER IS LOGGED IN
   useEffect(() => {
     const loggedInUser = localStorage.getItem('user');
     if (loggedInUser) {
@@ -77,7 +79,8 @@ export default function App() {
     }
   }, [])
 
-  const apiURL = process.env.NODE_ENV === 'development' ? '' : process.env.API_URL
+  // const apiURL = process.env.NODE_ENV === 'development' ? "http://[::1]:8080" : process.env.API_URL
+  const apiURL = process.env.REACT_APP_API_URL
 
   // FETCH ALL ITEMS
   useEffect(() => {
@@ -86,6 +89,7 @@ export default function App() {
     .then((items) => {
       setITEMS(items.data);
       console.log('HERE ARE THE ITEMS', items.data);
+      console.log("URL:", apiURL + "/api/items")
       return items.data;
     })
     .then((data) => {
@@ -103,7 +107,7 @@ export default function App() {
   // FETCH ALL CONVERSATIONS BELONGING TO LOGGED IN USER
   useEffect(() => {
     if (loggedInUser) {
-      axios.get(`/api/conversations/by/user/${loggedInUser.id}`)
+      axios.get(`${apiURL}/api/conversations/by/user/${loggedInUser.id}`)
         .then((conversations) => {
           setConversations(conversations.data);
           console.log("HERE ARE THE CONVERSATIONS", conversations.data)
@@ -111,14 +115,14 @@ export default function App() {
         .catch((error) => console.log(error));
 
     }
-    }, [loggedInUser]);
+    }, [loggedInUser, apiURL]);
 
   // LOGIN
   const loginUser = async (loginFormData) => {
     try {
       const response = await axios({
         method: 'post',
-        url: '/api/users/login',
+        url: apiURL + '/api/users/login',
         data: loginFormData,
         headers: { "Content-Type": "multipart/form-data" },
       });
@@ -138,7 +142,7 @@ export default function App() {
     try {
       const response = await axios({
         method: 'post',
-        url: '/api/users',
+        url: apiURL + '/api/users',
         data: registrationFormData,
         headers: { "Content-Type": "multipart/form-data" },
       });
@@ -175,7 +179,7 @@ export default function App() {
     try {
       const response = await axios({
         method: 'post',
-        url: '/api/items',
+        url: apiURL + '/api/items',
         data: newItemFormData,
         headers: { "Content-Type": "multipart/form-data" },
       });
@@ -191,7 +195,7 @@ export default function App() {
   // DELETE ITEM
   const deleteItem = async (itemId, offered) => {
     try {
-      await axios.delete(`/api/items/${itemId}`);
+      await axios.delete(`${apiURL}/api/items/${itemId}`);
       if (tabValue === 2) {
         setTabbedItems(tabbedItems.filter((tabbedItem) => tabbedItem.id !== itemId));
       }
@@ -209,7 +213,7 @@ export default function App() {
     try {
       const response = await axios({
         method: 'put',
-        url: `/api/items/${id}`,
+        url: `${apiURL}/api/items/${id}`,
         data: editItemFormData,
         headers: { "Content-Type": "multipart/form-data" },
       });
@@ -232,7 +236,7 @@ export default function App() {
     try {
       const response = await axios({
         method: 'post',
-        url: '/api/messages',
+        url: apiURL + '/api/messages',
         data: newMessageFormData,
       });
       console.log('returned conversation', response.data);
@@ -291,7 +295,7 @@ export default function App() {
   //MARK CONVO AS READ
   const markAsRead =  async (conversationId, readByWhom) => {
     try {
-       await axios.put(`/api/conversations/${conversationId}`, {readByWhom: readByWhom});
+       await axios.put(`${apiURL}/api/conversations/${conversationId}`, {readByWhom: readByWhom});
     } catch(err) {
       console.log(err);
     }

@@ -15,7 +15,9 @@ export default function Item(props) {
   
   const { offered, name, createdAt, image, description, location, username, onClick } = props;
 
-    console.log("car URL:", image)
+    console.log("image:", image)
+
+    const apiURL = process.env.REACT_APP_NODE_ENV === 'development' ? process.env.REACT_APP_DEV_API_URL : process.env.REACT_APP_API_URL;
     
     return (
     <Grid item style={{display: 'flex'}} xs={4} >
@@ -31,7 +33,9 @@ export default function Item(props) {
             component="img"
             // height="200"
             width="100%"
-            src={process.env.REACT_APP_API_URL + image}
+            // src={process.env.REACT_APP_API_URL + image}
+            // src={process.env.REACT_APP_DEV_API_URL + image}
+            src={apiURL + image}
             alt={name}
           />
           <CardContent style={{flexGrow: 1, width: '100%' }}>

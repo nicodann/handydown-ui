@@ -79,17 +79,18 @@ export default function App() {
     }
   }, [])
 
-  // const apiURL = process.env.NODE_ENV === 'development' ? "http://[::1]:8080" : process.env.API_URL
-  const apiURL = process.env.REACT_APP_API_URL
+  const apiURL = process.env.REACT_APP_NODE_ENV === 'development' ? process.env.REACT_APP_DEV_API_URL : process.env.REACT_APP_API_URL
+  // const apiURL = "http://[::1]:8080"
+  // const apiURL = process.env.REACT_APP_API_URL
 
   // FETCH ALL ITEMS
   useEffect(() => {
-    // axios.get(apiURL + "/api/items")
-    axios.get("https://handydown-25f36d6492d1.herokuapp.com/api/items")
+    axios.get(apiURL + "/api/items")
+    // axios.get("https://handydown-25f36d6492d1.herokuapp.com/api/items")
     .then((items) => {
       setITEMS(items.data);
-      console.log('HERE ARE THE ITEMS', items.data);
-      console.log("URL:", apiURL + "/api/items")
+      // console.log('HERE ARE THE ITEMS', items.data);
+      // console.log("URL:", apiURL + "/api/items")
       return items.data;
     })
     .then((data) => {

@@ -14,6 +14,8 @@ import {
 export default function Item(props) {
   
   const { offered, name, createdAt, image, description, location, username, onClick } = props;
+
+    console.log("car URL:", image)
     
     return (
     <Grid item style={{display: 'flex'}} xs={4} >

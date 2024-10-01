@@ -31,7 +31,7 @@ export default function Item(props) {
           />
           <CardMedia
             component="img"
-            // height="200"
+            height="300"
             width="100%"
             // src={process.env.REACT_APP_API_URL + image}
             // src={process.env.REACT_APP_DEV_API_URL + image}

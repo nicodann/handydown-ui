@@ -32,7 +32,12 @@ export default function Navbar(props) {
 
   return (
     <AppBar position="sticky" elevation={0}>
-    <Toolbar>
+    <Toolbar 
+    sx={{
+      display: 'flex', 
+      WebkitFlexDirection: {xs:'column', sm: 'row'},
+      pb:{xs:4, sm: 0}
+    }}>
       <IconButton
         size="large"
         edge="start"

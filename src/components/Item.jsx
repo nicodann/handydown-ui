@@ -23,8 +23,26 @@ export default function Item(props) {
     // const apiURL = process.env.REACT_APP_NODE_ENV === 'development' ? process.env.REACT_APP_DEV_API_URL : process.env.REACT_APP_API_URL;
     
     return (
-    <Grid item style={{display: 'flex'}} xs={4} >
-      <Card style={{height: '100%', width: '%25'}} onClick={onClick}>
+    <Grid 
+      item 
+      style={{
+        display: 'flex', 
+        // background: 'blue', 
+        // border: 'thin black solid',
+        justifyContent: 'center'
+      }} 
+      xs={12} 
+      md={6} 
+      lg={4}
+    >
+      <Card 
+        style={{
+          height: '100%', 
+          width: '%25'
+          
+        }} 
+        onClick={onClick}
+      >
         <CardActionArea style={{display: 'flex', flexDirection: 'column', alignItems: 'start', width: '100%', height: '100%'}} > 
           <CardHeader
             style={{justifyContent: 'space-between', width: '100%', minWidth: '350px', minHeight: '120px', alignItems: 'flex-start'}}

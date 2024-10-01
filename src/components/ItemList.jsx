@@ -50,7 +50,16 @@ export default function ItemList(props) {
       {tabValue === tabIndex && (
         items && items.length > 0 ? (
         <Box sx={{ flexGrow: 1 }}>
-          <Grid container spacing={6}>
+          <Grid 
+            container 
+            spacing={6} 
+            sx={{
+              // background: 'red',
+              justifyContent: 'center',
+              alignItems: 'center',
+              pr: {xs: 0, md: 6}
+            }}
+          >
             { items.map((item) => ( 
               <Item
                 key={item.id}

@@ -10,6 +10,8 @@ import {
   Tab,
   TextField,
   Typography,
+  useTheme,
+  useMediaQuery,
 } from '@mui/material';
 import CircularProgress from '@mui/material/CircularProgress';
 import Navbar from './Navbar';
@@ -305,6 +307,9 @@ export default function App() {
     
   }
 
+  const theme = useTheme();
+  const isSmallScreen = useMediaQuery(theme.breakpoints.down('sm'))
+
   // RENDER
 
   if ((ITEMS === null) || (ITEMS && transition)) {
@@ -337,8 +342,27 @@ export default function App() {
         addItem={addItem}
         AddItemForm={AddItemForm}
       />
-      <Box display="flex" justifyContent="center" alignItems="center" sx={{ pt: 1, borderBottom: 1, borderColor: 'divider', background: '#42A5F5' }}>
-        <Tabs value={tabValue} onChange={handleTabClick}>
+      <Box 
+        display="flex" 
+        justifyContent="center" 
+        alignItems="center" 
+        sx={{ 
+          pt: 1, 
+          borderBottom: 1, 
+          borderColor: 'divider', 
+          background: '#42A5F5' 
+      }}
+      >
+        <Tabs 
+          value={tabValue} 
+          onChange={handleTabClick}
+          orientation={isSmallScreen ? 'vertical' : 'horizontal'}
+          sx={{
+            // display: 'flex', 
+            // flexDirection: 'column'
+
+          }}
+        >
           <Tab label="Offers" sx={{color: 'white'}}/>
           <Tab label="Wanted" sx={{color: 'white'}}/>
           {/* <Tab label="My Items" />

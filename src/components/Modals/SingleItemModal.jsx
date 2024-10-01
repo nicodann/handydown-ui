@@ -11,6 +11,7 @@ import DeleteIcon from '@mui/icons-material/Delete';
 import CircularProgress from '@mui/material/CircularProgress';
 import ReplyForm from './ReplyForm';
 import EditItemForm from './EditItemForm';
+import apiUrl from '../../helpers/apiURL';
 
 const style = {
   position: 'absolute',
@@ -23,6 +24,8 @@ const style = {
   boxShadow: 24,
   p: 4,
 };
+
+const apiURL = apiUrl;
 
 export default function SingleItemModal(props) {
 
@@ -122,7 +125,7 @@ export default function SingleItemModal(props) {
           </Box>
         </Box>
         <Box style={{display: 'flex', justifyContent: 'center'}}> 
-          <img alt={name} src={image} style={{maxHeight: '350px', paddingTop: '16px'}} />
+          <img alt={name} src={apiURL + image} style={{maxHeight: '350px', paddingTop: '16px'}} />
         </Box>
         <Typography id="modal-modal-description" variant="body1" sx={{ mt: 2 }}>
           {description}

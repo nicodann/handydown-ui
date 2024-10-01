@@ -18,6 +18,7 @@ import ConversationList from './ConversationList';
 import AddItemForm from './Modals/AddItemForm';
 import LoginForm from './Modals/LoginForm';
 import RegistrationForm from './Modals/RegistrationForm';
+import apiUrl from '../helpers/apiURL';
 
 // dotenv.config();
 
@@ -79,7 +80,8 @@ export default function App() {
     }
   }, [])
 
-  const apiURL = process.env.REACT_APP_NODE_ENV === 'development' ? process.env.REACT_APP_DEV_API_URL : process.env.REACT_APP_API_URL
+  const apiURL = apiUrl;
+  // const apiURL = process.env.REACT_APP_NODE_ENV === 'development' ? process.env.REACT_APP_DEV_API_URL : process.env.REACT_APP_API_URL
   // const apiURL = "http://[::1]:8080"
   // const apiURL = process.env.REACT_APP_API_URL
 

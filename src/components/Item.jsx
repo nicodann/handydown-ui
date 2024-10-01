@@ -10,6 +10,7 @@ import {
   Grid,
   Typography,
 } from '@mui/material';
+import apiUrl from '../helpers/apiURL';
 
 export default function Item(props) {
   
@@ -17,7 +18,9 @@ export default function Item(props) {
 
     console.log("image:", image)
 
-    const apiURL = process.env.REACT_APP_NODE_ENV === 'development' ? process.env.REACT_APP_DEV_API_URL : process.env.REACT_APP_API_URL;
+    const apiURL = apiUrl;
+
+    // const apiURL = process.env.REACT_APP_NODE_ENV === 'development' ? process.env.REACT_APP_DEV_API_URL : process.env.REACT_APP_API_URL;
     
     return (
     <Grid item style={{display: 'flex'}} xs={4} >

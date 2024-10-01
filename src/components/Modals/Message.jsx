@@ -1,6 +1,5 @@
 import { format } from 'timeago.js';
 import {
-  Divider,
   Typography,
   Box,
   Card } from '@mui/material';

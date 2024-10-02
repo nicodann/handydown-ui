@@ -131,8 +131,10 @@ export default function App() {
         data: loginFormData,
         headers: { "Content-Type": "multipart/form-data" },
       });
+      console.log("response.data:",response.data)
       localStorage.clear();
-      localStorage.setItem('user', JSON.stringify(response.data));
+      localStorage.setItem('user', JSON.stringify(response.data.user));
+      localStorage.setItem('token', response.data.token)
       setLoggedInUser(response.data);
       setTabValue(0);
       setTabbedItems(ITEMS.filter((item) => item.offered && loggedInUser && item.userID !== loggedInUser.id));
@@ -181,12 +183,17 @@ export default function App() {
 
   // ADD ITEM
   const addItem = async (newItemFormData) => {
+    console.log("localStorage.getItem('token'):",localStorage.getItem('token'))
+    const token = localStorage.getItem('token')
     try {
       const response = await axios({
         method: 'post',
         url: apiURL + '/api/items',
         data: newItemFormData,
-        headers: { "Content-Type": "multipart/form-data" },
+        headers: { 
+          "Content-Type": "multipart/form-data",
+          "Authorization": `Bearer ${token}`
+        },
       });
       const newItem = response.data;
       setITEMS([newItem, ...ITEMS]);

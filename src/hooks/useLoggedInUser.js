@@ -10,6 +10,7 @@ export default function useLoggedInUser() {
       const foundUser = JSON.parse(loggedInUser);
       setLoggedInUser(foundUser);
     }
+    console.log("loggedInUser:",loggedInUser)
   }, [])
 
   return loggedInUser

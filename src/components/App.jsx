@@ -115,7 +115,7 @@ export default function App() {
       axios.get(`${apiURL}/api/conversations/by/user/${loggedInUser.id}`)
         .then((conversations) => {
           setConversations(conversations.data);
-          console.log("HERE ARE THE CONVERSATIONS", conversations.data)
+          // console.log("HERE ARE THE CONVERSATIONS", conversations.data)
         })
         .catch((error) => console.log(error));
 
@@ -214,7 +214,7 @@ export default function App() {
   const editItem = async (editItemFormData, id) => {
     // try {
     //   await axios.put(`/api/items/${editItemFormData.id}`, {editItemFormData: editItemFormData});
-    console.log("editItemFormData.id:", editItemFormData.id)
+    // console.log("editItemFormData.id:", editItemFormData.id)
     try {
       const response = await axios({
         method: 'put',
@@ -224,12 +224,12 @@ export default function App() {
       });
       const updatedItem = response.data;
       const filteredItems = ITEMS.filter(item => item.id !== updatedItem.id)
-      console.log("filteredItems", filteredItems)
+      // console.log("filteredItems", filteredItems)
       setITEMS([ updatedItem, ...filteredItems]);
       handleTransition("Updating Item...");
       setTabValue(2);
       setTabbedItems([updatedItem, ...ITEMS.filter((item) => item.userId === loggedInUser.id && item.id !== updatedItem.id)]);
-      console.log("tabbedItems:",tabbedItems);
+      // console.log("tabbedItems:",tabbedItems);
     } catch(err) {
       console.log(err);
     }
@@ -244,7 +244,7 @@ export default function App() {
         url: apiURL + '/api/messages',
         data: newMessageFormData,
       });
-      console.log('returned conversation', response.data);
+      // console.log('returned conversation', response.data);
       const returnedConversation = response.data;
       const filteredConversations= conversations.filter(conversation => conversation.id !== returnedConversation.id);
       setConversations([returnedConversation, ...filteredConversations]);

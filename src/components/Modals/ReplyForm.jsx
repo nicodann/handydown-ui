@@ -23,8 +23,8 @@ export default function ReplyForm(props) {
     modalProps
   } = props;
 
-  console.log('typeof creatorId', typeof creatorId);
-  console.log('typeof receiverId', typeof receiverId);
+  // console.log('typeof creatorId', typeof creatorId);
+  // console.log('typeof receiverId', typeof receiverId);
   const [messageBody, setMessageBody] = useState('');
 
   const findOtherUserId = () =>
@@ -42,7 +42,7 @@ export default function ReplyForm(props) {
     newMessageFormData.append("otherUserId", findOtherUserId());
     newMessageFormData.append("body", messageBody);
     if (isSingleConversationModal) {
-      console.log('modalProps in if statement', modalProps)
+      // console.log('modalProps in if statement', modalProps)
       const newMessages = [
         ...modalProps.messages,
         {

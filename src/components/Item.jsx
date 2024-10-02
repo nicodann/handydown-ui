@@ -16,7 +16,7 @@ export default function Item(props) {
   
   const { offered, name, createdAt, image, description, location, username, onClick } = props;
 
-    console.log("image:", image)
+    // console.log("image:", image)
 
     const apiURL = apiUrl;
 

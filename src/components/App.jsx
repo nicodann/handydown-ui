@@ -21,6 +21,7 @@ import AddItemForm from './Modals/AddItemForm';
 import LoginForm from './Modals/LoginForm';
 import RegistrationForm from './Modals/RegistrationForm';
 import apiUrl from '../helpers/apiURL';
+import { AppContextWrapper } from '../context/state';
 
 // dotenv.config();
 
@@ -132,7 +133,7 @@ export default function App() {
         data: loginFormData,
         headers: { "Content-Type": "multipart/form-data" },
       });
-      console.log("response.data:",response.data)
+      // console.log("response.data:",response.data)
       localStorage.clear();
       localStorage.setItem('user', JSON.stringify(response.data.user));
       localStorage.setItem('token', response.data.token)
@@ -331,6 +332,7 @@ export default function App() {
 
     return (
     <>
+    <AppContextWrapper>
       <CssBaseline />
       <Navbar 
         LoginForm={LoginForm}
@@ -441,6 +443,8 @@ export default function App() {
           // loggedInUserID={loggedInUser && loggedInUser.id}
         />
       </Container>
+
+    </AppContextWrapper>
     </>
   ); 
 }

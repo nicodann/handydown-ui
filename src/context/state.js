@@ -1,4 +1,4 @@
-import { createContext, useContext } from "react"
+import { createContext, useContext, useState } from "react"
 
 const createCtx = () => {
 
@@ -12,17 +12,20 @@ const createCtx = () => {
     return cont
   }
 
-  return [useCtx, ctx.Provider]
+  return [ useCtx, ctx.Provider ]
 }
 
-const [UseContext, AppContextProvider] = createCtx();
+const [ UseContext, AppContextProvider ] = createCtx();
 
 export const AppContextWrapper = (props) => {
-  const appContext = {
+  const [loggedInUser, setLoggedInUser] = useState(null);
 
-    
+  const appContext = {
+    loggedInUser,
+    setLoggedInUser,
 
   }
+
   return ( 
     <AppContextProvider value={appContext}>
       {props.children}

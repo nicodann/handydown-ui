@@ -1,6 +1,6 @@
 // import dotenv from 'dotenv';
 import axios from 'axios';
-import { useEffect, useState } from 'react';
+import { createContext, useEffect, useState } from 'react';
 import '../App.css'
 import {
   Box,
@@ -21,14 +21,17 @@ import AddItemForm from './Modals/AddItemForm';
 import LoginForm from './Modals/LoginForm';
 import RegistrationForm from './Modals/RegistrationForm';
 import apiUrl from '../helpers/apiURL';
-import { AppContextWrapper } from '../context/state';
+import { useAppContext } from '../context/state';
 
 // dotenv.config();
 
+// export const UserContext = createContext()
+
 export default function App() {
 
+
   // STATE
-  const [loggedInUser, setLoggedInUser] = useState(null);
+  // const [loggedInUser, setLoggedInUser] = useState(null);
   const [ITEMS, setITEMS] = useState(null);
   const [tabbedItems, setTabbedItems] = useState([]);
   const [searchedItems, setSearchedItems] = useState([])
@@ -40,6 +43,12 @@ export default function App() {
   const [regFormOpen, setRegFormOpen] = useState(false);
   const [transition, setTransition] = useState(false);
   const [transitionPhrase, setTransitionPhrase] = useState('Loading...')
+
+  // const loggedInUser = useLoggedInUser();
+  const {
+    loggedInUser,
+    setLoggedInUser
+  } = useAppContext()
 
 //   useEffect(() => {
 //     console.log("tabbedItems:",tabbedItems);
@@ -75,14 +84,14 @@ export default function App() {
   }, []);
 
   // CHECK IF USER IS LOGGED IN
-  useEffect(() => {
-    const loggedInUser = localStorage.getItem('user');
-    if (loggedInUser) {
-      // console.log("loggedInUser:", loggedInUser)
-      const foundUser = JSON.parse(loggedInUser);
-      setLoggedInUser(foundUser);
-    }
-  }, [])
+  // useEffect(() => {
+  //   const loggedInUser = localStorage.getItem('user');
+  //   if (loggedInUser) {
+  //     // console.log("loggedInUser:", loggedInUser)
+  //     const foundUser = JSON.parse(loggedInUser);
+  //     setLoggedInUser(foundUser);
+  //   }
+  // }, [])
 
   const apiURL = apiUrl;
   // const apiURL = process.env.REACT_APP_NODE_ENV === 'development' ? process.env.REACT_APP_DEV_API_URL : process.env.REACT_APP_API_URL
@@ -332,7 +341,6 @@ export default function App() {
 
     return (
     <>
-    <AppContextWrapper>
       <CssBaseline />
       <Navbar 
         LoginForm={LoginForm}
@@ -443,8 +451,6 @@ export default function App() {
           // loggedInUserID={loggedInUser && loggedInUser.id}
         />
       </Container>
-
-    </AppContextWrapper>
     </>
   ); 
 }

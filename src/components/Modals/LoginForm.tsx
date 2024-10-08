@@ -1,4 +1,4 @@
-  import { useState } from 'react';
+  import { ChangeEvent, Dispatch, SetStateAction, useState } from 'react';
   import {
     Box,
     Button,
@@ -11,7 +11,14 @@ import { useAppContext } from '../../context/state';
 import useItems from '../../hooks/useItems';
 import { loginUser } from '../../routes/user';
 
-export default function LoginForm(props) {
+type LoginFormProps = {
+  loginFormOpen: boolean,
+  setLoginFormOpen: Dispatch<SetStateAction<boolean>>,
+  setTransition: Dispatch<SetStateAction<boolean>>,
+  setTransitionPhrase: Dispatch<SetStateAction<string>>
+}
+
+export default function LoginForm(props: LoginFormProps) {
   const { 
     loginFormOpen,
     setLoginFormOpen,
@@ -24,7 +31,7 @@ export default function LoginForm(props) {
     password: ''
   });
 
-  const handleChange = (event) => {
+  const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
     setFormValue({
       ...formValue,
       [event.target.name]: event.target.value
@@ -46,9 +53,9 @@ export default function LoginForm(props) {
     setTabbedValue
   } = useAppContext()
 
-  const {Items} = useItems();
+  const { items } = useItems();
 
-  const handleSubmit = async (event) => {
+  const handleSubmit = async (event: React.SyntheticEvent<HTMLFormElement>) => {
     event.preventDefault();
     const loginFormData = new FormData();
     loginFormData.append("username", formValue.username);
@@ -59,7 +66,7 @@ export default function LoginForm(props) {
       setTabbedItems,
       setTabbedValue,
       loggedInUser,
-      Items
+      items
     )
       .then(message => {
         if ((message && message.includes("password")) || (message && message.includes("username"))) {

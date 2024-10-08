@@ -18,12 +18,18 @@ const createCtx = () => {
 const [ UseContext, AppContextProvider ] = createCtx();
 
 export const AppContextWrapper = (props) => {
+
   const [loggedInUser, setLoggedInUser] = useState(null);
+  const [ tabbedItems, setTabbedItems ] = useState([]);
+  const [tabValue, setTabValue ] = useState(0);
 
   const appContext = {
     loggedInUser,
     setLoggedInUser,
-
+    tabbedItems,
+    setTabbedItems,
+    tabValue,
+    setTabValue
   }
 
   return ( 

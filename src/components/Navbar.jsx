@@ -8,27 +8,32 @@ import {
 } from '@mui/material';
 import { VolunteerActivism } from '@mui/icons-material';
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
+import { useAppContext } from '../context/state';
+import {
+  loginUser,
+  logoutUser,
+  registerUser
+} from '../routes/user'
+import { addItem } from '../routes/item';
+import { useState } from 'react';
+
 
 export default function Navbar(props) {
+  const [loginFormOpen, setLoginFormOpen] = useState(false);
+  const [regFormOpen, setRegFormOpen] = useState(false);
+  const [formOpen, setFormOpen] = useState(false);
 
   const {
-    loginFormOpen,
-    setLoginFormOpen,
-    loggedInUser,
     RegistrationForm,
-    regFormOpen,
     LoginForm,
-    setRegFormOpen,
-    formOpen,
-    setFormOpen,
     setTransition,
     setTransitionPhrase,
-    registerUser,
-    loginUser,
-    logoutUser,
-    addItem,
     AddItemForm,
   } = props;
+
+  const {
+    loggedInUser
+  } = useAppContext()
 
   return (
     <AppBar position="sticky" elevation={0}>

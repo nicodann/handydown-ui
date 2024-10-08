@@ -10,7 +10,7 @@ import {
   Grid,
   Typography,
 } from '@mui/material';
-import apiUrl from '../helpers/apiURL';
+import apiUrl from '../lib/apiURL';
 
 export default function Item(props) {
   

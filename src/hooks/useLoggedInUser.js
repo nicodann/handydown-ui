@@ -1,9 +1,9 @@
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { useAppContext } from "../context/state";
 
 export default function useLoggedInUser() {
 
-  const [loggedInUser, setLoggedInUser] = useAppContext(); 
+  const { loggedInUser, setLoggedInUser } = useAppContext(); 
   
   // CHECK IF USER IS LOGGED IN
    useEffect(() => {
@@ -12,8 +12,7 @@ export default function useLoggedInUser() {
       const foundUser = JSON.parse(loggedInUser);
       setLoggedInUser(foundUser);
     }
-    // console.log("loggedInUser:",loggedInUser)
-  })
+  }, [setLoggedInUser])
 
-  return loggedInUser
+  return {loggedInUser}
 }

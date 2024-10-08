@@ -1,6 +1,6 @@
 // import dotenv from 'dotenv';
 import axios from 'axios';
-import { createContext, useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import '../App.css'
 import {
   Box,
@@ -20,40 +20,30 @@ import ConversationList from './ConversationList';
 import AddItemForm from './Modals/AddItemForm';
 import LoginForm from './Modals/LoginForm';
 import RegistrationForm from './Modals/RegistrationForm';
-import apiUrl from '../helpers/apiURL';
+import apiUrl from '../lib/apiURL';
 import { useAppContext } from '../context/state';
-
-// dotenv.config();
-
-// export const UserContext = createContext()
+import useLoggedInUser from '../hooks/useLoggedInUser';
+import useItems from '../hooks/useItems';
+// import { loginUser, logoutUser, registerUser } from '../routes/user.js';
+import { addItem, deleteItem, editItem } from '../routes/item.js';
+import { addMessage } from '../routes/message.js';
 
 export default function App() {
 
 
   // STATE
-  // const [loggedInUser, setLoggedInUser] = useState(null);
-  const [ITEMS, setITEMS] = useState(null);
-  const [tabbedItems, setTabbedItems] = useState([]);
+  const { items: ITEMS, tabbedItems} = useItems()
   const [searchedItems, setSearchedItems] = useState([])
   const [conversations, setConversations] = useState([]);
-  const [tabValue, setTabValue ] = useState(0);
   const [searchText, setSearchText] = useState("");
-  const [formOpen, setFormOpen] = useState(false);
-  const [loginFormOpen, setLoginFormOpen] = useState(false);
-  const [regFormOpen, setRegFormOpen] = useState(false);
   const [transition, setTransition] = useState(false);
   const [transitionPhrase, setTransitionPhrase] = useState('Loading...')
-
-  // const loggedInUser = useLoggedInUser();
+  const {loggedInUser} = useLoggedInUser();
   const {
-    loggedInUser,
-    setLoggedInUser
+    setTabbedItems,
+    setTabValue,
+    tabValue
   } = useAppContext()
-
-//   useEffect(() => {
-//     console.log("tabbedItems:",tabbedItems);
-//     console.log("ITEMS:", ITEMS)
-// }, [tabbedItems, ITEMS])
 
   const handleTransition = (phrase) => {
     setTransitionPhrase(phrase)
@@ -63,62 +53,8 @@ export default function App() {
             setTransitionPhrase('Loading...')
           }, 1000);
   }
-  // const checkLoggedInUser = async () => {
-    //   try {
-      //     const response = await axios({
-        //       method: 'post',
-        //       url: '/api/users/logged_in',
-        //     });
-        //     setLoggedInUser(response.data);
-        //   } catch (error) {
-          //     console.log('POST /api/users/logged_in', error.response.data)
-          //     console.log(error);
-          //   }
-          // };
-          
-  // CHECK IF USER HAS PREVIOUSLY LOGGED IN
-  useEffect(() => {
-    // 👇️ set style on body element
-    document.body.style.backgroundColor = '#f5f5f5';
-    
-  }, []);
-
-  // CHECK IF USER IS LOGGED IN
-  // useEffect(() => {
-  //   const loggedInUser = localStorage.getItem('user');
-  //   if (loggedInUser) {
-  //     // console.log("loggedInUser:", loggedInUser)
-  //     const foundUser = JSON.parse(loggedInUser);
-  //     setLoggedInUser(foundUser);
-  //   }
-  // }, [])
 
   const apiURL = apiUrl;
-  // const apiURL = process.env.REACT_APP_NODE_ENV === 'development' ? process.env.REACT_APP_DEV_API_URL : process.env.REACT_APP_API_URL
-  // const apiURL = "http://[::1]:8080"
-  // const apiURL = process.env.REACT_APP_API_URL
-
-  // FETCH ALL ITEMS
-  useEffect(() => {
-    axios.get(apiURL + "/api/items")
-    // axios.get("https://handydown-25f36d6492d1.herokuapp.com/api/items")
-    .then((items) => {
-      setITEMS(items.data);
-      // console.log('HERE ARE THE ITEMS', items.data);
-      // console.log("URL:", apiURL + "/api/items")
-      return items.data;
-    })
-    .then((data) => {
-      setTabbedItems(data.filter((item) => {
-        if (loggedInUser) {
-          return item.offered === true && item.userId !== loggedInUser.id; 
-        } else {
-          return item.offered === true
-        }
-      }))
-  })
-    .catch((error) => console.log(error));
-  }, [loggedInUser, apiURL]);
 
   // FETCH ALL CONVERSATIONS BELONGING TO LOGGED IN USER
   useEffect(() => {
@@ -126,152 +62,11 @@ export default function App() {
       axios.get(`${apiURL}/api/conversations/by/user/${loggedInUser.id}`)
         .then((conversations) => {
           setConversations(conversations.data);
-          // console.log("HERE ARE THE CONVERSATIONS", conversations.data)
         })
         .catch((error) => console.log(error));
 
     }
     }, [loggedInUser, apiURL]);
-
-  // LOGIN
-  const loginUser = async (loginFormData) => {
-    try {
-      const response = await axios({
-        method: 'post',
-        url: apiURL + '/api/users/login',
-        data: loginFormData,
-        headers: { "Content-Type": "multipart/form-data" },
-      });
-      // console.log("response.data:",response.data)
-      localStorage.clear();
-      localStorage.setItem('user', JSON.stringify(response.data.user));
-      localStorage.setItem('token', response.data.token)
-      setLoggedInUser(response.data);
-      setTabValue(0);
-      setTabbedItems(ITEMS.filter((item) => item.offered && loggedInUser && item.userID !== loggedInUser.id));
-    } catch(error) {
-      const message = error.response.data;
-      return message;
-    }
-  };
-
-  // REGISTER
-  const registerUser = async (registrationFormData) => {
-    try {
-      const response = await axios({
-        method: 'post',
-        url: apiURL + '/api/users',
-        data: registrationFormData,
-        headers: { "Content-Type": "multipart/form-data" },
-      });
-      setLoggedInUser(response.data);
-      localStorage.clear();
-      localStorage.setItem('user', JSON.stringify(response.data));
-    } catch(error) {
-      console.log(error)
-    }
-  }
-
-  // LOGOUT
-  const logoutUser = async () => {
-    console.log("logging out")
-    // try {
-    //   await axios({
-    //     method: 'post',
-    //     url: '/api/users/logout'
-    //   })
-    // } catch(error) {
-    //   console.log(error);
-    // }
-
-    setLoggedInUser(null);
-    localStorage.clear();
-    setConversations([]);
-    handleTransition("Logging Out...");
-    setTabValue(0);
-    setTabbedItems(ITEMS.filter((item) => item.offered))
-  };
-
-  // ADD ITEM
-  const addItem = async (newItemFormData) => {
-    console.log("localStorage.getItem('token'):",localStorage.getItem('token'))
-    const token = localStorage.getItem('token')
-    try {
-      const response = await axios({
-        method: 'post',
-        url: apiURL + '/api/items',
-        data: newItemFormData,
-        headers: { 
-          "Content-Type": "multipart/form-data",
-          "Authorization": `Bearer ${token}`
-        },
-      });
-      const newItem = response.data;
-      setITEMS([newItem, ...ITEMS]);
-      setTabValue(2);
-      setTabbedItems([newItem, ...ITEMS.filter((item) => item.userId === loggedInUser.id)]);
-    } catch(error) {
-      console.log(error);
-    }
-  };
-
-  // DELETE ITEM
-  const deleteItem = async (itemId, offered) => {
-    try {
-      await axios.delete(`${apiURL}/api/items/${itemId}`);
-      if (tabValue === 2) {
-        setTabbedItems(tabbedItems.filter((tabbedItem) => tabbedItem.id !== itemId));
-      }
-      setITEMS(ITEMS.filter((item) => item.id !== itemId));
-    } catch(err) {
-      console.log(err);
-    }
-  };
-
-  // EDIT ITEM
-  const editItem = async (editItemFormData, id) => {
-    // try {
-    //   await axios.put(`/api/items/${editItemFormData.id}`, {editItemFormData: editItemFormData});
-    // console.log("editItemFormData.id:", editItemFormData.id)
-    try {
-      const response = await axios({
-        method: 'put',
-        url: `${apiURL}/api/items/${id}`,
-        data: editItemFormData,
-        headers: { "Content-Type": "multipart/form-data" },
-      });
-      const updatedItem = response.data;
-      const filteredItems = ITEMS.filter(item => item.id !== updatedItem.id)
-      // console.log("filteredItems", filteredItems)
-      setITEMS([ updatedItem, ...filteredItems]);
-      handleTransition("Updating Item...");
-      setTabValue(2);
-      setTabbedItems([updatedItem, ...ITEMS.filter((item) => item.userId === loggedInUser.id && item.id !== updatedItem.id)]);
-      // console.log("tabbedItems:",tabbedItems);
-    } catch(err) {
-      console.log(err);
-    }
-   
-  }
-
-  // ADD MESSAGE
-  const addMessage = async (newMessageFormData) => {
-    try {
-      const response = await axios({
-        method: 'post',
-        url: apiURL + '/api/messages',
-        data: newMessageFormData,
-      });
-      // console.log('returned conversation', response.data);
-      const returnedConversation = response.data;
-      const filteredConversations= conversations.filter(conversation => conversation.id !== returnedConversation.id);
-      setConversations([returnedConversation, ...filteredConversations]);
-      // console.log('returnedConversation', returnedConversation)
-      return returnedConversation;
-    } catch(err) {
-      console.log(err);
-    };
-  };
 
   const handleTabClick = (_event, newTabValue) => {
     const currentTab = newTabValue;
@@ -344,19 +139,9 @@ export default function App() {
       <CssBaseline />
       <Navbar 
         LoginForm={LoginForm}
-        loggedInUser={loggedInUser}
-        loginFormOpen={loginFormOpen}
-        setLoginFormOpen={setLoginFormOpen}
         RegistrationForm={RegistrationForm}
-        regFormOpen={regFormOpen}
-        setRegFormOpen={setRegFormOpen}
-        formOpen={formOpen}
-        setFormOpen={setFormOpen}
         setTransition={setTransition}
         setTransitionPhrase={setTransitionPhrase}
-        registerUser={registerUser}
-        loginUser={loginUser}
-        logoutUser={logoutUser}
         addItem={addItem}
         AddItemForm={AddItemForm}
       />
@@ -375,16 +160,9 @@ export default function App() {
           value={tabValue} 
           onChange={handleTabClick}
           orientation={isSmallScreen ? 'vertical' : 'horizontal'}
-          sx={{
-            // display: 'flex', 
-            // flexDirection: 'column'
-
-          }}
         >
           <Tab label="Offers" sx={{color: 'white'}}/>
           <Tab label="Wanted" sx={{color: 'white'}}/>
-          {/* <Tab label="My Items" />
-          <Tab label="My Messages" /> */}
           <Tab 
             label="My Items"
             sx={{color: 'white'}} 

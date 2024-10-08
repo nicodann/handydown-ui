@@ -7,12 +7,15 @@
     Typography,
     Alert
   } from '@mui/material';
+import { useAppContext } from '../../context/state';
+import useItems from '../../hooks/useItems';
+import { loginUser } from '../../routes/user';
 
 export default function LoginForm(props) {
   const { 
     loginFormOpen,
     setLoginFormOpen,
-    loginUser,
+    // loginUser,
     setTransition,
     setTransitionPhrase
   } = props;
@@ -37,12 +40,28 @@ export default function LoginForm(props) {
     display: alertDisplay
   }
 
+  const {
+    loggedInUser,
+    setLoggedInUser,
+    setTabbedItems,
+    setTabbedValue
+  } = useAppContext()
+
+  const {Items} = useItems();
+
   const handleSubmit = async (event) => {
     event.preventDefault();
     const loginFormData = new FormData();
     loginFormData.append("username", formValue.username);
     loginFormData.append("password", formValue.password);
-    loginUser(loginFormData)
+    loginUser(
+      loginFormData,
+      setLoggedInUser,
+      setTabbedItems,
+      setTabbedValue,
+      loggedInUser,
+      Items
+    )
       .then(message => {
         if ((message && message.includes("password")) || (message && message.includes("username"))) {
           setErrorMessage(message);

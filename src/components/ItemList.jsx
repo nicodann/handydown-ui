@@ -37,9 +37,7 @@ export default function ItemList(props) {
   const openModal = (props) => {
     setModalProps(props)
     setOpen(true)
-  }
-
-  
+  }  
 
   return (
     <div 

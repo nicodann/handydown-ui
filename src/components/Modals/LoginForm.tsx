@@ -15,7 +15,6 @@ export default function LoginForm(props) {
   const { 
     loginFormOpen,
     setLoginFormOpen,
-    // loginUser,
     setTransition,
     setTransitionPhrase
   } = props;

@@ -1,5 +1,8 @@
 import axios from "axios";
-import apiUrl from "../lib/apiURL";
+import {apiUrl} from "../lib/apiURL";
+import { Item } from "../types/item";
+import { Dispatch, SetStateAction } from "react";
+import { User } from "../types/user";
 
 export const loginUser = async (
     loginFormData,
@@ -30,14 +33,23 @@ export const loginUser = async (
 };
 
 // LOGOUT
-export const logoutUser = async (
-  setLoggedInUser,
-  setConversations,
-  handleTransition,
-  setTabValue,
-  setTabbedItems,
-  Items
-) => {
+type LogoutUserProps = {
+  setLoggedInUser: Dispatch<SetStateAction<User | null>>,
+  setConversations: Dispatch<SetStateAction<[]>>,
+  handleTransition: (phrase: string) => void,
+  setTabValue: Dispatch<SetStateAction<number>>,
+  setTabbedItems: Dispatch<SetStateAction<Item[]>>,
+  Items: Item[]
+}
+export const logoutUser = async (props: LogoutUserProps) => {
+  const {
+    setLoggedInUser,
+    setConversations,
+    handleTransition,
+    setTabValue,
+    setTabbedItems,
+    Items
+  } = props;
   console.log("logging out")
   // try {
   //   await axios({
@@ -53,7 +65,7 @@ export const logoutUser = async (
   setConversations([]);
   handleTransition("Logging Out...");
   setTabValue(0);
-  setTabbedItems(Items.filter((item) => item.offered))
+  setTabbedItems(Items.filter((item: Item) => item.offered))
 };
 
 // REGISTER

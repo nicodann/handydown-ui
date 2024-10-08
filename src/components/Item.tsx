@@ -10,25 +10,46 @@ import {
   Grid,
   Typography,
 } from '@mui/material';
-import apiUrl from '../lib/apiURL';
+import {apiUrl} from '../lib/apiURL';
+import { Item as ItemType } from '../types/item';
 
-export default function Item(props) {
+type ItemProps = {
+  item: ItemType,
+  onClick: () => void;
+}
+
+export default function Item(props: ItemProps) {
+
+  const {
+    item,
+    onClick
+  } = props;
+
+  if (!item) {
+    return null
+  }
   
-  const { offered, name, createdAt, image, description, location, username, onClick } = props;
+  const { 
+    name, 
+    offered, 
+    createdAt, 
+    image, 
+    description,
+  
+  } = item;
 
-    // console.log("image:", image)
+  const {
+      location, 
+      username, 
+  } = item.user;
 
     const apiURL = apiUrl;
-
-    // const apiURL = process.env.REACT_APP_NODE_ENV === 'development' ? process.env.REACT_APP_DEV_API_URL : process.env.REACT_APP_API_URL;
     
     return (
     <Grid 
       item 
       style={{
         display: 'flex', 
-        // background: 'blue', 
-        // border: 'thin black solid',
         justifyContent: 'center'
       }} 
       xs={12} 

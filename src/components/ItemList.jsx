@@ -58,17 +58,10 @@ export default function ItemList(props) {
               pr: {xs: 0, md: 6}
             }}
           >
-            { items.map((item) => ( 
+            { items.map((item, i) => ( 
               <Item
-                key={item.id}
-                id={item.id}
-                name={item.name}
-                description={item.description}
-                offered={item.offered}
-                image={item.image}
-                createdAt={item.createdAt}
-                username={item.user && item.user.username}
-                location={item.user && item.user.location}
+                key={i}
+                item={item}
                 onClick={() => openModal(item)}
               />
             ))}

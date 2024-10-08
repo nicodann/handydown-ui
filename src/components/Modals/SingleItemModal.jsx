@@ -11,7 +11,7 @@ import DeleteIcon from '@mui/icons-material/Delete';
 import CircularProgress from '@mui/material/CircularProgress';
 import ReplyForm from './ReplyForm';
 import EditItemForm from './EditItemForm';
-import apiUrl from '../../lib/apiURL';
+import {apiUrl} from '../../lib/apiURL';
 
 const style = {
   position: 'absolute',

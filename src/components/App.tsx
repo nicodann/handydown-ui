@@ -1,6 +1,6 @@
 // import dotenv from 'dotenv';
 import axios from 'axios';
-import { useEffect, useState } from 'react';
+import { ChangeEvent, SyntheticEvent, useEffect, useState } from 'react';
 import '../App.css'
 import {
   Box,
@@ -13,67 +13,46 @@ import {
   useTheme,
   useMediaQuery,
 } from '@mui/material';
+
 import CircularProgress from '@mui/material/CircularProgress';
 import Navbar from './Navbar';
 import ItemList from './ItemList';
 import ConversationList from './ConversationList';
-import AddItemForm from './Modals/AddItemForm';
-import LoginForm from './Modals/LoginForm';
-import RegistrationForm from './Modals/RegistrationForm';
-import apiUrl from '../lib/apiURL';
+import { apiUrl } from '../lib/apiURL';
 import { useAppContext } from '../context/state';
 import useLoggedInUser from '../hooks/useLoggedInUser';
 import useItems from '../hooks/useItems';
 // import { loginUser, logoutUser, registerUser } from '../routes/user.js';
-import { addItem, deleteItem, editItem } from '../routes/item.js';
+import { deleteItem, editItem } from '../routes/item.js';
 import { addMessage } from '../routes/message.js';
+import { Item } from '../types/item';
+import useConversations from '../hooks/useConversations';
 
 export default function App() {
 
 
   // STATE
-  const { items: ITEMS, tabbedItems} = useItems()
+  const { items, tabbedItems } = useItems()
   const [searchedItems, setSearchedItems] = useState([])
-  const [conversations, setConversations] = useState([]);
   const [searchText, setSearchText] = useState("");
   const [transition, setTransition] = useState(false);
   const [transitionPhrase, setTransitionPhrase] = useState('Loading...')
-  const {loggedInUser} = useLoggedInUser();
+  const { loggedInUser } = useLoggedInUser();
+  const [conversations, setConversations] = useConversations();
   const {
     setTabbedItems,
     setTabValue,
     tabValue
   } = useAppContext()
 
-  const handleTransition = (phrase) => {
-    setTransitionPhrase(phrase)
-    setTransition(true);
-          setTimeout(() => {
-            setTransition(false);
-            setTransitionPhrase('Loading...')
-          }, 1000);
-  }
-
   const apiURL = apiUrl;
 
-  // FETCH ALL CONVERSATIONS BELONGING TO LOGGED IN USER
-  useEffect(() => {
-    if (loggedInUser) {
-      axios.get(`${apiURL}/api/conversations/by/user/${loggedInUser.id}`)
-        .then((conversations) => {
-          setConversations(conversations.data);
-        })
-        .catch((error) => console.log(error));
-
-    }
-    }, [loggedInUser, apiURL]);
-
-  const handleTabClick = (_event, newTabValue) => {
-    const currentTab = newTabValue;
+  const handleTabClick = (event: SyntheticEvent<Element, Event>, value: any) => {
+    const currentTab = value;
     setSearchText('');
 
     if (currentTab === 0) {
-      setTabbedItems(ITEMS.filter((item) => { 
+      setTabbedItems(items.filter((item: Item) => { 
         if (loggedInUser) {
           return item.offered === true && item.userId !== loggedInUser.id; 
         } else {
@@ -81,7 +60,7 @@ export default function App() {
         }
       }));
     } else if (currentTab === 1) {
-      setTabbedItems(ITEMS.filter((item) => {
+      setTabbedItems(items.filter((item: Item) => {
         if (loggedInUser) {
           return !item.offered && item.userId !== loggedInUser.id; 
         } else {
@@ -90,7 +69,7 @@ export default function App() {
       }));
     } else if (currentTab === 2) {
       if (loggedInUser) {
-        setTabbedItems(ITEMS.filter((item) => item.userId === loggedInUser.id));
+        setTabbedItems(items.filter((item: Item) => item.userId === loggedInUser.id));
       } else {
         setTabbedItems([]);
       }
@@ -98,20 +77,22 @@ export default function App() {
     setTabValue(currentTab);
   };
 
-  const handleSearchInput = (event) => {
-    const keyword = event.target.value;
+  const handleSearchInput = (event: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+    const keyword = event.target as HTMLInputElement;
 
-    if (keyword !== '') {
-      setSearchedItems(tabbedItems.filter((item) => item.name.toLowerCase().startsWith(keyword.toLowerCase())));
+    const value = keyword.value
+
+    if (value !== '') {
+      setSearchedItems(tabbedItems.filter((item: Item) => item.name.toLowerCase().startsWith(value.toLowerCase())));
     } else {
       setSearchedItems(tabbedItems);
     }
 
-    setSearchText(keyword);
+    setSearchText(value);
   };
 
   //MARK CONVO AS READ
-  const markAsRead =  async (conversationId, readByWhom) => {
+  const markAsRead =  async (conversationId: number, readByWhom: string) => {
     try {
        await axios.put(`${apiURL}/api/conversations/${conversationId}`, {readByWhom: readByWhom});
     } catch(err) {
@@ -125,7 +106,7 @@ export default function App() {
 
   // RENDER
 
-  if ((ITEMS === null) || (ITEMS && transition)) {
+  if ((items === null) || (items && transition)) {
     return (
       <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', flexDirection: 'column', height: '100vh' }}>
       <CircularProgress size={80} />
@@ -138,12 +119,8 @@ export default function App() {
     <>
       <CssBaseline />
       <Navbar 
-        LoginForm={LoginForm}
-        RegistrationForm={RegistrationForm}
         setTransition={setTransition}
         setTransitionPhrase={setTransitionPhrase}
-        addItem={addItem}
-        AddItemForm={AddItemForm}
       />
       <Box 
         display="flex" 

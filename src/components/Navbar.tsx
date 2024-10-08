@@ -15,25 +15,44 @@ import {
   registerUser
 } from '../routes/user'
 import { addItem } from '../routes/item';
-import { useState } from 'react';
+import { Dispatch, SetStateAction, useState } from 'react';
+import LoginForm from './Modals/LoginForm';
+import RegistrationForm from './Modals/RegistrationForm';
+import AddItemForm from './Modals/AddItemForm';
+import useConversations from '../hooks/useConversations';
 
+type NavbarProps = {
+  setTransition: Dispatch<SetStateAction<boolean>>;
+  setTransitionPhrase: Dispatch<SetStateAction<string>>,
+}
 
-export default function Navbar(props) {
-  const [loginFormOpen, setLoginFormOpen] = useState(false);
-  const [regFormOpen, setRegFormOpen] = useState(false);
-  const [formOpen, setFormOpen] = useState(false);
+export default function Navbar(props: NavbarProps) {
+  const [ loginFormOpen, setLoginFormOpen ] = useState(false);
+  const [ regFormOpen, setRegFormOpen ] = useState(false);
+  const [ formOpen, setFormOpen ] = useState(false);
+  const [ conversations, setConversations ] = useConversations();
 
   const {
-    RegistrationForm,
-    LoginForm,
     setTransition,
     setTransitionPhrase,
-    AddItemForm,
   } = props;
 
   const {
-    loggedInUser
+    loggedInUser,
+    setLoggedInUser,
+    setTabbedItems,
+    setTabValue,
+    Items
   } = useAppContext()
+
+  const handleTransition = (phrase:string) => {
+    setTransitionPhrase(phrase)
+    setTransition(true);
+          setTimeout(() => {
+            setTransition(false);
+            setTransitionPhrase('Loading...')
+          }, 1000);
+  }
 
   return (
     <AppBar position="sticky" elevation={0}>
@@ -67,7 +86,7 @@ export default function Navbar(props) {
           >
             Login
           </Button>
-          <LoginForm 
+          <LoginForm
             loginFormOpen={loginFormOpen}
             setLoginFormOpen={setLoginFormOpen}
             loginUser={loginUser}
@@ -81,7 +100,7 @@ export default function Navbar(props) {
           >
             Register
           </Button>
-          <RegistrationForm 
+          <RegistrationForm
             registrationFormOpen={regFormOpen}
             setRegistrationFormOpen={setRegFormOpen}
             registerUser={registerUser}
@@ -101,7 +120,14 @@ export default function Navbar(props) {
           <Button
             color="inherit"
             variant="text"
-            onClick={logoutUser}
+            onClick={() => logoutUser(
+              setLoggedInUser,
+              setConversations,
+              handleTransition,
+              setTabValue,
+              setTabbedItems,
+              Items
+            )}
           >
             Logout
           </Button>
@@ -117,7 +143,7 @@ export default function Navbar(props) {
         >
           Make A Post
         </Button>
-        <AddItemForm 
+        <AddItemForm
           color="inherit" 
           formOpen={formOpen} 
           addItem={addItem} 

@@ -1,11 +1,12 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
-import apiUrl from "../lib/apiURL";
+import {apiUrl} from "../lib/apiURL";
 import { useAppContext } from "../context/state";
+import { Item } from "../types/item";
 
 
 export default function useItems() {
-  const [ items, setItems ] = useState(null);
+  const [ items, setItems ] = useState<Item[]>([]);
   // const [ tabbedItems, setTabbedItems ] = useState([]);
   const { 
     loggedInUser,
@@ -21,7 +22,7 @@ export default function useItems() {
       return items.data;
     })
     .then((data) => {
-      setTabbedItems(data.filter((item) => {
+      setTabbedItems(data.filter((item: Item) => {
         if (loggedInUser) {
           return item.offered === true && item.userId !== loggedInUser.id; 
         } else {

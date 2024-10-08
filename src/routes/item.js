@@ -1,5 +1,5 @@
 import axios from "axios";
-import apiUrl from "../lib/apiURL";
+import {apiUrl} from "../lib/apiURL";
 
 // ADD ITEM
 export const addItem = async (

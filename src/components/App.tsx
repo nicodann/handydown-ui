@@ -1,6 +1,6 @@
 // import dotenv from 'dotenv';
 import axios from 'axios';
-import { ChangeEvent, SyntheticEvent, useEffect, useState } from 'react';
+import { ChangeEvent, SyntheticEvent, useContext, useEffect, useState } from 'react';
 import '../App.css'
 import {
   Box,
@@ -20,6 +20,7 @@ import ItemList from './ItemList';
 import ConversationList from './ConversationList';
 import { apiUrl } from '../lib/apiURL';
 import { useAppContext } from '../context/state';
+// import { AppContext } from '../context/state'
 import useLoggedInUser from '../hooks/useLoggedInUser';
 import useItems from '../hooks/useItems';
 // import { loginUser, logoutUser, registerUser } from '../routes/user.js';
@@ -33,7 +34,7 @@ export default function App() {
 
   // STATE
   const { items, tabbedItems } = useItems()
-  const [searchedItems, setSearchedItems] = useState([])
+  const [searchedItems, setSearchedItems] = useState<Item[]>([])
   const [searchText, setSearchText] = useState("");
   const [transition, setTransition] = useState(false);
   const [transitionPhrase, setTransitionPhrase] = useState('Loading...')
@@ -83,7 +84,9 @@ export default function App() {
     const value = keyword.value
 
     if (value !== '') {
-      setSearchedItems(tabbedItems.filter((item: Item) => item.name.toLowerCase().startsWith(value.toLowerCase())));
+      setSearchedItems(tabbedItems.filter(
+        (item: Item) => item.name.toLowerCase().startsWith(value.toLowerCase())
+      ));
     } else {
       setSearchedItems(tabbedItems);
     }

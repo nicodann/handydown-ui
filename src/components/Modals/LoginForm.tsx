@@ -10,6 +10,7 @@
 import { useAppContext } from '../../context/state';
 import useItems from '../../hooks/useItems';
 import { loginUser } from '../../routes/user';
+import { Password } from '@mui/icons-material';
 
 type LoginFormProps = {
   loginFormOpen: boolean,
@@ -50,21 +51,25 @@ export default function LoginForm(props: LoginFormProps) {
     loggedInUser,
     setLoggedInUser,
     setTabbedItems,
-    setTabbedValue
+    setTabValue
   } = useAppContext()
 
   const { items } = useItems();
 
   const handleSubmit = async (event: React.SyntheticEvent<HTMLFormElement>) => {
     event.preventDefault();
-    const loginFormData = new FormData();
-    loginFormData.append("username", formValue.username);
-    loginFormData.append("password", formValue.password);
+    // const loginFormData = new FormData();
+    // loginFormData.append("username", formValue.username);
+    // loginFormData.append("password", formValue.password);
+    const loginFormData = {
+      username: formValue.username,
+      password: formValue.password
+    }
     loginUser(
       loginFormData,
       setLoggedInUser,
       setTabbedItems,
-      setTabbedValue,
+      setTabValue,
       loggedInUser,
       items
     )

@@ -20,6 +20,7 @@ import LoginForm from './Modals/LoginForm';
 import RegistrationForm from './Modals/RegistrationForm';
 import AddItemForm from './Modals/AddItemForm';
 import useConversations from '../hooks/useConversations';
+import useItems from '../hooks/useItems';
 
 type NavbarProps = {
   setTransition: Dispatch<SetStateAction<boolean>>;
@@ -31,6 +32,7 @@ export default function Navbar(props: NavbarProps) {
   const [ regFormOpen, setRegFormOpen ] = useState(false);
   const [ formOpen, setFormOpen ] = useState(false);
   const [ conversations, setConversations ] = useConversations();
+  const { items } = useItems()
 
   const {
     setTransition,
@@ -42,16 +44,15 @@ export default function Navbar(props: NavbarProps) {
     setLoggedInUser,
     setTabbedItems,
     setTabValue,
-    Items
   } = useAppContext()
 
   const handleTransition = (phrase:string) => {
     setTransitionPhrase(phrase)
     setTransition(true);
-          setTimeout(() => {
-            setTransition(false);
-            setTransitionPhrase('Loading...')
-          }, 1000);
+    setTimeout(() => {
+      setTransition(false);
+      setTransitionPhrase('Loading...')
+    }, 1000);
   }
 
   return (
@@ -126,7 +127,7 @@ export default function Navbar(props: NavbarProps) {
               handleTransition,
               setTabValue,
               setTabbedItems,
-              Items
+              items
             )}
           >
             Logout

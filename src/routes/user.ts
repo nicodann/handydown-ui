@@ -5,12 +5,12 @@ import { Dispatch, SetStateAction } from "react";
 import { User } from "../types/user";
 
 export const loginUser = async (
-    loginFormData,
-    setLoggedInUser,
-    setTabbedItems,
-    setTabValue,
-    loggedInUser,
-    Items
+    loginFormData: {username: string, password: string},
+    setLoggedInUser: Dispatch<SetStateAction<User>>,
+    setTabbedItems: Dispatch<SetStateAction<Item[]>>,
+    setTabValue: Dispatch<SetStateAction<number>>,
+    loggedInUser: User | null,
+    Items: Item[]
   ) => {
 
   try {
@@ -25,7 +25,7 @@ export const loginUser = async (
     localStorage.setItem('token', response.data.token)
     setLoggedInUser(response.data);
     setTabValue(0);
-    setTabbedItems(Items.filter((item) => item.offered && loggedInUser && item.userID !== loggedInUser.id));
+    setTabbedItems(Items.filter((item: Item) => item.offered && loggedInUser && item.userId !== loggedInUser.id));
   } catch(error) {
     const message = error.response.data;
     return message;
@@ -70,8 +70,13 @@ export const logoutUser = async (props: LogoutUserProps) => {
 
 // REGISTER
 export const registerUser = async (
-  registrationFormData,
-  setLoggedInUser,
+  registrationFormData: {
+    username: string,
+    email: string,
+    password: string,
+    location: string
+  },
+  setLoggedInUser: Dispatch<SetStateAction<User>>,
 ) => {
   try {
     const response = await axios({

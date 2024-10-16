@@ -20,35 +20,30 @@ import ItemList from './ItemList';
 import ConversationList from './ConversationList';
 import { apiUrl } from '../lib/apiURL';
 import { useAppContext } from '../context/state';
-// import { AppContext } from '../context/state'
-import useLoggedInUser from '../hooks/useLoggedInUser';
+// import useLoggedInUser from '../hooks/useLoggedInUser';
 import useItems from '../hooks/useItems';
-// import { loginUser, logoutUser, registerUser } from '../routes/user.js';
 import { deleteItem, editItem } from '../routes/item.js';
 import { addMessage } from '../routes/message.js';
 import { Item } from '../types/item';
 import useConversations from '../hooks/useConversations';
 
 export default function App() {
-
-
-  // STATE
   const { items, tabbedItems } = useItems()
   const [searchedItems, setSearchedItems] = useState<Item[]>([])
   const [searchText, setSearchText] = useState("");
   const [transition, setTransition] = useState(false);
   const [transitionPhrase, setTransitionPhrase] = useState('Loading...')
-  const { loggedInUser } = useLoggedInUser();
   const { conversations } = useConversations();
   const {
     setTabbedItems,
     setTabValue,
-    tabValue
+    tabValue,
+    loggedInUser
   } = useAppContext()
 
   const apiURL = apiUrl;
 
-  const handleTabClick = (event: SyntheticEvent<Element, Event>, value: any) => {
+  const handleTabClick = (_event: SyntheticEvent<Element, Event>, value: any) => {
     const currentTab = value;
     setSearchText('');
 
@@ -159,7 +154,6 @@ export default function App() {
           />
         </Tabs>
       </Box>
-
       <Box display="flex" justifyContent="center" alignItems="center" sx={{ pt: 4 }}>
         <TextField
           type="search"
@@ -206,7 +200,6 @@ export default function App() {
           setTabValue={setTabValue}
           tabIndex={3}
           markAsRead={markAsRead}
-          // loggedInUserID={loggedInUser && loggedInUser.id}
         />
       </Container>
     </>

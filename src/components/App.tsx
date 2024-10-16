@@ -1,6 +1,6 @@
 // import dotenv from 'dotenv';
 import axios from 'axios';
-import { ChangeEvent, SyntheticEvent, useContext, useEffect, useState } from 'react';
+import { ChangeEvent, SyntheticEvent, useState } from 'react';
 import '../App.css'
 import {
   Box,
@@ -39,7 +39,7 @@ export default function App() {
   const [transition, setTransition] = useState(false);
   const [transitionPhrase, setTransitionPhrase] = useState('Loading...')
   const { loggedInUser } = useLoggedInUser();
-  const [conversations, setConversations] = useConversations();
+  const { conversations } = useConversations();
   const {
     setTabbedItems,
     setTabValue,

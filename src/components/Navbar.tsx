@@ -10,7 +10,6 @@ import { VolunteerActivism } from '@mui/icons-material';
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import { useAppContext } from '../context/state';
 import {
-  loginUser,
   logoutUser,
   registerUser
 } from '../routes/user'
@@ -31,7 +30,7 @@ export default function Navbar(props: NavbarProps) {
   const [ loginFormOpen, setLoginFormOpen ] = useState(false);
   const [ regFormOpen, setRegFormOpen ] = useState(false);
   const [ formOpen, setFormOpen ] = useState(false);
-  const { conversations, setConversations } = useConversations();
+  const { setConversations } = useConversations();
   const { items } = useItems()
 
   const {
@@ -45,8 +44,6 @@ export default function Navbar(props: NavbarProps) {
     setTabbedItems,
     setTabValue,
   } = useAppContext()
-
-  console.log("typeof setLoggedInUser:",typeof setLoggedInUser)
 
   const handleTransition = (phrase:string) => {
     setTransitionPhrase(phrase)

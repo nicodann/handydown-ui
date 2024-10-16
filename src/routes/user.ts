@@ -3,7 +3,6 @@ import {apiUrl} from "../lib/apiURL";
 import { Item } from "../types/item";
 import { Dispatch, SetStateAction } from "react";
 import { User } from "../types/user";
-import { useAppContext } from "../context/state";
 import { Conversation } from "../types/conversation";
 
 export const loginUser = async (

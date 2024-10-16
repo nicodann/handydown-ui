@@ -1,8 +1,7 @@
 import { useEffect, useState } from "react";
 import { useAppContext } from "../context/state";
-import axios from "axios";
-import { apiUrl } from "../lib/apiURL";
 import { Conversation } from "../types/conversation";
+import { getConversations } from "../routes/conversation";
 
 export default function useConversations() {
   const [conversations, setConversations] = useState<Conversation[]>([]);
@@ -14,7 +13,7 @@ export default function useConversations() {
   // FETCH ALL CONVERSATIONS BELONGING TO LOGGED IN USER
   useEffect(() => {
     if (loggedInUser) {
-      axios.get(`${apiUrl}/api/conversations/by/user/${loggedInUser.id}`)
+      getConversations(loggedInUser)
         .then((conversations) => {
           setConversations(conversations.data);
         })

@@ -2,9 +2,10 @@ import { useEffect, useState } from "react";
 import { useAppContext } from "../context/state";
 import axios from "axios";
 import { apiUrl } from "../lib/apiURL";
+import { Conversation } from "../types/conversation";
 
 export default function useConversations() {
-  const [conversations, setConversations] = useState([]);
+  const [conversations, setConversations] = useState<Conversation[]>([]);
 
   const {
     loggedInUser
@@ -22,5 +23,5 @@ export default function useConversations() {
     }
     }, [loggedInUser]);
 
-  return [conversations, setConversations]
+  return { conversations, setConversations }
 }

@@ -31,7 +31,7 @@ export default function Navbar(props: NavbarProps) {
   const [ loginFormOpen, setLoginFormOpen ] = useState(false);
   const [ regFormOpen, setRegFormOpen ] = useState(false);
   const [ formOpen, setFormOpen ] = useState(false);
-  const [ conversations, setConversations ] = useConversations();
+  const { conversations, setConversations } = useConversations();
   const { items } = useItems()
 
   const {
@@ -92,7 +92,7 @@ export default function Navbar(props: NavbarProps) {
           <LoginForm
             loginFormOpen={loginFormOpen}
             setLoginFormOpen={setLoginFormOpen}
-            loginUser={loginUser}
+            // loginUser={loginUser}
             setTransition={setTransition}
             setTransitionPhrase={setTransitionPhrase}            
           />

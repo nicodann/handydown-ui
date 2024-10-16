@@ -4,6 +4,7 @@ import { Item } from "../types/item";
 import { Dispatch, SetStateAction } from "react";
 import { User } from "../types/user";
 import { useAppContext } from "../context/state";
+import { Conversation } from "../types/conversation";
 
 export const loginUser = async (
     loginFormData: {username: string, password: string},
@@ -34,23 +35,14 @@ export const loginUser = async (
 };
 
 // LOGOUT
-type LogoutUserProps = {
+export const logoutUser = async (
   setLoggedInUser: Dispatch<SetStateAction<User | null>>,
-  setConversations: Dispatch<SetStateAction<[]>>,
+  setConversations: Dispatch<SetStateAction<Conversation[]>>,
   handleTransition: (phrase: string) => void,
   setTabValue: Dispatch<SetStateAction<number>>,
   setTabbedItems: Dispatch<SetStateAction<Item[]>>,
   Items: Item[]
-}
-export const logoutUser = async (props: LogoutUserProps) => {
-  const {
-    setLoggedInUser,
-    setConversations,
-    handleTransition,
-    setTabValue,
-    setTabbedItems,
-    Items
-  } = props;
+) => {
 
   console.log("logging out")
   console.log("IN logoutUser function typeof setLoggedInUser:",typeof setLoggedInUser)

@@ -46,6 +46,8 @@ export default function Navbar(props: NavbarProps) {
     setTabValue,
   } = useAppContext()
 
+  console.log("typeof setLoggedInUser:",typeof setLoggedInUser)
+
   const handleTransition = (phrase:string) => {
     setTransitionPhrase(phrase)
     setTransition(true);

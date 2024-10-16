@@ -3,6 +3,7 @@ import {apiUrl} from "../lib/apiURL";
 import { Item } from "../types/item";
 import { Dispatch, SetStateAction } from "react";
 import { User } from "../types/user";
+import { useAppContext } from "../context/state";
 
 export const loginUser = async (
     loginFormData: {username: string, password: string},
@@ -50,7 +51,9 @@ export const logoutUser = async (props: LogoutUserProps) => {
     setTabbedItems,
     Items
   } = props;
+
   console.log("logging out")
+  console.log("IN logoutUser function typeof setLoggedInUser:",typeof setLoggedInUser)
   // try {
   //   await axios({
   //     method: 'post',

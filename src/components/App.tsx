@@ -35,6 +35,7 @@ export default function App() {
   const { conversations } = useConversations();
   // console.log("conversations in App:",conversations)
   const loggedInUser = useLoggedInUser();
+  
   const {
     setTabbedItems,
     setTabValue,
@@ -86,21 +87,6 @@ export default function App() {
 
     setSearchText(value);
   };
-
-  // export type MarkAsReadType = (
-  //   conversationId: number,
-  //   readByWhom: string
-  // ) => Promise<boolean>;
-
-  // //MARK CONVO AS READ
-  // const markAsRead =  async (conversationId: number, readByWhom: string) => {
-  //   try {
-  //      await axios.put(`${apiURL}/api/conversations/${conversationId}`, {readByWhom: readByWhom});
-  //   } catch(err) {
-  //     console.log(err);
-  //   }
-    
-  // }
 
   const theme = useTheme();
   const isSmallScreen = useMediaQuery(theme.breakpoints.down('sm'))

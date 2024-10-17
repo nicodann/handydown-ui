@@ -43,7 +43,7 @@ export default function ConversationList(props: ConversationListProps) {
   } = props;
 
   // loggedInUser && console.log("loggedInUser.username:",loggedInUser.username)
-  // console.log("conversations in ConversationsList:",conversations)
+  console.log("conversations in ConversationsList:",conversations)
 
   const findLatestMessageBody = (conversation: ConversationType) => {
     return conversation.messages[conversation.messages.length -1].body
@@ -67,7 +67,7 @@ export default function ConversationList(props: ConversationListProps) {
     markAsRead(conversation.id, readByWhom(conversation, userID))
   }
 
-  const conversationsArray = loggedInUser && conversations.length !== 0 ? conversations.map((conversation) => 
+  const conversationsArray = loggedInUser && conversations && conversations.length !== 0 ? conversations.map((conversation) => 
     <Conversation
       key={conversation.id}
       id={conversation.id}

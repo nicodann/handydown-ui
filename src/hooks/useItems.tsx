@@ -3,13 +3,14 @@ import { useEffect, useState } from "react";
 import {apiUrl} from "../lib/apiURL";
 import { useAppContext } from "../context/state";
 import { Item } from "../types/item";
+import useLoggedInUser from "./useLoggedInUser";
 
 
 export default function useItems() {
   const [ items, setItems ] = useState<Item[]>([]);
   // const [ tabbedItems, setTabbedItems ] = useState([]);
+  const loggedInUser = useLoggedInUser();
   const { 
-    loggedInUser,
     tabbedItems,
     setTabbedItems
   } = useAppContext()

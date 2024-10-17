@@ -24,6 +24,7 @@ import { addMessage } from '../routes/message';
 import { Item } from '../types/item';
 import useConversations from '../hooks/useConversations';
 import { markAsRead } from '../routes/conversation';
+import useLoggedInUser from '../hooks/useLoggedInUser';
 
 export default function App() {
   const [searchedItems, setSearchedItems] = useState<Item[]>([])
@@ -33,11 +34,11 @@ export default function App() {
   const { items, tabbedItems } = useItems()
   const { conversations } = useConversations();
   // console.log("conversations in App:",conversations)
+  const loggedInUser = useLoggedInUser();
   const {
     setTabbedItems,
     setTabValue,
     tabValue,
-    loggedInUser
   } = useAppContext()
 
   const handleTabClick = (_event: SyntheticEvent<Element, Event>, value: any) => {

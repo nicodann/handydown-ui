@@ -20,6 +20,7 @@ import RegistrationForm from './Modals/RegistrationForm';
 import AddItemForm from './Modals/AddItemForm';
 import useConversations from '../hooks/useConversations';
 import useItems from '../hooks/useItems';
+import useLoggedInUser from '../hooks/useLoggedInUser';
 
 type NavbarProps = {
   setTransition: Dispatch<SetStateAction<boolean>>;
@@ -31,15 +32,14 @@ export default function Navbar(props: NavbarProps) {
   const [ regFormOpen, setRegFormOpen ] = useState(false);
   const [ formOpen, setFormOpen ] = useState(false);
   const { setConversations } = useConversations();
-  const { items } = useItems()
-
+  const { items } = useItems();
+  const loggedInUser = useLoggedInUser();
   const {
     setTransition,
     setTransitionPhrase,
   } = props;
 
   const {
-    loggedInUser,
     setLoggedInUser,
     setTabbedItems,
     setTabValue,

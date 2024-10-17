@@ -1,5 +1,6 @@
 import { useEffect } from "react";
 import { useAppContext } from "../context/state";
+import { User } from "../types/user";
 
 export default function useLoggedInUser() {
 
@@ -9,10 +10,10 @@ export default function useLoggedInUser() {
    useEffect(() => {
     const loggedInUser = localStorage.getItem('user');
     if (loggedInUser) {
-      const foundUser = JSON.parse(loggedInUser);
+      const foundUser: User = JSON.parse(loggedInUser);
       setLoggedInUser(foundUser);
     }
   }, [setLoggedInUser])
 
-  return {loggedInUser}
+  return loggedInUser
 }

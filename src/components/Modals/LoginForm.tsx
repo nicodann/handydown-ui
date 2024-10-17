@@ -10,6 +10,7 @@
 import { useAppContext } from '../../context/state';
 import useItems from '../../hooks/useItems';
 import { loginUser } from '../../routes/user';
+import useLoggedInUser from '../../hooks/useLoggedInUser';
 
 type LoginFormProps = {
   loginFormOpen: boolean,
@@ -45,9 +46,9 @@ export default function LoginForm(props: LoginFormProps) {
     marginTop: 2, 
     display: alertDisplay
   }
+  const loggedInUser = useLoggedInUser();
 
   const {
-    loggedInUser,
     setLoggedInUser,
     setTabbedItems,
     setTabValue

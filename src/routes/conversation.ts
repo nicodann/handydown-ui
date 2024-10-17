@@ -20,3 +20,18 @@ export const getConversations = async (loggedInUser: User) => {
     console.log(error)
   }
 }
+
+export type MarkAsReadType = (
+  conversationId: number,
+  readByWhom: string
+) => Promise<boolean>;
+
+//MARK CONVO AS READ
+export const markAsRead =  async (conversationId: number, readByWhom: string) => {
+  try {
+     await axios.put(`${apiUrl}/api/conversations/${conversationId}`, {readByWhom: readByWhom});
+  } catch(err) {
+    console.log(err);
+  }
+  
+}

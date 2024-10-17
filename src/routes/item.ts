@@ -1,14 +1,17 @@
 import axios from "axios";
 import {apiUrl} from "../lib/apiURL";
+import { Item } from "../types/item";
+import { Dispatch, SetStateAction } from "react";
+import { User } from "../types/user";
 
 // ADD ITEM
 export const addItem = async (
-  newItemFormData,
-  Items,
-  setItems,
-  setTabValue,
-  setTabbedItems,
-  loggedInUser
+  newItemFormData: FormData,
+  Items: Item[],
+  setItems: Dispatch<SetStateAction<Item[]>>,
+  setTabValue: Dispatch<SetStateAction<number>>,
+  setTabbedItems: Dispatch<SetStateAction<Item[]>>,
+  loggedInUser: User
 ) => {
   console.log("localStorage.getItem('token'):",localStorage.getItem('token'))
   const token = localStorage.getItem('token')
@@ -33,13 +36,13 @@ export const addItem = async (
 
 // DELETE ITEM
 export const deleteItem = async (
-  itemId, 
-  offered,
-  tabValue,
-  setTabbedItems,
-  tabbedItems,
-  setItems,
-  Items
+  itemId: number, 
+  offered: boolean,
+  tabValue: number,
+  setTabbedItems: Dispatch<SetStateAction<Item[]>>,
+  tabbedItems: Item[],
+  setItems: Dispatch<SetStateAction<Item[]>>,
+  Items: Item[]
 ) => {
   try {
     await axios.delete(`${apiUrl}/api/items/${itemId}`);
@@ -54,14 +57,14 @@ export const deleteItem = async (
 
 // EDIT ITEM
 export const editItem = async (
-  editItemFormData, 
-  id,
-  setItems,
-  handleTransition,
-  setTabValue,
-  setTabbedItems,
-  Items,
-  loggedInUser
+  editItemFormData: FormData, 
+  id: number,
+  setItems: Dispatch<SetStateAction<Item[]>>,
+  setTabValue: Dispatch<SetStateAction<number>>,
+  setTabbedItems: Dispatch<SetStateAction<Item[]>>,
+  handleTransition: (phrase: string) => void,
+  Items: Item[],
+  loggedInUser: User
 
 ) => {
   // try {

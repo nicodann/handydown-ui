@@ -10,7 +10,6 @@
 import { useAppContext } from '../../context/state';
 import useItems from '../../hooks/useItems';
 import { loginUser } from '../../routes/user';
-import { Password } from '@mui/icons-material';
 
 type LoginFormProps = {
   loginFormOpen: boolean,

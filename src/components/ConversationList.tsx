@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { Dispatch, SetStateAction, useState } from 'react';
 import { format} from 'timeago.js';
 import {
   Table,
@@ -15,8 +15,22 @@ import {
 import RefreshIcon from '@mui/icons-material/Refresh';
 import Conversation from './Conversation';
 import SingleConversationModal from './Modals/SingleConversationModal'
+import { ConversationType } from '../types/conversation';
+import { User } from '../types/user';
+import { addMessageType } from '../routes/message';
+import { MarkAsReadType } from '../routes/conversation';
 
-export default function ConversationList(props) {
+type ConversationListProps = {
+  conversations: ConversationType[],
+  loggedInUser: User,
+  addMessage: addMessageType ,
+  tabValue: number,
+  setTabValue: Dispatch<SetStateAction<number>>,
+  tabIndex: number,
+  markAsRead: MarkAsReadType
+};
+
+export default function ConversationList(props: ConversationListProps) {
 
   const {
     conversations,
@@ -28,28 +42,29 @@ export default function ConversationList(props) {
     markAsRead
   } = props;
 
-  const findLatestMessageBody = (conversation) => {
+  const findLatestMessageBody = (conversation: ConversationType) => {
     return conversation.messages[conversation.messages.length -1].body
   }
   
-  const findOtherPartyName = (conversation, loggedInUserID) => {
+  const findOtherPartyName = (conversation: ConversationType, loggedInUserID: number) => {
     return loggedInUserID === conversation.receiver.id ? conversation.creator.username : conversation.receiver.username
   }
 
-  const readByWhom = (conversation, loggedInUserID) => {
+  const readByWhom = (conversation: ConversationType, loggedInUserID: number) => {
     return conversation.creator.id === loggedInUserID ? "readByCreator" : "readByReciever";
   }
 
   //MODAL STATE LOGIC
   const [open, setOpen] = useState(false);
-  const [modalProps, setModalProps] = useState({
-    creator:{id: null, username: ""},
-    receiver: {id: null, username: ""},
-    item: {id: null, name: '', offered: true, image: ''},
-    messages: [{id: null, createdAt: null, body: ''}],
-  })
+  const [ modalProps, setModalProps ] = useState<ConversationType>()
+  // const [modalProps, setModalProps] = useState({
+  //   creator:{id: null, username: ""},
+  //   receiver: {id: null, username: ""},
+  //   item: {id: null, name: '', offered: true, image: ''},
+  //   messages: [{id: null, createdAt: null, body: ''}],
+  // })
 
-  const handleClick = (conversation, userID) => {
+  const handleClick = (conversation: ConversationType, userID: number) => {
     setOpen(true)
     setModalProps(conversation)
     markAsRead(conversation.id, readByWhom(conversation, userID))
@@ -129,22 +144,24 @@ export default function ConversationList(props) {
             </TableHead> */}
             <TableBody>
               {conversationsArray}
-              <SingleConversationModal
-                itemId={modalProps.item.id} // ReplyForm
-                name={modalProps.item.name} // ReplyForm
-                offered={modalProps.item.offered} // ReplyForm
-                image={modalProps.item.image}
-                messages={modalProps.messages}
-                creator={modalProps.creator} // ReplyForm et al.
-                receiver={modalProps.receiver} // ReplyForm et al.
-                loggedInUser={loggedInUser} // ReplyForm
-                addMessage={addMessage} // ReplyForm
-                open={open}
-                handleClose={() => setOpen(false)} // ReplyForm et al.
-                setTabValue={setTabValue} // ReplyForm
-                setModalProps={setModalProps}
-                modalProps={modalProps}
-              /> 
+              {modalProps &&
+                <SingleConversationModal
+                  itemId={modalProps.item.id} // ReplyForm
+                  name={modalProps.item.name} // ReplyForm
+                  offered={modalProps.item.offered} // ReplyForm
+                  image={modalProps.item.image}
+                  messages={modalProps.messages}
+                  creator={modalProps.creator} // ReplyForm et al.
+                  receiver={modalProps.receiver} // ReplyForm et al.
+                  loggedInUser={loggedInUser} // ReplyForm
+                  addMessage={addMessage} // ReplyForm
+                  open={open}
+                  handleClose={() => setOpen(false)} // ReplyForm et al.
+                  setTabValue={setTabValue} // ReplyForm
+                  setModalProps={setModalProps}
+                  modalProps={modalProps}
+                /> 
+              }
             </TableBody>
           </Table>
         </TableContainer>

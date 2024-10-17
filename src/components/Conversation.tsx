@@ -5,7 +5,17 @@ import {
 } from '@mui/material';
 import { useState } from 'react';
 
-export default function Conversation(props) {
+type ConversationProps = {
+  id: number, 
+  otherPartyName: string,
+  itemName: string,
+  messageBody: string,
+  updatedAt: string,
+  onClick: () => void,
+  read: boolean
+ };
+
+export default function Conversation(props: ConversationProps) {
   const {
      id, 
      otherPartyName,

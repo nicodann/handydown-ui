@@ -1,5 +1,4 @@
 // import dotenv from 'dotenv';
-import axios from 'axios';
 import { ChangeEvent, SyntheticEvent, useState } from 'react';
 import '../App.css'
 import {
@@ -18,21 +17,20 @@ import CircularProgress from '@mui/material/CircularProgress';
 import Navbar from './Navbar';
 import ItemList from './ItemList';
 import ConversationList from './ConversationList';
-import { apiUrl } from '../lib/apiURL';
 import { useAppContext } from '../context/state';
-// import useLoggedInUser from '../hooks/useLoggedInUser';
 import useItems from '../hooks/useItems';
-import { deleteItem, editItem } from '../routes/item.js';
-import { addMessage } from '../routes/message.js';
+import { deleteItem, editItem } from '../routes/item'
+import { addMessage } from '../routes/message';
 import { Item } from '../types/item';
 import useConversations from '../hooks/useConversations';
+import { markAsRead } from '../routes/conversation';
 
 export default function App() {
-  const { items, tabbedItems } = useItems()
   const [searchedItems, setSearchedItems] = useState<Item[]>([])
   const [searchText, setSearchText] = useState("");
   const [transition, setTransition] = useState(false);
   const [transitionPhrase, setTransitionPhrase] = useState('Loading...')
+  const { items, tabbedItems } = useItems()
   const { conversations } = useConversations();
   const {
     setTabbedItems,
@@ -40,8 +38,6 @@ export default function App() {
     tabValue,
     loggedInUser
   } = useAppContext()
-
-  const apiURL = apiUrl;
 
   const handleTabClick = (_event: SyntheticEvent<Element, Event>, value: any) => {
     const currentTab = value;
@@ -89,15 +85,20 @@ export default function App() {
     setSearchText(value);
   };
 
-  //MARK CONVO AS READ
-  const markAsRead =  async (conversationId: number, readByWhom: string) => {
-    try {
-       await axios.put(`${apiURL}/api/conversations/${conversationId}`, {readByWhom: readByWhom});
-    } catch(err) {
-      console.log(err);
-    }
+  // export type MarkAsReadType = (
+  //   conversationId: number,
+  //   readByWhom: string
+  // ) => Promise<boolean>;
+
+  // //MARK CONVO AS READ
+  // const markAsRead =  async (conversationId: number, readByWhom: string) => {
+  //   try {
+  //      await axios.put(`${apiURL}/api/conversations/${conversationId}`, {readByWhom: readByWhom});
+  //   } catch(err) {
+  //     console.log(err);
+  //   }
     
-  }
+  // }
 
   const theme = useTheme();
   const isSmallScreen = useMediaQuery(theme.breakpoints.down('sm'))

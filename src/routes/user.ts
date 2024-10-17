@@ -3,7 +3,7 @@ import {apiUrl} from "../lib/apiURL";
 import { Item } from "../types/item";
 import { Dispatch, SetStateAction } from "react";
 import { User } from "../types/user";
-import { Conversation } from "../types/conversation";
+import { ConversationType } from "../types/conversation";
 
 export const loginUser = async (
     loginFormData: {username: string, password: string},
@@ -36,7 +36,7 @@ export const loginUser = async (
 // LOGOUT
 export const logoutUser = async (
   setLoggedInUser: Dispatch<SetStateAction<User | null>>,
-  setConversations: Dispatch<SetStateAction<Conversation[]>>,
+  setConversations: Dispatch<SetStateAction<ConversationType[]>>,
   handleTransition: (phrase: string) => void,
   setTabValue: Dispatch<SetStateAction<number>>,
   setTabbedItems: Dispatch<SetStateAction<Item[]>>,

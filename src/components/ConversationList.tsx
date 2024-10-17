@@ -22,7 +22,7 @@ import { MarkAsReadType } from '../routes/conversation';
 
 type ConversationListProps = {
   conversations: ConversationType[],
-  loggedInUser: User,
+  loggedInUser: User | null,
   addMessage: addMessageType ,
   tabValue: number,
   setTabValue: Dispatch<SetStateAction<number>>,
@@ -70,7 +70,7 @@ export default function ConversationList(props: ConversationListProps) {
     markAsRead(conversation.id, readByWhom(conversation, userID))
   }
 
-  const conversationsArray = conversations.map((conversation) => 
+  const conversationsArray = loggedInUser ? conversations.map((conversation) => 
     <Conversation
       key={conversation.id}
       id={conversation.id}
@@ -81,7 +81,7 @@ export default function ConversationList(props: ConversationListProps) {
       onClick={() => handleClick(conversation, loggedInUser.id)}
       read={loggedInUser.id === conversation.creatorId ? conversation.readByCreator : conversation.readByReceiver}
     />
-  );
+  ) : [];
   return (
     <div 
       role="tabpanel"

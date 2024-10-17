@@ -24,10 +24,10 @@ export const getConversations = async (loggedInUser: User) => {
 export type MarkAsReadType = (
   conversationId: number,
   readByWhom: string
-) => Promise<boolean>;
+) => Promise<void>;
 
 //MARK CONVO AS READ
-export const markAsRead =  async (conversationId: number, readByWhom: string) => {
+export const markAsRead: MarkAsReadType =  async (conversationId, readByWhom) => {
   try {
      await axios.put(`${apiUrl}/api/conversations/${conversationId}`, {readByWhom: readByWhom});
   } catch(err) {

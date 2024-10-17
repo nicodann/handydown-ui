@@ -1,10 +1,10 @@
 import { useEffect, useState } from "react";
 import { useAppContext } from "../context/state";
-import { Conversation } from "../types/conversation";
+import { ConversationType } from "../types/conversation";
 import { getConversations } from "../routes/conversation";
 
 export default function useConversations() {
-  const [conversations, setConversations] = useState<Conversation[]>([]);
+  const [conversations, setConversations] = useState<ConversationType[]>([]);
 
   const {
     loggedInUser

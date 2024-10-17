@@ -11,7 +11,6 @@ export default function useConversations() {
   // FETCH ALL CONVERSATIONS BELONGING TO LOGGED IN USER
   useEffect(() => {
     if (loggedInUser) {
-      console.log("getting converstaions for", loggedInUser.username)
       getConversations(loggedInUser)
         .then((conversations) => {
           setConversations(conversations);

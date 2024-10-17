@@ -44,15 +44,14 @@ export const logoutUser = async (
 ) => {
 
   console.log("logging out")
-  console.log("IN logoutUser function typeof setLoggedInUser:",typeof setLoggedInUser)
-  // try {
-  //   await axios({
-  //     method: 'post',
-  //     url: '/api/users/logout'
-  //   })
-  // } catch(error) {
-  //   console.log(error);
-  // }
+  try {
+    await axios({
+      method: 'post',
+      url: `${apiUrl}/api/users/logout`
+    })
+  } catch(error) {
+    console.log(`There was an error logging out: ${error}`);
+  }
 
   setLoggedInUser(null);
   localStorage.clear();

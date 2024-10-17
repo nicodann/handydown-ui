@@ -5,8 +5,6 @@ import { User } from "../types/user"
 export const getConversations = async (loggedInUser: User ) => {
   const token = localStorage.getItem('token')
   try {
-    // console.log("token", token)
-    // console.log("loggedInUser.id:",loggedInUser.id)
     const response = await axios({
       method: 'get',
       url: `${apiUrl}/api/conversations/by/user/${loggedInUser.id}`,
@@ -15,7 +13,6 @@ export const getConversations = async (loggedInUser: User ) => {
       }
     });
     const conversations = response.data;
-    console.log("conversations.data In getConverstaions", conversations)
     return conversations
   } catch(error) {
     console.log(error)

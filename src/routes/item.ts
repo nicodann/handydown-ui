@@ -13,7 +13,6 @@ export const addItem = async (
   setTabbedItems: Dispatch<SetStateAction<Item[]>>,
   loggedInUser: User
 ) => {
-  console.log("localStorage.getItem('token'):",localStorage.getItem('token'))
   const token = localStorage.getItem('token')
   try {
     const response = await axios({
@@ -67,9 +66,6 @@ export const editItem = async (
   loggedInUser: User
 
 ) => {
-  // try {
-  //   await axios.put(`/api/items/${editItemFormData.id}`, {editItemFormData: editItemFormData});
-  // console.log("editItemFormData.id:", editItemFormData.id)
   try {
     const response = await axios({
       method: 'put',
@@ -79,12 +75,10 @@ export const editItem = async (
     });
     const updatedItem = response.data;
     const filteredItems = Items.filter(item => item.id !== updatedItem.id)
-    // console.log("filteredItems", filteredItems)
     setItems([ updatedItem, ...filteredItems]);
     handleTransition("Updating Item...");
     setTabValue(2);
     setTabbedItems([updatedItem, ...Items.filter((item) => item.userId === loggedInUser.id && item.id !== updatedItem.id)]);
-    // console.log("tabbedItems:",tabbedItems);
   } catch(err) {
     console.log(err);
   }

@@ -42,6 +42,9 @@ export default function ConversationList(props: ConversationListProps) {
     markAsRead
   } = props;
 
+  // loggedInUser && console.log("loggedInUser.username:",loggedInUser.username)
+  // console.log("conversations in ConversationsList:",conversations)
+
   const findLatestMessageBody = (conversation: ConversationType) => {
     return conversation.messages[conversation.messages.length -1].body
   }
@@ -57,12 +60,6 @@ export default function ConversationList(props: ConversationListProps) {
   //MODAL STATE LOGIC
   const [open, setOpen] = useState(false);
   const [ modalProps, setModalProps ] = useState<ConversationType>()
-  // const [modalProps, setModalProps] = useState({
-  //   creator:{id: null, username: ""},
-  //   receiver: {id: null, username: ""},
-  //   item: {id: null, name: '', offered: true, image: ''},
-  //   messages: [{id: null, createdAt: null, body: ''}],
-  // })
 
   const handleClick = (conversation: ConversationType, userID: number) => {
     setOpen(true)
@@ -70,7 +67,7 @@ export default function ConversationList(props: ConversationListProps) {
     markAsRead(conversation.id, readByWhom(conversation, userID))
   }
 
-  const conversationsArray = loggedInUser ? conversations.map((conversation) => 
+  const conversationsArray = loggedInUser && conversations.length !== 0 ? conversations.map((conversation) => 
     <Conversation
       key={conversation.id}
       id={conversation.id}

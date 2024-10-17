@@ -24,7 +24,7 @@ export const loginUser = async (
     localStorage.clear();
     localStorage.setItem('user', JSON.stringify(response.data.user));
     localStorage.setItem('token', response.data.token)
-    setLoggedInUser(response.data);
+    setLoggedInUser(response.data.user);
     setTabValue(0);
     setTabbedItems(Items.filter((item: Item) => item.offered && loggedInUser && item.userId !== loggedInUser.id));
   } catch(error) {
@@ -79,7 +79,7 @@ export const registerUser = async (
       data: registrationFormData,
       headers: { "Content-Type": "multipart/form-data" },
     });
-    setLoggedInUser(response.data);
+    setLoggedInUser(response.data.user);
     localStorage.clear();
     localStorage.setItem('user', JSON.stringify(response.data));
   } catch(error) {

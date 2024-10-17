@@ -11,40 +11,6 @@ type ContextType = {
   setTabValue: Dispatch<SetStateAction<number>>
 }
 
-// const AppContext = createContext({
-//     loggedInUser,
-//     setLoggedInUser,
-//     tabbedItems,
-//     setTabbedItems,
-//     tabValue,
-//     setTabValue
-//   })
-
-
-// const createCtx = () => {
-  
-//   const Ctx = createContext<ContextType | null>(null)
-
-//   console.log("createContext", Ctx.Provider)
-//   // const ctx = createContext(null)
-
-//   const useCtx = () => {
-
-//     const cont = useContext(Ctx)
-
-//     if (!cont) {
-//       throw new Error('useCtx must be inside a provider with a value')
-//     }
-
-//     return cont
-//   }
-
-//   return [ useCtx, Ctx ]
-// }
-
-// console.log("createCtx():",createCtx())
-
-// const [ UseContext, AppContext ] = createCtx();
 export const AppContext = createContext<ContextType | null>(null)
 
 export const AppContextWrapper = ({children}:{children: ReactNode}) => {

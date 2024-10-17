@@ -54,6 +54,8 @@ export default function Navbar(props: NavbarProps) {
     }, 1000);
   }
 
+  console.log("LoggedInUser in Navbar:", loggedInUser)
+
   return (
     <AppBar position="sticky" elevation={0}>
     <Toolbar 

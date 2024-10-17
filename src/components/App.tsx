@@ -32,6 +32,7 @@ export default function App() {
   const [transitionPhrase, setTransitionPhrase] = useState('Loading...')
   const { items, tabbedItems } = useItems()
   const { conversations } = useConversations();
+  // console.log("conversations in App:",conversations)
   const {
     setTabbedItems,
     setTabValue,

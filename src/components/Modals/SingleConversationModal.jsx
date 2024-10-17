@@ -62,7 +62,7 @@ export default function SingleConversationModal(props) {
     )
   });
   
-  if (itemId === null) {return}
+  // if (itemId === null) {return}
   return (
     <Modal
       open={open}

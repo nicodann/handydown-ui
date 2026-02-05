@@ -8,6 +8,7 @@ import useLoggedInUser from "./useLoggedInUser";
 
 export default function useItems() {
   const [ items, setItems ] = useState<Item[]>([]);
+  const [ loadingItems, setLoadingItems ] = useState(true);
   // const [ tabbedItems, setTabbedItems ] = useState([]);
   const loggedInUser = useLoggedInUser();
   const { 
@@ -31,8 +32,9 @@ export default function useItems() {
         }
       }))
   })
+  .finally(() => setLoadingItems(false))
     .catch((error) => console.log(error));
-  }, [ loggedInUser, setTabbedItems ]);
+  }, [ loggedInUser, setTabbedItems, setLoadingItems ]);
 
-  return {items, tabbedItems}
+  return {items, tabbedItems, loadingItems};
 }

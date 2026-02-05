@@ -92,16 +92,7 @@ export default function App() {
 
   // RENDER
 
-  // if ((items === null) || (items && transition)) {
-  //   return (
-  //     <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', flexDirection: 'column', height: '100vh' }}>
-  //     <CircularProgress size={80} />
-  //     <Typography sx={{mt: 2}}>{transitionPhrase}</Typography>
-  //   </Box>
-  //   )
-  // } else {
-
-    return (
+  return (
     <>
       <CssBaseline />
       <Navbar 
@@ -152,7 +143,7 @@ export default function App() {
           sx={{ background: "white", visibility: (tabValue === 3 || tabbedItems.length === 0) ? 'hidden' : 'visible'}}
         />
       </Box>
-      {((items === null) || (loadingItems)) && 
+      {((transition) || (loadingItems)) && 
         (
           <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', flexDirection: 'column', height: '100vh' }}>
           <CircularProgress size={80} />
@@ -160,7 +151,7 @@ export default function App() {
         </Box>
         )
       }
-      {!(items === null) && !loadingItems && 
+      {!(items === null) && !loadingItems && !transition &&
         (
         <Container maxWidth="lg" sx={{ py: 4}}>
           <ItemList 

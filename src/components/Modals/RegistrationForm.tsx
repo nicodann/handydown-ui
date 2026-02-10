@@ -118,6 +118,7 @@ export default function RegistrationForm(props: RegistrationFormProps) {
         position: 'absolute',
         top: '50%',
         left: '50%',
+        maxWidth: '90%',
         transform: 'translate(-50%, -50%)',
         width: 600,
         bgcolor: 'background.paper',

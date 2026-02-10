@@ -4,6 +4,7 @@ import { Item } from "../types/item";
 import { Dispatch, SetStateAction } from "react";
 import { User } from "../types/user";
 import { ConversationType } from "../types/conversation";
+import validateField from "../lib/validateField";
 
 export const loginUser = async (
     loginFormData: {username: string, password: string},
@@ -21,10 +22,11 @@ export const loginUser = async (
       data: loginFormData,
       headers: { "Content-Type": "multipart/form-data" },
     });
+    const { password: _p, ...safeUser } = response.data.user;
     localStorage.clear();
-    localStorage.setItem('user', JSON.stringify(response.data.user));
+    localStorage.setItem('user', JSON.stringify(safeUser));
     localStorage.setItem('token', response.data.token)
-    setLoggedInUser(response.data.user);
+    setLoggedInUser(safeUser);
     setTabValue(0);
     setTabbedItems(Items.filter((item: Item) => item.offered && loggedInUser && item.userId !== loggedInUser.id));
   } catch(error) {
@@ -69,8 +71,22 @@ export const registerUser = async (
     password: string,
     location: string
   },
-  setLoggedInUser: Dispatch<SetStateAction<User>>,
+  setLoggedInUser: Dispatch<SetStateAction<User | null>>,
 ) => {
+
+  // Validation
+  const errors = {
+    username: validateField('username', registrationFormData.username),
+    email: validateField('email', registrationFormData.email),
+    password: validateField('password', registrationFormData.password),
+    location: validateField('location', registrationFormData.location)
+  };
+
+  if (Object.values(errors).some(error => error !== '')) {
+    console.log("Validation errors:", errors);
+    return { success: false, errors };
+  }
+
   try {
     const response = await axios({
       method: 'post',
@@ -78,10 +94,14 @@ export const registerUser = async (
       data: registrationFormData,
       headers: { "Content-Type": "multipart/form-data" },
     });
-    setLoggedInUser(response.data.user);
+    const { password: _p, ...safeUser } = response.data.user;
+    setLoggedInUser(safeUser);
     localStorage.clear();
-    localStorage.setItem('user', JSON.stringify(response.data));
+    localStorage.setItem('user', JSON.stringify(safeUser));
+    localStorage.setItem('token', response.data.token);
+    return { success: true };
   } catch(error) {
     console.log(error)
+    return { success: false, errors: [error.response.data] };
   }
 }

@@ -30,8 +30,9 @@ export const loginUser = async (
     setTabValue(0);
     setTabbedItems(Items.filter((item: Item) => item.offered && loggedInUser && item.userId !== loggedInUser.id));
   } catch(error) {
-    const message = error.response.data;
-    return message;
+    if (axios.isAxiosError(error)) {
+      return error.response?.data;
+    }
   }
 };
 
@@ -102,6 +103,7 @@ export const registerUser = async (
     return { success: true };
   } catch(error) {
     console.log(error)
-    return { success: false, errors: [error.response.data] };
+    const data = axios.isAxiosError(error) ? error.response?.data : undefined;
+    return { success: false, errors: [data] };
   }
 }
